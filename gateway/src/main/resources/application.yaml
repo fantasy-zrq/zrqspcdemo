@@ -1,1 +1,28 @@
-spring.application.name=gateway
+server:
+  port: 9000
+spring:
+  application:
+    name: zrq-spc-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: common-nacos-dev.magestack.cn:8848
+    gateway:
+      routes:
+        - id: zrq-spc-gateway-route1
+          uri: lb://zrq-spc-model
+          predicates:
+            - Path=/api/spc/model/user/**
+          filters:
+            - name: TokenValidate
+              args:
+                whitePathList:
+                  - /api/spc/model/user/login
+                  - /api/spc/model/user/register
+#        - id: zrq-spc-gateway-route2
+#          uri: lb://short-link-project-zrq/api/short-link/**
+#          predicates:
+#            - Path=/api/short-link/**
+#          filters:
+#            - name: TokenValidate
+

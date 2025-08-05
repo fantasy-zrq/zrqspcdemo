@@ -1,1 +1,5 @@
-spring.application.name=model
+server:
+  port: 9091
+spring:
+  application:
+    name: zrq-spc-model
