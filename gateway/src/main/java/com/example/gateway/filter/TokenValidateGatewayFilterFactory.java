@@ -1,8 +1,10 @@
 package com.example.gateway.filter;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.gateway.config.WhitePathConfig;
 import com.example.gateway.result.Result;
+import com.example.gateway.utils.JwtUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -26,15 +28,20 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
         super(WhitePathConfig.class);
     }
 
+    /**
+     * 使用JWT重构网关层逻辑
+     */
     @Override
     public GatewayFilter apply(WhitePathConfig config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             RequestPath requestPath = request.getPath();
             if (!isWhitePath(config, requestPath.toString())) {
-                String username = request.getHeaders().getFirst("username");
                 String token = request.getHeaders().getFirst("token");
-                if (!("zrq".equals(username) && "qwerty".equals(token))) {
+                DecodedJWT decodedJWT = JwtUtil.getTokenInfo(token);
+                String username = decodedJWT.getClaim("username").toString();
+                String userId = decodedJWT.getClaim("userId").toString();
+                if (!("zrq".equals(username) && "firstOne".equals(userId))) {
                     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
                     Result result = Result.builder()
