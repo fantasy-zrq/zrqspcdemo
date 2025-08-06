@@ -19,10 +19,3 @@ spring:
                 whitePathList:
                   - /api/spc/model/user/login
                   - /api/spc/model/user/register
-#        - id: zrq-spc-gateway-route2
-#          uri: lb://short-link-project-zrq/api/short-link/**
-#          predicates:
-#            - Path=/api/short-link/**
-#          filters:
-#            - name: TokenValidate
-

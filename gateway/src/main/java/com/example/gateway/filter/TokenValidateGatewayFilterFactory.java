@@ -3,7 +3,6 @@ package com.example.gateway.filter;
 import com.alibaba.fastjson2.JSONObject;
 import com.example.gateway.config.WhitePathConfig;
 import com.example.gateway.result.Result;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -20,8 +19,12 @@ import reactor.core.publisher.Mono;
  * @description
  */
 @Component
-@RequiredArgsConstructor
-public class TokenValidatePartFilter extends AbstractGatewayFilterFactory<WhitePathConfig> {
+public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFactory<WhitePathConfig> {
+
+    //必须手动将Config文件传给父类
+    public TokenValidateGatewayFilterFactory() {
+        super(WhitePathConfig.class);
+    }
 
     @Override
     public GatewayFilter apply(WhitePathConfig config) {
