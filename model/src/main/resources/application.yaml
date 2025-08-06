@@ -3,3 +3,21 @@ server:
 spring:
   application:
     name: zrq-spc-model
+  cloud:
+    nacos:
+      discovery:
+        server-addr: common-nacos-dev.magestack.cn:8848
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/zrq_spc
+    username: postgres
+    password: zrq123
+  data:
+    redis:
+      database: 2
+      host: 192.168.101.128
+      port: 6379
+      password: zrq123
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
