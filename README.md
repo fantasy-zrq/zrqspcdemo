@@ -1,2 +1,2 @@
 zrq的spc之路
-本此的spc-road会使用PostgresSQL进行练习
+本次的spc-road会使用PostgresSQL进行练习

@@ -1,6 +1,9 @@
 package com.example.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.example.model.common.configs.MybatisPlusBaseMetaDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +19,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @TableName("t_user")
-public class User {
+public class UserDO extends MybatisPlusBaseMetaDO {
+
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     private String username;
 
