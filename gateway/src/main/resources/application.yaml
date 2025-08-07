@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: zrq-spc-gateway
+  data:
+    redis:
+      database: 2
+      host: 192.168.101.128
+      port: 6379
+      password: zrq123
   cloud:
     nacos:
       discovery:
