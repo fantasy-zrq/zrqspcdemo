@@ -112,5 +112,19 @@ public final class MD5EncryptUtil {
         int d2 = n % 16;
         return HEX_DIGITS[d1] + HEX_DIGITS[d2];
     }
+
+    public static void main(String[] args) {
+        //0a16a5423df7efd582934c319a64be69
+        //917c2e6be4a421574d389316f47b10fd
+        String encrypted1 = encryptWithSalt("zrq123");
+        System.out.println("encrypted1 = " + encrypted1);
+        String encrypted2 = encryptWithSalt("zrq123");
+        System.out.println("encrypted2 = " + encrypted2);
+
+        String s1 = md5Encode("zrq123");
+        System.out.println("s1 = " + s1);
+        String s2 = md5Encode("zrq123");
+        System.out.println("s2 = " + s2);
+    }
 }
 

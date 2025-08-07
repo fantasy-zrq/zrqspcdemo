@@ -4,7 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.model.common.exception.ClientException;
+import com.example.model.common.utils.JWTUtil;
 import com.example.model.common.utils.MD5EncryptUtil;
+import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
 import com.example.model.entity.UserDO;
 import com.example.model.entity.mapper.UserMapper;
@@ -15,10 +17,11 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.model.common.constance.RedisConstanceKey.REDIS_USERNAME_DUPLICATE_KEY;
-import static com.example.model.common.constance.RedisConstanceKey.REDIS_USER_REGISTER_KEY;
+import static com.example.model.common.constance.RedisConstanceKey.*;
 
 /**
  * @author zrq
@@ -46,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(String.format(REDIS_USER_REGISTER_KEY, username)))) {
             throw new ClientException("用户名已经被注册，请换一个");
         }
-        String md5Encrypted = MD5EncryptUtil.md5Encode(requestParam.getPassword());
+        String md5Encrypted = MD5EncryptUtil.encryptWithSalt(requestParam.getPassword());
         requestParam.setPassword(md5Encrypted);
         UserDO bean = BeanUtil.toBean(requestParam, UserDO.class);
         try {
@@ -56,6 +59,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         }
         userNameBloomFilter.add(username);
         stringRedisTemplate.opsForValue().set(String.format(REDIS_USER_REGISTER_KEY, username), username);
+    }
+
+    @Override
+    public String doLogin(UserLoginReqDTO requestParam) {
+        UserDO userDO = baseMapper.selectOne(Wrappers.lambdaQuery(UserDO.class)
+                .eq(UserDO::getUsername, requestParam.getUsername())
+                .eq(UserDO::getDelFlag, 0));
+        if (userDO == null) {
+            throw new ClientException("请注册再登录..");
+        }
+        String encrypted = MD5EncryptUtil.encryptWithSalt(requestParam.getPassword());
+        System.out.println("encrypted = " + encrypted);
+        if (!userDO.getPassword().equals(encrypted)) {
+            throw new ClientException("用户名与密码不匹配..");
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("username", userDO.getUsername());
+        map.put("id", userDO.getId().toString());
+        map.put("age",userDO.getAge().toString());
+        map.put("sex",userDO.getSex().toString());
+        String token = JWTUtil.generateToken(map);
+        //redis存7天这个token,set可以做到每次刷新这个方法
+        stringRedisTemplate.opsForValue()
+                .set(String.format(REDIS_USER_LOGIN_KEY, requestParam.getUsername()), token, 7L, TimeUnit.DAYS);
+        return token;
     }
 
 

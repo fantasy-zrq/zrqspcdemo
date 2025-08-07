@@ -1,7 +1,9 @@
 package com.example.model.controller;
 
+import com.example.model.common.annotation.LogConsumerTime;
 import com.example.model.common.result.Result;
 import com.example.model.common.result.Results;
+import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
 import com.example.model.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +26,20 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/api/spc/model/user/login")
-    public void login() {
-        log.info("登录..");
+    @LogConsumerTime
+    public Result<String> login(@RequestBody UserLoginReqDTO requestParam) {
+        return Results.success(userService.doLogin(requestParam));
     }
 
     @PostMapping("/api/spc/model/user/register")
+    @LogConsumerTime
     public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
         userService.doRegister(requestParam);
         return Results.success();
     }
 
     @RequestMapping("/api/spc/model/user/test")
+    @LogConsumerTime
     public void test() {
         log.info("test..");
     }

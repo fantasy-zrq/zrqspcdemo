@@ -32,4 +32,6 @@ public class UserDO extends MybatisPlusBaseMetaDO {
 
     //0-->女  1-->男
     private Integer sex;
+
+    private Integer delFlag;
 }
