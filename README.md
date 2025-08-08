@@ -1,2 +1,2 @@
 zrq的spc之路
-本次的spc-road会使用PostgresSQL进行练习
+spc-demo会使用PostgresSQL和MySQL作为数据库进行练习
