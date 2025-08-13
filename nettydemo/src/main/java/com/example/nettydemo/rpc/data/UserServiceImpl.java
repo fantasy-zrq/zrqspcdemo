@@ -1,5 +1,7 @@
 package com.example.nettydemo.rpc.data;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Map;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Map;
  * @time 2025/8/11 10:17
  * @description
  */
+@Service
 public class UserServiceImpl {
 
     public Map<String, Person> cache = Map.of(

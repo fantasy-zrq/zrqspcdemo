@@ -1,1 +1,10 @@
-spring.application.name=nettydemo
+server:
+  port: 8080
+
+thread-pool:
+  config:
+    core-thread-size: 10
+    max-thread-size: 20
+    block-queue-size: 15
+    thread-name-prefix: zrq-pool-demo
+    keep-alive-seconds: 60
