@@ -2,6 +2,7 @@ package com.example.bean;
 
 import com.example.annotation.Autowired;
 import com.example.annotation.Component;
+import lombok.Data;
 
 /**
  * @author zrq
@@ -9,6 +10,7 @@ import com.example.annotation.Component;
  * @description
  */
 @Component
+@Data
 public class User {
     private String name = "zrq";
     private Integer age = 18;

@@ -1,8 +1,15 @@
 package com.example.beanfactory;
 
+import cn.hutool.core.util.StrUtil;
 import com.example.annotation.Component;
+import com.example.beandef.BeanDefinition;
 import com.example.classloader.ResourceLoader;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,6 +19,12 @@ import java.util.stream.Collectors;
  * @description
  */
 public abstract class AbstractApplicationContext implements BeanFactory {
+
+    //封装BeanDefinition的Map
+    private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+
+    //封装创建完成bean的map
+    private final Map<String, Object> beanMap = new HashMap<>();
 
     protected Set<Class<?>> canInitClz(Class<?> appClz, String[] args) {
         return filterClz(ResourceLoader.getClasses(appClz.getPackageName()));
@@ -23,7 +36,8 @@ public abstract class AbstractApplicationContext implements BeanFactory {
 
     @Override
     public Object getBean(String name) {
-        return null;
+        Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name is null！！"));
+        return beanMap.get(name);
     }
 
     @Override
@@ -49,5 +63,22 @@ public abstract class AbstractApplicationContext implements BeanFactory {
     @Override
     public Class<?> getType(String name) {
         return null;
+    }
+
+    public void registerBeanDefinition(Set<Class<?>> classes) {
+        classes.forEach(clz -> {
+            String beanName = StrUtil.lowerFirst(clz.getSimpleName());
+            BeanDefinition beanDefinition = new BeanDefinition(beanName, clz);
+            beanDefinitionMap.put(beanName, beanDefinition);
+        });
+    }
+
+    public void createBean() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        for (BeanDefinition beanDefinition : beanDefinitionMap.values()) {
+            Class<?> clz = beanDefinition.getBeanType();
+            Constructor<?> constructor = clz.getConstructor();
+            Object o = constructor.newInstance();
+            beanMap.put(beanDefinition.getBeanName(), o);
+        }
     }
 }
