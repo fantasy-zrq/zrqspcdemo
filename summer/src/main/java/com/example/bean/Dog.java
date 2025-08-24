@@ -3,6 +3,7 @@ package com.example.bean;
 import com.example.annotation.Autowired;
 import com.example.annotation.Component;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -17,6 +18,7 @@ public class Dog {
 
     @Autowired
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     @Autowired

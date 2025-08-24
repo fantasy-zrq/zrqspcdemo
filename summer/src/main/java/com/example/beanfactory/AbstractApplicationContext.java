@@ -23,8 +23,11 @@ public abstract class AbstractApplicationContext implements BeanFactory {
     //封装BeanDefinition的Map
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
-    //封装创建完成bean的map
+    //封装创建完成bean的map--一级缓存
     private final Map<String, Object> beanMap = new HashMap<>();
+
+    //封装早期没有属性赋值bean的map--二级缓存
+    private final Map<String, Object> earlyBeanMap = new HashMap<>();
 
     protected Set<Class<?>> canInitClz(Class<?> appClz, String[] args) {
         return filterClz(ResourceLoader.getClasses(appClz.getPackageName()));
@@ -37,17 +40,16 @@ public abstract class AbstractApplicationContext implements BeanFactory {
     @Override
     public Object getBean(String name) {
         Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name is null！！"));
-        Object bean = beanMap.get(name);
-        if (Objects.isNull(bean)) {
+        if (!beanMap.containsKey(name)) {
             try {
                 BeanDefinition beanDefinition = beanDefinitionMap.get(name);
-                bean = createOneBean(beanDefinition);
+                return createOneBean(beanDefinition);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                      IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
-        return bean;
+        return beanMap.get(name);
     }
 
     @Override
@@ -82,21 +84,31 @@ public abstract class AbstractApplicationContext implements BeanFactory {
         Constructor<?> constructor = clz.getConstructor();
         //这个bean对象是没有注入属性的对象
         Object bean = constructor.newInstance();
-        beanMap.put(beanName, bean);
+        //放入二级缓存
+        earlyBeanMap.put(beanName, bean);
 
         if (fields.isEmpty()) {
             //代表没有需要注入的属性
             beanMap.put(beanName, bean);
+            earlyBeanMap.remove(beanName);
             return bean;
         }
         for (Field diField : fields) {
             //先解决通过名称注入
             String diName = diField.getName();
-            if (!beanMap.containsKey(diName)) {
-                //把依赖的bean创建了
-                createOneBean(beanDefinitionMap.get(diName));
+            if (!earlyBeanMap.containsKey(diName)) {
+                if (!beanMap.containsKey(diName)) {
+                    //把依赖的bean创建了
+                    createOneBean(beanDefinitionMap.get(diName));
+                }
             }
-            diField.set(bean, beanMap.get(diName));
+            //earlyBeanMap中没有，但是beanMap中有---已经付完值的bean对象
+            if(earlyBeanMap.containsKey(diName)){
+                diField.set(bean, earlyBeanMap.get(diName));
+                earlyBeanMap.remove(diName);
+            }else if(beanMap.containsKey(diName)){
+                diField.set(bean, beanMap.get(diName));
+            }
         }
         beanMap.put(beanName, bean);
         return bean;

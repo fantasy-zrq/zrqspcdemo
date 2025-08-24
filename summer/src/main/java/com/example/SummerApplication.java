@@ -17,8 +17,7 @@ public class SummerApplication {
 
         User user = context.getBean(User.class);
         System.out.println("user = " + user);
-
-        Dog dog = (Dog) context.getBean("dog");
+        Dog dog = context.getBean(Dog.class);
         System.out.println("dog = " + dog);
     }
 }
