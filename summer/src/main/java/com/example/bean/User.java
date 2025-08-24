@@ -19,5 +19,6 @@ public class User {
     private String name = "zrq";
     private Integer age = 18;
     @Autowired
+//    @ToString.Exclude
     private Dog dog;
 }

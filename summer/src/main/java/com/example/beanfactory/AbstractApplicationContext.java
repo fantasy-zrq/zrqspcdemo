@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.example.annotation.Component;
 import com.example.beandef.BeanDefinition;
 import com.example.classloader.ResourceLoader;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  * @time 2025/8/23 15:40
  * @description
  */
+@Slf4j
 public abstract class AbstractApplicationContext implements BeanFactory {
 
     //封装BeanDefinition的Map
@@ -38,7 +40,8 @@ public abstract class AbstractApplicationContext implements BeanFactory {
         Object bean = beanMap.get(name);
         if (Objects.isNull(bean)) {
             try {
-                bean = createOneBean(beanDefinitionMap.get(name));
+                BeanDefinition beanDefinition = beanDefinitionMap.get(name);
+                bean = createOneBean(beanDefinition);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                      IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -55,7 +58,8 @@ public abstract class AbstractApplicationContext implements BeanFactory {
                 .filter(beanDefinition -> requiredType.isAssignableFrom(beanDefinition.getBeanType()))
                 .map(BeanDefinition::getBeanName)
                 .findFirst()
-                .toString();
+                .get();
+        log.info("beanName===>{}", beanName);
         return (T) getBean(beanName);
     }
 
@@ -65,16 +69,21 @@ public abstract class AbstractApplicationContext implements BeanFactory {
         }
     }
 
+    /**
+     * A->B  B->A
+     */
     private Object createOneBean(BeanDefinition beanDefinition) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         String beanName = beanDefinition.getBeanName();
         if (beanMap.containsKey(beanName)) {
             return beanMap.get(beanName);
         }
-
         Class<?> clz = beanDefinition.getBeanType();
         List<Field> fields = beanDefinition.getAutowiredFields();
         Constructor<?> constructor = clz.getConstructor();
+        //这个bean对象是没有注入属性的对象
         Object bean = constructor.newInstance();
+        beanMap.put(beanName, bean);
+
         if (fields.isEmpty()) {
             //代表没有需要注入的属性
             beanMap.put(beanName, bean);

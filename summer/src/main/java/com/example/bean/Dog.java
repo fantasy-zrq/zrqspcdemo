@@ -3,6 +3,7 @@ package com.example.bean;
 import com.example.annotation.Autowired;
 import com.example.annotation.Component;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author zrq
@@ -13,6 +14,10 @@ import lombok.Data;
 @Data
 public class Dog {
     private String name = "小白";
+
+    @Autowired
+    @ToString.Exclude
+    private User user;
 
     @Autowired
     private Food food;
