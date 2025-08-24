@@ -6,11 +6,9 @@ import com.example.beandef.BeanDefinition;
 import com.example.classloader.ResourceLoader;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +35,70 @@ public abstract class AbstractApplicationContext implements BeanFactory {
     @Override
     public Object getBean(String name) {
         Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name is null！！"));
-        return beanMap.get(name);
+        Object bean = beanMap.get(name);
+        if (Objects.isNull(bean)) {
+            try {
+                bean = createOneBean(beanDefinitionMap.get(name));
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return bean;
+    }
+
+    @Override
+    public <T> T getBean(Class<T> requiredType) {
+        Optional.ofNullable(requiredType).orElseThrow(() -> new IllegalArgumentException("type is null！！"));
+        String beanName = beanDefinitionMap.values()
+                .stream()
+                .filter(beanDefinition -> requiredType.isAssignableFrom(beanDefinition.getBeanType()))
+                .map(BeanDefinition::getBeanName)
+                .findFirst()
+                .toString();
+        return (T) getBean(beanName);
+    }
+
+    public void createBean() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        for (BeanDefinition beanDefinition : beanDefinitionMap.values()) {
+            createOneBean(beanDefinition);
+        }
+    }
+
+    private Object createOneBean(BeanDefinition beanDefinition) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        String beanName = beanDefinition.getBeanName();
+        if (beanMap.containsKey(beanName)) {
+            return beanMap.get(beanName);
+        }
+
+        Class<?> clz = beanDefinition.getBeanType();
+        List<Field> fields = beanDefinition.getAutowiredFields();
+        Constructor<?> constructor = clz.getConstructor();
+        Object bean = constructor.newInstance();
+        if (fields.isEmpty()) {
+            //代表没有需要注入的属性
+            beanMap.put(beanName, bean);
+            return bean;
+        }
+        for (Field diField : fields) {
+            //先解决通过名称注入
+            String diName = diField.getName();
+            if (!beanMap.containsKey(diName)) {
+                //把依赖的bean创建了
+                createOneBean(beanDefinitionMap.get(diName));
+            }
+            diField.set(bean, beanMap.get(diName));
+        }
+        beanMap.put(beanName, bean);
+        return bean;
+    }
+
+    public void registerBeanDefinition(Set<Class<?>> classes) {
+        classes.forEach(clz -> {
+            String beanName = StrUtil.lowerFirst(clz.getSimpleName());
+            BeanDefinition beanDefinition = new BeanDefinition(beanName, clz);
+            beanDefinitionMap.put(beanName, beanDefinition);
+        });
     }
 
     @Override
@@ -63,22 +124,5 @@ public abstract class AbstractApplicationContext implements BeanFactory {
     @Override
     public Class<?> getType(String name) {
         return null;
-    }
-
-    public void registerBeanDefinition(Set<Class<?>> classes) {
-        classes.forEach(clz -> {
-            String beanName = StrUtil.lowerFirst(clz.getSimpleName());
-            BeanDefinition beanDefinition = new BeanDefinition(beanName, clz);
-            beanDefinitionMap.put(beanName, beanDefinition);
-        });
-    }
-
-    public void createBean() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        for (BeanDefinition beanDefinition : beanDefinitionMap.values()) {
-            Class<?> clz = beanDefinition.getBeanType();
-            Constructor<?> constructor = clz.getConstructor();
-            Object o = constructor.newInstance();
-            beanMap.put(beanDefinition.getBeanName(), o);
-        }
     }
 }

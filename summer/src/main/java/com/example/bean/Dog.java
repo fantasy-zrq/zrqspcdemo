@@ -1,6 +1,8 @@
 package com.example.bean;
 
+import com.example.annotation.Autowired;
 import com.example.annotation.Component;
+import lombok.Data;
 
 /**
  * @author zrq
@@ -8,6 +10,10 @@ import com.example.annotation.Component;
  * @description
  */
 @Component
+@Data
 public class Dog {
     private String name = "小白";
+
+    @Autowired
+    private Food food;
 }
