@@ -5,5 +5,5 @@ package com.example.aop;
  * 返回由工厂创建的普通对象或者代理对象
  */
 public interface ObjectFactory<T> {
-    T getObject(Object bean, String beanName);
+    T getObject (String beanName);
 }

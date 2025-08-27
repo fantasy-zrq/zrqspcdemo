@@ -2,6 +2,7 @@ package com.example.beanfactory;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.annotation.Component;
+import com.example.annotation.MyLog;
 import com.example.aop.AopFactory;
 import com.example.aop.ObjectFactory;
 import com.example.beandef.BeanDefinition;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -92,15 +94,23 @@ public abstract class AbstractApplicationContext implements BeanFactory {
         Constructor<?> constructor = clz.getConstructor();
         //这个bean对象是没有注入属性的对象
         Object originalBean = constructor.newInstance();
-        //放入三级工厂缓存
-        factoryMap.put(beanName, new AopFactory(originalBean));
+        //只有需要代理的对象才会放入三级缓存中，不需要代理的直接放在二级缓存
+        if (shouldProxy(clz)) {
+            factoryMap.put(beanName, new AopFactory(originalBean));
+        } else {
+            earlyBeanMap.put(beanName, originalBean);
+        }
 
         if (fields.isEmpty()) {
             //判断是否产生aop对象
-            ObjectFactory<?> factory = factoryMap.remove(beanName);
-            originalBean = factory.getObject(originalBean, beanName);
-            beanMap.put(beanName, originalBean);
-            return originalBean;
+            if (shouldProxy(clz)) {
+                ObjectFactory<?> factory = factoryMap.remove(beanName);
+                originalBean = factory.getObject(beanName);
+                beanMap.put(beanName, originalBean);
+                return originalBean;
+            } else {
+                return earlyBeanMap.remove(beanName);
+            }
         }
 
         for (Field diField : fields) {
@@ -109,14 +119,15 @@ public abstract class AbstractApplicationContext implements BeanFactory {
             Object diBean;
             if (beanMap.containsKey(diName)) {
                 diBean = beanMap.get(diName);
-                diField.set(originalBean, diBean);
+//                diField.set(originalBean, diBean);
             } else if (earlyBeanMap.containsKey(diName)) {
                 diBean = earlyBeanMap.get(diName);
-                diField.set(originalBean, diBean);
+//                diField.set(originalBean, diBean);
             } else if (factoryMap.containsKey(diName)) {
                 //earlyBeanMap和beanMap都没有--->代表需要注入的对象还没创建
-                ObjectFactory<?> factory = factoryMap.remove(diName);
-                diBean = factory.getObject(null, diName);
+                AopFactory factory = (AopFactory) factoryMap.remove(diName);
+                //这里就应该直接创建出代理对象来，解决双边都需要代理的问题，只能返回原始对象
+                diBean = factory.getOriginalBean();
                 earlyBeanMap.put(diName, diBean);
                 //
             } else {
@@ -125,12 +136,31 @@ public abstract class AbstractApplicationContext implements BeanFactory {
             }
             diField.set(originalBean, diBean);
         }
-        ObjectFactory<?> shouldProxyFactory = factoryMap.remove(beanName);
-        earlyBeanMap.remove(beanName);
-        Object targetBean = shouldProxyFactory != null ?
-                shouldProxyFactory.getObject(originalBean, beanName) : originalBean;
-        beanMap.put(beanName, targetBean);
-        return targetBean;
+        //再次判断是否需要注入代理对象
+        Object currentBean;
+        if (shouldProxy(clz)) {
+            if (earlyBeanMap.containsKey(beanName)) {
+                currentBean = earlyBeanMap.remove(beanName);
+                beanMap.put(beanName, currentBean);
+            } else {
+                ObjectFactory<?> factory = factoryMap.remove(beanName);
+                currentBean = factory.getObject(beanName);
+                earlyBeanMap.put(beanName, currentBean);
+            }
+        } else {
+            currentBean = earlyBeanMap.remove(beanName);
+            beanMap.put(beanName, currentBean);
+        }
+        return currentBean;
+    }
+
+    private boolean shouldProxy(Class<?> clz) {
+        for (Method method : clz.getMethods()) {
+            if (method.isAnnotationPresent(MyLog.class)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void registerBeanDefinition(Set<Class<?>> classes) {
