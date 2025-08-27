@@ -2,6 +2,8 @@ package com.example.beanfactory;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.annotation.Component;
+import com.example.aop.AopFactory;
+import com.example.aop.ObjectFactory;
 import com.example.beandef.BeanDefinition;
 import com.example.classloader.ResourceLoader;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public abstract class AbstractApplicationContext implements BeanFactory {
 
     //封装早期没有属性赋值bean的map--二级缓存
     private final Map<String, Object> earlyBeanMap = new HashMap<>();
+
+    //封装beanName对应的Factory对象--三级缓存
+    private final Map<String, ObjectFactory<?>> factoryMap = new HashMap<>();
 
     protected Set<Class<?>> canInitClz(Class<?> appClz, String[] args) {
         return filterClz(ResourceLoader.getClasses(appClz.getPackageName()));
@@ -78,40 +83,54 @@ public abstract class AbstractApplicationContext implements BeanFactory {
         String beanName = beanDefinition.getBeanName();
         if (beanMap.containsKey(beanName)) {
             return beanMap.get(beanName);
+        } else if (earlyBeanMap.containsKey(beanName)) {
+            return earlyBeanMap.get(beanName);
         }
+
         Class<?> clz = beanDefinition.getBeanType();
         List<Field> fields = beanDefinition.getAutowiredFields();
         Constructor<?> constructor = clz.getConstructor();
         //这个bean对象是没有注入属性的对象
-        Object bean = constructor.newInstance();
-        //放入二级缓存
-        earlyBeanMap.put(beanName, bean);
+        Object originalBean = constructor.newInstance();
+        //放入三级工厂缓存
+        factoryMap.put(beanName, new AopFactory(originalBean));
 
         if (fields.isEmpty()) {
-            //代表没有需要注入的属性
-            beanMap.put(beanName, bean);
-            earlyBeanMap.remove(beanName);
-            return bean;
+            //判断是否产生aop对象
+            ObjectFactory<?> factory = factoryMap.remove(beanName);
+            originalBean = factory.getObject(originalBean, beanName);
+            beanMap.put(beanName, originalBean);
+            return originalBean;
         }
+
         for (Field diField : fields) {
             //先解决通过名称注入
             String diName = diField.getName();
-            if (!earlyBeanMap.containsKey(diName)) {
-                if (!beanMap.containsKey(diName)) {
-                    //把依赖的bean创建了
-                    createOneBean(beanDefinitionMap.get(diName));
-                }
+            Object diBean;
+            if (beanMap.containsKey(diName)) {
+                diBean = beanMap.get(diName);
+                diField.set(originalBean, diBean);
+            } else if (earlyBeanMap.containsKey(diName)) {
+                diBean = earlyBeanMap.get(diName);
+                diField.set(originalBean, diBean);
+            } else if (factoryMap.containsKey(diName)) {
+                //earlyBeanMap和beanMap都没有--->代表需要注入的对象还没创建
+                ObjectFactory<?> factory = factoryMap.remove(diName);
+                diBean = factory.getObject(null, diName);
+                earlyBeanMap.put(diName, diBean);
+                //
+            } else {
+                //第一次来需要创建
+                diBean = createOneBean(beanDefinitionMap.get(diName));
             }
-            //earlyBeanMap中没有，但是beanMap中有---已经付完值的bean对象
-            if(earlyBeanMap.containsKey(diName)){
-                diField.set(bean, earlyBeanMap.get(diName));
-                earlyBeanMap.remove(diName);
-            }else if(beanMap.containsKey(diName)){
-                diField.set(bean, beanMap.get(diName));
-            }
+            diField.set(originalBean, diBean);
         }
-        beanMap.put(beanName, bean);
-        return bean;
+        ObjectFactory<?> shouldProxyFactory = factoryMap.remove(beanName);
+        earlyBeanMap.remove(beanName);
+        Object targetBean = shouldProxyFactory != null ?
+                shouldProxyFactory.getObject(originalBean, beanName) : originalBean;
+        beanMap.put(beanName, targetBean);
+        return targetBean;
     }
 
     public void registerBeanDefinition(Set<Class<?>> classes) {
