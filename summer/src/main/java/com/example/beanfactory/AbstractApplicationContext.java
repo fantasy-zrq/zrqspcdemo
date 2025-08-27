@@ -119,15 +119,13 @@ public abstract class AbstractApplicationContext implements BeanFactory {
             Object diBean;
             if (beanMap.containsKey(diName)) {
                 diBean = beanMap.get(diName);
-//                diField.set(originalBean, diBean);
             } else if (earlyBeanMap.containsKey(diName)) {
                 diBean = earlyBeanMap.get(diName);
-//                diField.set(originalBean, diBean);
             } else if (factoryMap.containsKey(diName)) {
-                //earlyBeanMap和beanMap都没有--->代表需要注入的对象还没创建
-                AopFactory factory = (AopFactory) factoryMap.remove(diName);
-                //这里就应该直接创建出代理对象来，解决双边都需要代理的问题，只能返回原始对象
-                diBean = factory.getOriginalBean();
+                // earlyBeanMap 和 beanMap 都没有，且存在三级缓存工厂，立即创建并暴露代理对象
+                ObjectFactory<?> factory = factoryMap.remove(diName);
+                diBean = factory.getObject(diName);
+                // 将早期引用设置为代理对象，避免循环依赖时注入原始对象
                 earlyBeanMap.put(diName, diBean);
                 //
             } else {
@@ -145,7 +143,8 @@ public abstract class AbstractApplicationContext implements BeanFactory {
             } else {
                 ObjectFactory<?> factory = factoryMap.remove(beanName);
                 currentBean = factory.getObject(beanName);
-                earlyBeanMap.put(beanName, currentBean);
+                // 直接放入一级缓存，完成创建
+                beanMap.put(beanName, currentBean);
             }
         } else {
             currentBean = earlyBeanMap.remove(beanName);
