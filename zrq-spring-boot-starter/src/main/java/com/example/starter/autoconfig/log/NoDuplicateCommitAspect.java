@@ -1,0 +1,49 @@
+package com.example.starter.autoconfig.log;
+
+import com.sun.jdi.request.DuplicateRequestException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+/**
+ * @author zrq
+ * @time 2025/9/1 13:56
+ * @description
+ */
+@Slf4j
+@RequiredArgsConstructor
+@Aspect
+public class NoDuplicateCommitAspect {
+    private final RedissonClient redissonClient;
+
+    @Around("@annotation(com.example.starter.autoconfig.log.NoDuplicateCommit)")
+    public Object noDuplicateCommitImpl(ProceedingJoinPoint joinPoint) {
+        String format = "zrq:spc:starter:path:%s:userid:%s";
+        String servletPath = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getServletPath();
+        String lockKey = String.format(format, servletPath, "123456789");
+
+        log.info("lockKey--->{}", lockKey);
+        RLock lock = redissonClient.getLock(lockKey);
+        if (!lock.tryLock()) {
+            log.error("请求提交重复-获取锁失败");
+            throw new DuplicateRequestException("请求提交重复");
+        }
+        Object result;
+        try {
+            try {
+                result = joinPoint.proceed();
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        } finally {
+            lock.unlock();
+        }
+        return result;
+    }
+}

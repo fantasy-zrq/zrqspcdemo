@@ -1,1 +1,2 @@
 com.example.starter.autoconfig.config.LogAutoConfiguration
+com.example.starter.autoconfig.config.NoDuplicateCommitAutoConfig

@@ -108,6 +108,12 @@
             <artifactId>bizlog-sdk</artifactId>
             <version>3.0.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>zrq-spring-boot-starter</artifactId>
+            <version>3.0.7</version>
+        </dependency>
     </dependencies>
 
     <build>

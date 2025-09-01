@@ -7,6 +7,7 @@ import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
 import com.example.model.entity.OrderDO;
 import com.example.model.service.UserService;
+import com.example.starter.autoconfig.log.NoDuplicateCommit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +47,14 @@ public class UserController {
     }
 
     @PostMapping("/api/spc/model/user/order")
+    @NoDuplicateCommit
     public Result<String> mockOrder(@RequestBody OrderDO orderDO) {
         userService.mockOrder(orderDO);
+        try {
+            Thread.sleep(50L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return Results.success("测试通过");
     }
 }
