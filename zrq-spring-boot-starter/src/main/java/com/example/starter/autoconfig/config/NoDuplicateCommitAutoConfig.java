@@ -1,8 +1,8 @@
 package com.example.starter.autoconfig.config;
 
 import com.example.starter.autoconfig.log.NoDuplicateCommitAspect;
-import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * @author zrq
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
  */
 public class NoDuplicateCommitAutoConfig {
     @Bean
-    public NoDuplicateCommitAspect noDuplicateCommitAspect(RedissonClient redissonClient) {
-        return new NoDuplicateCommitAspect(redissonClient);
+    public NoDuplicateCommitAspect noDuplicateCommitAspect(StringRedisTemplate stringRedisTemplate) {
+        return new NoDuplicateCommitAspect(stringRedisTemplate);
     }
 }

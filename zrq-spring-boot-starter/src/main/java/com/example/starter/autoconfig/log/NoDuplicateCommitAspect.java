@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zrq
@@ -20,7 +21,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 @Aspect
 public class NoDuplicateCommitAspect {
-    private final RedissonClient redissonClient;
+    //    private final RedissonClient redissonClient;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Around("@annotation(com.example.starter.autoconfig.log.NoDuplicateCommit)")
     public Object noDuplicateCommitImpl(ProceedingJoinPoint joinPoint) {
@@ -29,21 +31,16 @@ public class NoDuplicateCommitAspect {
         String lockKey = String.format(format, servletPath, "123456789");
 
         log.info("lockKey--->{}", lockKey);
-        RLock lock = redissonClient.getLock(lockKey);
-        if (!lock.tryLock()) {
+//        RLock lock = redissonClient.getLock(lockKey);
+        //使用setnx优化幂等性，redissonClient太重了幂等性
+        if (Boolean.FALSE.equals(stringRedisTemplate.opsForValue().setIfAbsent(lockKey, "Idempotence", 1L, TimeUnit.SECONDS))) {
             log.error("请求提交重复-获取锁失败");
             throw new DuplicateRequestException("请求提交重复");
         }
-        Object result;
         try {
-            try {
-                result = joinPoint.proceed();
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-        } finally {
-            lock.unlock();
+            return joinPoint.proceed();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
         }
-        return result;
     }
 }
