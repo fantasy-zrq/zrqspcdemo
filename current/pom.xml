@@ -5,6 +5,7 @@
 
     <groupId>com.example</groupId>
     <artifactId>current</artifactId>
+    <version>1.0</version>
 
     <properties>
         <java.version>17</java.version>
@@ -12,8 +13,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.example</groupId>
+            <artifactId>zrq-spring-boot-starter</artifactId>
+            <version>3.0.7</version>
         </dependency>
     </dependencies>
 
