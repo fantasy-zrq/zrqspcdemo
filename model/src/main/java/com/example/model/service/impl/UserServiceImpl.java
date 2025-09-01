@@ -4,14 +4,19 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.model.common.exception.ClientException;
+import com.example.model.common.handlerchain.ChainFilterContext;
 import com.example.model.common.utils.JWTUtil;
 import com.example.model.common.utils.MD5EncryptUtil;
 import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
+import com.example.model.entity.OrderDO;
 import com.example.model.entity.UserDO;
 import com.example.model.entity.mapper.UserMapper;
 import com.example.model.service.UserService;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,21 +24,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.model.common.constance.RedisConstanceKey.*;
+import static com.example.model.common.handlerchain.ChainBizMarkEnum.USER_LOGIN_MARK;
 
 /**
  * @author zrq
  * @time 2025/8/6 21:12
  * @description
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
     private final StringRedisTemplate stringRedisTemplate;
     private final RBloomFilter<String> userNameBloomFilter;
+    private final ChainFilterContext chainFilterContext;
 
     @Override
     public void doRegister(UserRegisterReqDTO requestParam) {
@@ -63,6 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public String doLogin(UserLoginReqDTO requestParam) {
+        chainFilterContext.handler(USER_LOGIN_MARK.name(), requestParam);
         UserDO userDO = baseMapper.selectOne(Wrappers.lambdaQuery(UserDO.class)
                 .eq(UserDO::getUsername, requestParam.getUsername())
                 .eq(UserDO::getDelFlag, 0));
@@ -77,13 +87,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         Map<String, String> map = new HashMap<>();
         map.put("username", userDO.getUsername());
         map.put("id", userDO.getId().toString());
-        map.put("age",userDO.getAge().toString());
-        map.put("sex",userDO.getSex().toString());
+        map.put("age", userDO.getAge().toString());
+        map.put("sex", userDO.getSex().toString());
         String token = JWTUtil.generateToken(map);
         //redis存7天这个token,set可以做到每次刷新这个方法
         stringRedisTemplate.opsForValue()
                 .set(String.format(REDIS_USER_LOGIN_KEY, requestParam.getUsername()), token, 7L, TimeUnit.DAYS);
         return token;
+    }
+
+    @Override
+    @LogRecord(
+            success = """
+                    【{{#orderDO.purchaseName}}】--购买了--【{{#orderDO.productName}}--花费了【{{#orderDO.price.toString()}}】元】
+                    """,
+            type = "mock-order",
+            bizNo = "bizNo--[{{#orderDO.orderNo}}]",
+            fail = "【{{#orderDO.purchaseName}}】--购买了--【{{#orderDO.productName}}--操作失败",
+            extra = "[Mock订单类型-->{MOCK_ORDER{#orderDO.orderTarget}}]---uuid-->{{#dbGenerateId}}")
+    public void mockOrder(OrderDO orderDO) {
+        log.info("mock-mock-mock---{}", orderDO);
+        String uuid = UUID.randomUUID().toString();
+        log.info("uuid-->{},送入spel上下文", uuid);
+        LogRecordContext.putVariable("dbGenerateId", uuid);
+//        throw new ClientException("mock--失败");
     }
 
 

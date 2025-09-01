@@ -1,6 +1,8 @@
 package com.example.model.common.context;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author zrq
@@ -8,6 +10,8 @@ import lombok.Data;
  * @description
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserContextInfo {
     private Long id;
     private String username;

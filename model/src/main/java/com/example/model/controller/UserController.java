@@ -5,6 +5,7 @@ import com.example.model.common.result.Result;
 import com.example.model.common.result.Results;
 import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
+import com.example.model.entity.OrderDO;
 import com.example.model.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,5 +43,11 @@ public class UserController {
     @LogConsumerTime
     public void test() {
         log.info("test..");
+    }
+
+    @PostMapping("/api/spc/model/user/order")
+    public Result<String> mockOrder(@RequestBody OrderDO orderDO) {
+        userService.mockOrder(orderDO);
+        return Results.success("测试通过");
     }
 }
