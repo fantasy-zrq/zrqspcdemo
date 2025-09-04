@@ -19,9 +19,8 @@ import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RBlockingQueue;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RBloomFilter;
-import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -50,6 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private final ChainFilterContext chainFilterContext;
     private final ExcelResolverThreadPool excelResolverThreadPool;
     private final RedissonClient redissonClient;
+    private final RocketMQTemplate rocketMQTemplate;
 
     @Override
     public void doRegister(UserRegisterReqDTO requestParam) {
@@ -124,10 +124,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     public void mockExcel(ExcelReqDTO requestParam) {
         excelResolverThreadPool.execute(requestParam);
         //方案1：redis延迟队列
-        RBlockingQueue<Object> blockingQueue = redissonClient.getBlockingQueue("mock-excel-block-queue");
-        RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue(blockingQueue);
-        delayedQueue.offer(requestParam, 20L, TimeUnit.SECONDS);
+//        RBlockingQueue<Object> blockingQueue = redissonClient.getBlockingQueue("mock-excel-block-queue");
+//        RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue(blockingQueue);
+//        delayedQueue.offer(requestParam, 20L, TimeUnit.SECONDS);
         //方案2：mq消息队列
+        rocketMQTemplate.syncSendDelayTimeSeconds("zrq-spc-mock-excel-topic", requestParam, 20L);
     }
 
 

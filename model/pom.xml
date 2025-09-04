@@ -115,6 +115,12 @@
             <version>4.0.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
         <!-- Mock 数据相关依赖 -->
         <dependency>
             <groupId>com.github.javafaker</groupId>

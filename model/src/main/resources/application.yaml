@@ -21,6 +21,10 @@ spring:
       host: 192.168.101.128
       port: 6379
       password: zrq123
+rocketmq:
+  name-server: common-rocketmq-dev.magestack.cn:9876
+  producer:
+    group: zrq-spc-mock-excel-producer-group
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
