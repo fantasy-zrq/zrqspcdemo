@@ -3,6 +3,7 @@ package com.example.model.controller;
 import com.example.model.common.annotation.LogConsumerTime;
 import com.example.model.common.result.Result;
 import com.example.model.common.result.Results;
+import com.example.model.dto.req.ExcelReqDTO;
 import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
 import com.example.model.entity.OrderDO;
@@ -56,5 +57,11 @@ public class UserController {
             throw new RuntimeException(e);
         }
         return Results.success("测试通过");
+    }
+
+    @PostMapping("/api/spc/model/user/excel")
+    public Result<String> mockExcelResolver(@RequestBody ExcelReqDTO requestParam) {
+        userService.mockExcel(requestParam);
+        return Results.success("excel mock successfully~~");
     }
 }

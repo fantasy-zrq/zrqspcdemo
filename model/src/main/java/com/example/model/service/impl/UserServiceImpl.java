@@ -7,17 +7,22 @@ import com.example.model.common.exception.ClientException;
 import com.example.model.common.handlerchain.ChainFilterContext;
 import com.example.model.common.utils.JWTUtil;
 import com.example.model.common.utils.MD5EncryptUtil;
+import com.example.model.dto.req.ExcelReqDTO;
 import com.example.model.dto.req.UserLoginReqDTO;
 import com.example.model.dto.req.UserRegisterReqDTO;
 import com.example.model.entity.OrderDO;
 import com.example.model.entity.UserDO;
 import com.example.model.entity.mapper.UserMapper;
+import com.example.model.executor.ExcelResolverThreadPool;
 import com.example.model.service.UserService;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RBloomFilter;
+import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RedissonClient;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -43,6 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private final StringRedisTemplate stringRedisTemplate;
     private final RBloomFilter<String> userNameBloomFilter;
     private final ChainFilterContext chainFilterContext;
+    private final ExcelResolverThreadPool excelResolverThreadPool;
+    private final RedissonClient redissonClient;
 
     @Override
     public void doRegister(UserRegisterReqDTO requestParam) {
@@ -111,6 +118,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         log.info("uuid-->{},送入spel上下文", uuid);
         LogRecordContext.putVariable("dbGenerateId", uuid);
 //        throw new ClientException("mock--失败");
+    }
+
+    @Override
+    public void mockExcel(ExcelReqDTO requestParam) {
+        excelResolverThreadPool.execute(requestParam);
+        //方案1：redis延迟队列
+        RBlockingQueue<Object> blockingQueue = redissonClient.getBlockingQueue("mock-excel-block-queue");
+        RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue(blockingQueue);
+        delayedQueue.offer(requestParam, 20L, TimeUnit.SECONDS);
+        //方案2：mq消息队列
     }
 
 
