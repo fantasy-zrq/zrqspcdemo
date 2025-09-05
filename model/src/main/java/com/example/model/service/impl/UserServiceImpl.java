@@ -14,6 +14,7 @@ import com.example.model.entity.OrderDO;
 import com.example.model.entity.UserDO;
 import com.example.model.entity.mapper.UserMapper;
 import com.example.model.executor.ExcelResolverThreadPool;
+import com.example.model.mq.producer.RocketMqExcelProducer;
 import com.example.model.service.UserService;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
@@ -21,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RBloomFilter;
-import org.redisson.api.RedissonClient;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -48,8 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private final RBloomFilter<String> userNameBloomFilter;
     private final ChainFilterContext chainFilterContext;
     private final ExcelResolverThreadPool excelResolverThreadPool;
-    private final RedissonClient redissonClient;
     private final RocketMQTemplate rocketMQTemplate;
+    private final RocketMqExcelProducer rocketMqExcelProducer;
 
     @Override
     public void doRegister(UserRegisterReqDTO requestParam) {
@@ -128,7 +128,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 //        RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue(blockingQueue);
 //        delayedQueue.offer(requestParam, 20L, TimeUnit.SECONDS);
         //方案2：mq消息队列
-        rocketMQTemplate.syncSendDelayTimeSeconds("zrq-spc-mock-excel-topic", requestParam, 20L);
+
+//        rocketMQTemplate.syncSendDelayTimeSeconds("zrq-spc-mock-excel-topic", requestParam, 20L);
+
+        rocketMqExcelProducer.senMessage(requestParam);
     }
 
 

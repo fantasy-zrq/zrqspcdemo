@@ -1,4 +1,4 @@
-package com.example.model.mq;
+package com.example.model.mq.consumer;
 
 import com.example.model.dto.req.ExcelReqDTO;
 import com.example.model.executor.ExcelResolverThreadPool;

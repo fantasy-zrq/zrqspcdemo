@@ -14,4 +14,8 @@ public class ExcelReqDTO {
     private String taskId;
 
     private String taskName;
+
+    private Integer sendType;
+
+    private Integer delayTime;
 }
