@@ -21,5 +21,6 @@ public class RowCountListener extends AnalysisEventListener<Object> {
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
         // No additional actions needed after all data is analyzed
+
     }
 }

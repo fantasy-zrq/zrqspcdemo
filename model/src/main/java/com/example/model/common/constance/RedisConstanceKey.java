@@ -9,4 +9,8 @@ public final class RedisConstanceKey {
     public final static String REDIS_USER_REGISTER_KEY = "zrq:spc:model:user:user-register:%s";
     public final static String REDIS_USERNAME_DUPLICATE_KEY = "zrq:spc:model:user:user-register:duplicate:%s";
     public final static String REDIS_USER_LOGIN_KEY = "zrq:spc:model:user:user-login:token:%s";
+    public final static String REDIS_TASK_DISTRIBUTION_KEY = "zrq:spc:model:receive:user:%s";
+    public final static String REDIS_COUPON_CREATE_KEY = "zrq:spc:model:coupon:create:%s";
+
+
 }
