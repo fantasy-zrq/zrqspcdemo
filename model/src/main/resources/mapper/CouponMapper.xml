@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.model.entity.mapper.CouponMapper">
+
+    <update id="decrementCouponStockByCouponId">
+        update t_coupon
+        set coupon_stock = coupon_stock - 1
+        where coupon_id = #{couponId}
+          and coupon_stock > 0;
+    </update>
+</mapper>
