@@ -25,6 +25,10 @@ public final class UserContext {
         return THREAD_LOCAL.get().getSex();
     }
 
+    public static Long getFakeUserId() {
+        return 1953346001616027650L;
+    }
+
     public static void remove() {
         THREAD_LOCAL.remove();
     }
