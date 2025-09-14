@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.model.entity.mapper.ReceiveMapper">
+
+    <insert id="batchInsert" parameterType="list">
+        insert into t_receive(id, user_id, coupon_id, receive_number, receive_time, start_time, end_time, status,
+        use_time, create_time, update_time)
+        values
+        <foreach collection="receiveCache" item="item" separator=",">
+            (#{item.id},
+            #{item.userId},
+            #{item.couponId},
+            #{item.receiveNumber},
+            #{item.receiveTime},
+            #{item.startTime},
+            #{item.endTime},
+            #{item.status},
+            #{item.useTime},
+            NOW(),
+            NOW())
+        </foreach>
+    </insert>
+</mapper>
