@@ -2,6 +2,9 @@ package com.ds.datastruct.array;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author zrq
  * @time 2025/9/30 10:37
@@ -15,8 +18,220 @@ public class Arrays {
 //        System.out.println(removeElements(new int[]{1, 5, 7, 9, 9, 9, 89}, 9));
 //        squaresOfOrderedArrays(new int[]{-5, -1, 7, 9, 9, 9, 89});
 //        squaresOfOrderedArrays(new int[]{-10, -8, 2, 4, 6, 9, 12});
-        int res = minimumSubarrayLength(new int[]{5, 1, 3, 5, 10, 7, 4, 2, 2, 1}, 15);
-        System.out.println("res = " + res);
+//        minimumSubarrayLength(new int[]{5, 1, 3, 5, 10, 7, 4, 2, 2, 1}, 15);
+//        spiralMatrix59(5);
+//        List<Integer> list = spiralMatrix54(new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}});
+//        List<Integer> list = spiralMatrix54(new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}});
+//        List<Integer> list = spiralMatrix54(new int[][]{{1,  2,  3}, {5,  6,  7}, {9, 10, 11},{12, 13, 14}});
+//        List<Integer> list = spiralMatrix54(new int[][]{{1, 2, 3}, {5, 6, 7}, {9, 10, 11}});
+//        list.forEach(System.out::println);
+        int[][] res = spiralMatrixNew59(5);
+
+        for (int[] re : res) {
+            System.out.println(java.util.Arrays.toString(re));
+        }
+
+    }
+
+    /**
+     * 新思路，以四条边线作为边界条件
+     */
+    private static List<Integer> spiralMatrix54(int[][] matrix) {
+        int left = 0, top = 0;
+        int right = matrix[0].length - 1, bottom = matrix.length - 1;
+        List<Integer> list = new ArrayList<>();
+        while (left <= right && top <= bottom) {
+            for (int j = left; j <= right; j++) {
+                list.add(matrix[top][j]);
+            }
+            top++;
+
+            for (int i = top; i <= bottom; i++) {
+                list.add(matrix[i][right]);
+            }
+            right--;
+            if (top <= bottom) {
+                for (int j = right; j >= left; j--) {
+                    list.add(matrix[bottom][j]);
+                }
+                bottom--;
+            }
+
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    list.add(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+        return list;
+    }
+
+    private static List<Integer> spiralMatrix54chart(int[][] matrix) {
+        //matrix是m*n
+        /*
+           1,  2,  3,  4
+           5,  6,  7,  8
+           9,  10, 11, 12
+           13, 14, 15, 16
+
+           1,  2,  3
+           5,  6,  7
+           9,  10, 11
+           12, 13, 14
+         */
+//        int lengthi = matrix.length;
+//        int widthj = matrix[0].length;
+//        int offseti = 1;
+//        int offsetj = 1;
+//        int starti = 0, startj = 0;
+//        List<Integer> list = new ArrayList<>();
+//        while (list.size() < lengthi * widthj) {
+//            for (; startj < widthj - offsetj; startj++) {
+//                list.add(matrix[starti][startj]);
+//            }
+//            for (; starti < lengthi - offseti; starti++) {
+//                list.add(matrix[starti][startj]);
+//            }
+//            for (; startj >= offsetj; startj--) {
+//                list.add(matrix[starti][startj]);
+//            }
+//            for (; starti >= offseti; starti--) {
+//                list.add(matrix[starti][startj]);
+//            }
+//            if (lengthi == widthj && offseti == offsetj && offsetj == (lengthi / 2) + 1 && lengthi % 2 == 1) {
+//                list.add(matrix[starti][startj]);
+//                break;
+//            }
+//            offseti++;
+//            offsetj++;
+//            starti++;
+//            startj++;
+//        }
+//        System.out.println("list.size() = " + list.size());
+//
+//        return list;
+
+        List<Integer> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) {
+            return res;
+        }
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int top = 0, bottom = m - 1;
+        int left = 0, right = n - 1;
+
+        while (top <= bottom && left <= right) {
+            // 1️⃣ 从左到右
+            for (int j = left; j <= right; j++) {
+                res.add(matrix[top][j]);
+            }
+            top++;
+
+            // 2️⃣ 从上到下
+            for (int i = top; i <= bottom; i++) {
+                res.add(matrix[i][right]);
+            }
+            right--;
+
+            // 3️⃣ 从右到左（确保还有行）
+            if (top <= bottom) {
+                for (int j = right; j >= left; j--) {
+                    res.add(matrix[bottom][j]);
+                }
+                bottom--;
+            }
+
+            // 4️⃣ 从下到上（确保还有列）
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    res.add(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+
+        return res;
+    }
+
+    private static int[][] spiralMatrixNew59(int n) {
+        //matrix是n*n
+        /**
+         *      1    2   3   4
+         *      12   13  14  5
+         *      11   16  15  6
+         *      10   9   8   7
+         */
+        int left = 0, top = 0, count = 1;
+        int[][] matrix = new int[n][n];
+        int right = matrix[0].length - 1, bottom = matrix.length - 1;
+        while (left <= right && top <= bottom) {
+            for (int j = left; j <= right; j++) {
+                matrix[top][j] = count++;
+            }
+            top++;
+            for (int i = top; i <= bottom; i++) {
+                matrix[i][right] = count++;
+            }
+            right--;
+            if (top <= bottom) {
+                for (int j = right; j >= left; j--) {
+                    matrix[bottom][j] = count++;
+                }
+                bottom--;
+            }
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    matrix[i][left] = count++;
+                }
+                left++;
+            }
+        }
+        return matrix;
+    }
+
+    private static int[][] spiralMatrix59(int n) {
+        //matrix是n*n
+        /**
+         *      1    2   3   4
+         *      12   13  14  5
+         *      11   16  15  6
+         *      10   9   8   7
+         */
+
+        int loop = 1;
+        int offset = 1;
+        int starti = 0, startj = 0;
+        int count = 1;
+        int[][] arr = new int[n][n];
+        //每一条边都只处理起始边界
+        while (loop <= n / 2) {
+            //顶
+            for (; startj < n - offset; startj++) {
+                arr[starti][startj] = count++;
+            }
+            //右
+            for (; starti < n - offset; starti++) {
+                arr[starti][startj] = count++;
+            }
+            //下
+            for (; startj >= offset; startj--) {
+                arr[starti][startj] = count++;
+            }
+            //左
+            for (; starti >= offset; starti--) {
+                arr[starti][startj] = count++;
+            }
+            loop++;
+            offset++;
+            starti++;
+            startj++;
+        }
+        if (n % 2 == 1) {
+            arr[starti][startj] = count;
+        }
+        return arr;
     }
 
     private static int minimumSubarrayLength(int[] nums, int target) {
