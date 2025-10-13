@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author zrq
@@ -25,12 +26,69 @@ public class Arrays {
 //        List<Integer> list = spiralMatrix54(new int[][]{{1,  2,  3}, {5,  6,  7}, {9, 10, 11},{12, 13, 14}});
 //        List<Integer> list = spiralMatrix54(new int[][]{{1, 2, 3}, {5, 6, 7}, {9, 10, 11}});
 //        list.forEach(System.out::println);
-        int[][] res = spiralMatrixNew59(5);
+//        int[][] res = spiralMatrixNew59(5);
+//        for (int[] re : res) {
+//            System.out.println(java.util.Arrays.toString(re));
+//        }
+//        intervalSum();
+//        int i = searchForInsertionPosition(new int[]{1, 2, 6, 7, 9}, 8);
+//        System.out.println("i = " + i);
+//        int[] res = findInitialAndEndPositions(new int[]{1, 2, 6, 7, 7, 9}, 7);
+    }
 
-        for (int[] re : res) {
-            System.out.println(java.util.Arrays.toString(re));
+    private static int[] findInitialAndEndPositions(int[] nums, int target) {
+        //  {1, 2, 6, 7, 7, 9}, 7
+        Integer index = binarySearch(nums, target);
+        if (index == -1) {
+            return new int[]{-1, -1};
         }
+        int left = index;
+        int right = index;
+        while (left - 1 >= 0 && nums[left] == nums[left - 1]) {
+            left--;
+        }
+        while (right + 1 < nums.length && nums[right] == nums[right + 1]) {
+            right++;
+        }
+        return new int[]{left, right};
+    }
 
+    private static int searchForInsertionPosition(int[] nums, int target) {
+        // 1, 2, 6, 7, 9, 10, 12, 19
+        //          mid
+        // L  m  R(P)
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >> 1;
+            if (target > nums[mid]) {
+                left = ++mid;
+            } else if (target < nums[mid]) {
+                right = --mid;
+            } else {
+                return mid;
+            }
+        }
+        return right + 1;
+    }
+
+    private static void intervalSum() {
+        Scanner scanner = new Scanner(System.in);
+
+        int arrLength = scanner.nextInt();
+        int[] arr = new int[arrLength];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = scanner.nextInt();
+        }
+        scanner.nextLine();
+        String interval = scanner.nextLine();
+        String[] s = interval.split(" ");
+        int left = Integer.parseInt(s[0]), right = Integer.parseInt(s[1]);
+        int sum = 0;
+        for (int i = left; i <= right; i++) {
+            sum += arr[i];
+        }
+        System.out.println(sum);
     }
 
     /**
@@ -320,5 +378,41 @@ public class Arrays {
             }
         }
         return -1;
+    }
+
+    public static int[] spiralArray(int[][] array) {
+        int left = 0, top = 0, count = 0;
+
+        if (array == null || array.length == 0) {
+            return new int[]{};
+        }
+
+        int right = array[0].length - 1, bottom = array.length - 1;
+        int[] res = new int[array[0].length * array.length];
+        while (left <= right && top <= bottom) {
+            for (int j = left; j <= right; j++) {
+                res[count++] = array[top][j];
+            }
+            top++;
+            for (int i = top; i <= bottom; i++) {
+                res[count++] = array[i][right];
+            }
+            right--;
+
+            if (top <= bottom) {
+                for (int j = right; j >= left; j--) {
+                    res[count++] = array[bottom][j];
+                }
+                bottom--;
+            }
+
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    res[count++] = array[i][left];
+                }
+                left++;
+            }
+        }
+        return res;
     }
 }
