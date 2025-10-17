@@ -123,7 +123,7 @@ public class MyLinkedList {
     public static ListNode reverse(ListNode head) {
         ListNode pre = null;
         ListNode current = head;
-       while (current != null) {
+        while (current != null) {
             ListNode next = current.next;
             current.next = pre;
             pre = current;
