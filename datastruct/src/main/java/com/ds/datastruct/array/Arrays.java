@@ -18,7 +18,7 @@ public class Arrays {
 //        System.out.println(binarySearch(new int[]{1, 5, 7, 9, 11, 78, 89}, 9));
 //        System.out.println(removeElements(new int[]{1, 5, 7, 9, 9, 9, 89}, 9));
 //        squaresOfOrderedArrays(new int[]{-5, -1, 7, 9, 9, 9, 89});
-//        squaresOfOrderedArrays(new int[]{-10, -8, 2, 4, 6, 9, 12});
+        squaresOfOrderedArrays(new int[]{-100, -8, 2, 4, 6, 9, 12});
 //        minimumSubarrayLength(new int[]{5, 1, 3, 5, 10, 7, 4, 2, 2, 1}, 15);
 //        spiralMatrix59(5);
 //        List<Integer> list = spiralMatrix54(new int[][]{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}});
@@ -293,35 +293,68 @@ public class Arrays {
     }
 
     private static int minimumSubarrayLength(int[] nums, int target) {
+//        int sum = 0;
+//        int start = 0;
+//        int length = Integer.MAX_VALUE;
+//        for (int right = 0; right < nums.length; right++) {
+//            sum += nums[right];
+//            while (sum >= target) {
+//                //用于获取全局最小的连续数组长度，假如是length = right - start + 1
+//                //这样的写法，只能获取最后一个连续数组大于target的长度，而非全局最小
+//                length = Integer.min(length, right - start + 1);
+//                sum -= nums[start++];
+//            }
+//        }
+//        return length == Integer.MAX_VALUE ? 0 : length;
+
         int sum = 0;
         int start = 0;
+        int end = 0;
         int length = Integer.MAX_VALUE;
-        for (int right = 0; right < nums.length; right++) {
-            sum += nums[right];
+        for (; end < nums.length; end++) {
+            sum += nums[end];
             while (sum >= target) {
-                //用于获取全局最小的连续数组长度，假如是length = right - start + 1
-                //这样的写法，只能获取最后一个连续数组大于target的长度，而非全局最小
-                length = Integer.min(length, right - start + 1);
                 sum -= nums[start++];
+                length = Integer.min(length, end - start + 2);
             }
         }
         return length == Integer.MAX_VALUE ? 0 : length;
     }
 
     private static void squaresOfOrderedArrays(int[] nums) {
+//        for (int i = 0; i < nums.length; i++) {
+//            nums[i] = nums[i] * nums[i];
+//        }
+//        int[] arr = new int[nums.length];
+//        int k = nums.length - 1;
+//        for (int start = 0, end = nums.length - 1; start <= end; ) {
+//            if (nums[start] > nums[end]) {
+//                arr[k--] = nums[start];
+//                start++;
+//            } else {
+//                arr[k--] = nums[end];
+//                end--;
+//            }
+//        }
+
         for (int i = 0; i < nums.length; i++) {
             nums[i] = nums[i] * nums[i];
         }
+
+        int letf = 0;
+        int right = nums.length - 1;
+        int p = nums.length - 1;
         int[] arr = new int[nums.length];
-        int k = nums.length - 1;
-        for (int start = 0, end = nums.length - 1; start <= end; ) {
-            if (nums[start] > nums[end]) {
-                arr[k--] = nums[start];
-                start++;
+        while (letf <= right) {
+            if (nums[letf] < nums[right]) {
+                arr[p--] = nums[right--];
             } else {
-                arr[k--] = nums[end];
-                end--;
+                arr[p--] = nums[letf++];
             }
+        }
+
+        for (int re : arr) {
+            System.out.println("re = " + re);
         }
     }
 

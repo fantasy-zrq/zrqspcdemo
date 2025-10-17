@@ -12,11 +12,29 @@ public class Link5_8 {
 //        ListNode res = exchangeNodeInLinkedListPairwise(generateLinkList());
 //        System.out.println("res = " + res);
 //        ListNode head = removeNthFromEnd(generateLinkList(), 3);
-//        ListNode[] intersectionNode = generateIntersectionNode();
-//        ListNode node = getIntersectionNode(intersectionNode[0], intersectionNode[1]);
-        ListNode node = generateCircularNode();
-        ListNode circularNode = circularLinkedList(node);
+        ListNode[] intersectionNode = generateIntersectionNode();
+        ListNode node = getIntersectionNodeReview(intersectionNode[0], intersectionNode[1]);
+        System.out.println("node = " + node);
+//        ListNode node = generateCircularNode();
+//        ListNode circularNode = circularLinkedList(node);
+//        ListNode res = rev(generateLinkList());
+//        System.out.println("res = " + res);
+    }
 
+
+    private static ListNode rev(ListNode head) {
+        ListNode dummyHead = new ListNode(-99);
+        dummyHead.next = head;
+        ListNode current = dummyHead;
+        while (current.next != null && current.next.next != null) {
+            ListNode next = current.next;
+            ListNode nextnextnext = current.next.next.next;
+            current.next = current.next.next;
+            current.next.next = next;
+            next.next = nextnextnext;
+            current = current.next.next;
+        }
+        return dummyHead.next;
     }
 
     private static ListNode circularLinkedList(ListNode head) {
@@ -98,6 +116,49 @@ public class Link5_8 {
             }
             curA = curA.next;
             curB = curB.next;
+        }
+
+        return null;
+    }
+
+    public static ListNode getIntersectionNodeReview(ListNode headA, ListNode headB) {
+        int countA = 0;
+        int countB = 0;
+
+        ListNode currentA = headA;
+        ListNode currentB = headB;
+
+        while (currentA != null) {
+            countA++;
+            currentA = currentA.next;
+        }
+        while (currentB != null) {
+            countB++;
+            currentB = currentB.next;
+        }
+        currentA = headA;
+        currentB = headB;
+
+        if (countA < countB) {
+            int temp;
+            temp = countA;
+            countA = countB;
+            countB = temp;
+            ListNode temp1;
+            temp1 = currentA;
+            currentA = currentB;
+            currentB = temp1;
+        }
+        int gap = countA - countB;
+        while (gap-- > 0) {
+            currentA = currentA.next;
+        }
+        while (currentA != null) {
+            if (currentA == currentB) {
+                return currentA;
+            }
+            currentA = currentA.next;
+            currentB = currentB.next;
         }
 
         return null;
