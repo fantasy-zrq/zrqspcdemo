@@ -1,9 +1,6 @@
 package com.ds.datastruct.hash;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author zrq
@@ -18,8 +15,62 @@ public class HashS {
 //        for (int re : res) {
 //            System.out.println("re = " + re);
 //        }
-        boolean res = happyNumber(19);
-        System.out.println(2147483648L / 1000000000);
+//        int[] res = sumOfTwoNumbers(new int[]{3, 3}, 6);
+//        System.out.println("res = " + Arrays.toString(res));
+    }
+
+    public static boolean canConstruct(String ransomNote, String magazine) {
+        int[] nums = new int[26];
+        for (byte asc : ransomNote.getBytes()) {
+            nums[asc - 'a'] += 1;
+        }
+
+        for (byte asc : magazine.getBytes()) {
+            if (nums[asc - 'a'] != 0) {
+                nums[asc - 'a'] -= 1;
+            }
+        }
+
+        for (int num : nums) {
+            if (num > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static int addingFourNumbersII(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i : nums1) {
+            for (int j : nums2) {
+                if (map.containsKey(i + j)) {
+                    map.put(i + j, map.get(i + j) + 1);
+                } else {
+                    map.put(i + j, 1);
+                }
+            }
+        }
+        // 5  3
+        int count = 0;
+        for (int i : nums3) {
+            for (int j : nums4) {
+                if (map.containsKey(-(i + j))) {
+                    count += map.get(-(i + j));
+                }
+            }
+        }
+        return count;
+    }
+
+    private static int[] sumOfTwoNumbers(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            }
+            map.put(nums[i], i);
+        }
+        return null;
     }
 
     private static boolean happyNumber(int n) {
@@ -72,7 +123,6 @@ public class HashS {
 
         return res.stream().mapToInt(Integer::intValue).toArray();
     }
-
 
     private static boolean validAllophones(String s, String t) {
         if (s.length() < t.length()) {
