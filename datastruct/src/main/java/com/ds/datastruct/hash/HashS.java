@@ -17,6 +17,93 @@ public class HashS {
 //        }
 //        int[] res = sumOfTwoNumbers(new int[]{3, 3}, 6);
 //        System.out.println("res = " + Arrays.toString(res));
+//        List<List<Integer>> res = threeSum(new int[]{-1, 0, 1, 2, -1, -4});
+//        res.forEach(list -> {
+//            System.out.println("list = " + list);
+//        });
+        List<List<Integer>> res = fourSum(new int[]{1,0,-1,0,-2,2}, 0);
+        res.forEach(list -> System.out.println("list = " + list));
+    }
+
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int k = 0; k < nums.length; k++) {
+            if (nums[k] > target && nums[k] >= 0) {
+                return res;
+            }
+            if (k > 0 && nums[k] == nums[k - 1]) {
+                continue;
+            }
+            for (int i = k + 1; i < nums.length; i++) {
+                // 第二级剪枝
+                if (nums[k] + nums[i] > target && nums[k] + nums[i] >= 0) {
+                    break;	// 注意是break到上一级for循环，如果直接return result;会有遗漏
+                }
+                // 对nums[i]去重
+                if (i > k + 1 && nums[i] == nums[i - 1]) {
+                    continue;
+                }
+                int left = i + 1;
+                int right = nums.length - 1;
+                while (left < right) {
+                    if (nums[k] + nums[i] + nums[left] + nums[right] < target) {
+                        left++;
+                    } else if (nums[k] + nums[i] + nums[left] + nums[right] > target) {
+                        right--;
+                    } else {
+                        res.add(Arrays.asList(nums[k], nums[i], nums[left], nums[right]));
+                        while (left < right && nums[right] == nums[right - 1]) {
+                            right--;
+                        }
+                        while (left < right && nums[left] == nums[left + 1]) {
+                            left++;
+                        }
+                        left++;
+                        right--;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    public static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        //-4,-1,-1,0,1,2
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                return res;
+            }
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                if (nums[i] + nums[left] + nums[right] > 0) {
+                    right--;
+                } else if (nums[i] + nums[left] + nums[right] < 0) {
+                    left++;
+                } else {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[left]);
+                    list.add(nums[right]);
+                    res.add(list);
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right++;
+                    }
+                    left++;
+                    right--;
+                }
+            }
+        }
+        return res;
     }
 
     public static boolean canConstruct(String ransomNote, String magazine) {
