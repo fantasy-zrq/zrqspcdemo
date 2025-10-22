@@ -21,8 +21,9 @@ public class HashS {
 //        res.forEach(list -> {
 //            System.out.println("list = " + list);
 //        });
-        List<List<Integer>> res = fourSum(new int[]{1,0,-1,0,-2,2}, 0);
-        res.forEach(list -> System.out.println("list = " + list));
+//        List<List<Integer>> res = fourSum(new int[]{1,0,-1,0,-2,2}, 0);
+//        res.forEach(list -> System.out.println("list = " + list));
+        happyNumber(2);
     }
 
     public static List<List<Integer>> fourSum(int[] nums, int target) {
