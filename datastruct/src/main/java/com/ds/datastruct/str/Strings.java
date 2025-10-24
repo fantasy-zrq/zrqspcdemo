@@ -10,8 +10,67 @@ public class Strings {
 //        reverseString(new char[]{'z', 'r', 'q', 'h', 'h'});
 //        String res = reverseStr("abcdefg", 2);
 //        System.out.println("res = " + res);
-        String res = reverseWords("a good   example");
-        System.out.println("res = " + res);
+//        String res = reverseWords("a good   example");
+//        System.out.println("res = " + res);
+
+//        int[] next = getNext("abcabd");
+//        for (int i : next) {
+//            System.out.println("i = " + i);
+//        }
+//
+//        int index = strStr("mississippi", "issip");
+//
+//        System.out.println("index = " + index);
+        boolean res = repeatedSubstringPattern("aba");
+    }
+
+    public static boolean repeatedSubstringPattern(String s) {
+        String string = s + s;
+        int[] next = getNext(s);
+        for (int i = 1, j = 0; i < string.length() - 1; i++) {
+            while (j > 0 && string.charAt(i) != s.charAt(j)) {
+                j = next[j - 1];
+            }
+            if(string.charAt(i) == s.charAt(j)){
+                j++;
+            }
+            if(j == s.length()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static int strStr(String haystack, String needle) {
+        int[] next = getNext(needle);
+        for (int j = 0, i = 0; i < haystack.length(); i++) {
+            while (j > 0 && haystack.charAt(i) != needle.charAt(j)) {
+                j = next[j - 1];
+            }
+            if (haystack.charAt(i) == needle.charAt(j)) {
+                j++;
+            }
+            if (j == needle.length()) {
+                return i - j + 1;
+            }
+        }
+        return -1;
+    }
+
+    private static int[] getNext(String str) {
+        char[] charArray = str.toCharArray();
+        int[] next = new int[charArray.length];
+        next[0] = 0;
+        for (int j = 0, i = 1; i < charArray.length; i++) {
+            if (j > 0 && charArray[i] != charArray[j]) {
+                j = next[j - 1];
+            }
+            if (charArray[i] == charArray[j]) {
+                j++;
+            }
+            next[i] = j;
+        }
+        return next;
     }
 
     public static String reverseWords(String s) {
