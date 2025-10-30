@@ -21,7 +21,10 @@ public class Strings {
 //        int index = strStr("mississippi", "issip");
 //
 //        System.out.println("index = " + index);
-        boolean res = repeatedSubstringPattern("aba");
+//        boolean res = repeatedSubstringPattern("aba");
+
+        String s = reverseWords("a good   example");
+        System.out.println("s = " + s);
     }
 
     public static boolean repeatedSubstringPattern(String s) {
