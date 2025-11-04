@@ -20,7 +20,7 @@ public class StacksAndQueues {
 //        for (int re : res) {
 //            System.out.println("re = " + re);
 //        }
-        int[] res = topKFrequent(new int[]{4, 1, -1, 2, -1, 2, 3}, 2);
+        int[] res = topKFrequent(new int[]{4,1,-1,2,-1,2,3}, 2);
         for (int re : res) {
             System.out.println("re = " + re);
         }
