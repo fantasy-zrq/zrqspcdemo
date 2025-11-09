@@ -35,12 +35,11 @@ public class StacksAndQueues {
             }
             map.put(num, 1);
         }
-        return map.entrySet().stream()
-                .sorted((a, b) -> b.getValue() - a.getValue())
+        return map.entrySet()
+                .stream()
+                .sorted((e1, e2) -> e2.getValue() - e1.getValue())
                 .limit(k)
                 .map(Map.Entry::getKey)
-                .toList()
-                .stream()
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
