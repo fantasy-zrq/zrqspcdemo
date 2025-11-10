@@ -30,8 +30,63 @@ public class BinaryTree {
 //        System.out.println("res = " + res);
 //        TreeNode res = invertTree(head);
 //        System.out.println("res = " + res);
-        boolean res = isSymmetric(head);
+        boolean res = isBalanced(head);
         System.out.println("res = " + res);
+    }
+
+    public static boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return m1(root) != -1;
+    }
+
+    private static int m1(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = m1(root.left);
+        if (left == -1) {
+            return -1;
+        }
+        int right = m1(root.right);
+        if (right == -1) {
+            return -1;
+        }
+        return Math.abs(left - right) > 1 ? -1 : Math.max(left, right) + 1;
+    }
+
+    public static int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
+        return left + right + 1;
+    }
+
+    public static int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);
+        if (root.left == null && root.right != null) {
+            return right + 1;
+        }
+        if (root.right == null && root.left != null) {
+            return left + 1;
+        }
+        return Math.min(left, right) + 1;
+    }
+
+    public static int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        return Math.max(leftDepth, rightDepth) + 1;
     }
 
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
@@ -135,32 +190,32 @@ public class BinaryTree {
         System.out.println("res = " + res);
     }
 
-    public static int minDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-
-        int deep = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            deep++;
-            while (size-- > 0) {
-                TreeNode cur = queue.poll();
-                if (cur.left == null && cur.right == null) {
-                    return deep;
-                }
-                if (cur.left != null) {
-                    queue.offer(cur.left);
-                }
-                if (cur.right != null) {
-                    queue.offer(cur.right);
-                }
-            }
-        }
-        return deep;
-    }
+//    public static int minDepth(TreeNode root) {
+//        if (root == null) {
+//            return 0;
+//        }
+//        Queue<TreeNode> queue = new LinkedList<>();
+//        queue.offer(root);
+//
+//        int deep = 0;
+//        while (!queue.isEmpty()) {
+//            int size = queue.size();
+//            deep++;
+//            while (size-- > 0) {
+//                TreeNode cur = queue.poll();
+//                if (cur.left == null && cur.right == null) {
+//                    return deep;
+//                }
+//                if (cur.left != null) {
+//                    queue.offer(cur.left);
+//                }
+//                if (cur.right != null) {
+//                    queue.offer(cur.right);
+//                }
+//            }
+//        }
+//        return deep;
+//    }
 
     public static Node connect(Node root) {
         if (root == null) {
