@@ -34,6 +34,40 @@ public class BinaryTree {
         System.out.println("res = " + res);
     }
 
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftValue = sumOfLeftLeaves(root.left);
+        int rightValue = sumOfLeftLeaves(root.right);
+
+        int midValue = 0;
+        if (root.left != null && root.left.left == null && root.left.right == null) {
+            midValue = root.left.val;
+        }
+        return midValue + leftValue + rightValue;
+    }
+
+    List<String> list = new ArrayList<>();
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        m2(root, "");
+        return list;
+    }
+
+    private void m2(TreeNode root, String s) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            list.add(s + root.val);
+            return;
+        }
+        String s1 = s + root.val + "->";
+        m2(root.left, s1);
+        m2(root.right, s1);
+    }
+
     public static boolean isBalanced(TreeNode root) {
         if (root == null) {
             return true;
