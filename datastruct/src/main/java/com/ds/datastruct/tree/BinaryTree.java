@@ -30,8 +30,58 @@ public class BinaryTree {
 //        System.out.println("res = " + res);
 //        TreeNode res = invertTree(head);
 //        System.out.println("res = " + res);
-        boolean res = isBalanced(head);
-        System.out.println("res = " + res);
+
+//        boolean res = isBalanced(head);
+//        System.out.println("res = " + res);
+        //              中左右                     左右中
+//        inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
+//        TreeNode res = buildTree(new int[]{9, 3, 15, 20, 7}, new int[]{9, 15, 7, 20, 3});
+//        System.out.println("res = " + res);
+    }
+
+    Map<Integer, Integer> map = new HashMap<>();
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder.length == 0) {
+            return null;
+        }
+
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        return m3(postorder, 0, postorder.length, 0, inorder.length);
+    }
+
+    private TreeNode m3(int[] postorder, int postorderStart, int postorderEnd, int inorderStart, int inorderEnd) {
+        if (postorderStart >= postorderEnd || inorderStart >= inorderEnd) {
+            return null;
+        }
+        int midNodeVal = postorder[postorderEnd - 1];
+        TreeNode treeNode = new TreeNode(midNodeVal);
+        Integer midIndex = map.get(midNodeVal);
+        int leftCount = midIndex - inorderStart;
+        treeNode.left = m3(postorder, postorderStart, postorderStart + leftCount, inorderStart, midIndex);
+        treeNode.right = m3(postorder, postorderStart + leftCount, postorderEnd - 1, midIndex + 1, inorderEnd);
+        return treeNode;
+    }
+
+    public static boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return true;
+        }
+        targetSum -= root.val;
+        if (root.left == null && root.right == null) {
+            return targetSum == 0;
+        }
+        if (root.left != null) {
+            if (hasPathSum(root.left, targetSum)) {
+                return true;
+            }
+        }
+        if (root.right != null) {
+            return hasPathSum(root.right, targetSum);
+        }
+        return false;
     }
 
     public int sumOfLeftLeaves(TreeNode root) {
