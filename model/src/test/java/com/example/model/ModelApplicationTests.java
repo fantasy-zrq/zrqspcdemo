@@ -5,6 +5,7 @@ import com.example.model.common.context.UserContextInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.ParserContext;
@@ -13,7 +14,7 @@ import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 @Slf4j
-//@SpringBootTest
+@SpringBootTest
 class ModelApplicationTests {
 
     private static final ExpressionParser parser = new SpelExpressionParser();
@@ -109,7 +110,30 @@ class ModelApplicationTests {
     }
 
     @Test
-    public void test9(){
+    public void test9() {
         System.out.println("info = " + info);
+    }
+
+    @Test
+    public void test10() {
+        ExpressionParser expressionParser = new SpelExpressionParser();
+        Expression expression = expressionParser.parseExpression("'hello--'.concat('123456')");
+        String res = expression.getValue(String.class);
+        log.info("res = {}", res);
+        UserContextInfo contextInfo = new UserContextInfo(456789L, "zrq", 18, 1);
+        Expression parseExpression = expressionParser.parseExpression("username");
+        String name = parseExpression.getValue(contextInfo, String.class);
+        log.info("name = {}", name);
+    }
+
+    @Test
+    public void test11() {
+        UserContextInfo contextInfo = new UserContextInfo(6666L, "ljc", 18, 2);
+        StandardEvaluationContext context = new StandardEvaluationContext(contextInfo);
+        context.setVariable("clzz", "1501");
+        ExpressionParser expressionParser = new SpelExpressionParser();
+        Expression expression = expressionParser.parseExpression("username + #clzz");
+        String res = expression.getValue(context,String.class);
+        log.info("res = {}", res);
     }
 }

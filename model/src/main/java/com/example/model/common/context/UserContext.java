@@ -1,10 +1,13 @@
 package com.example.model.common.context;
 
+import lombok.ToString;
+
 /**
  * @author zrq
  * @time 2025/8/7 15:06
  * @description
  */
+@ToString
 public final class UserContext {
 
     private static final ThreadLocal<UserContextInfo> THREAD_LOCAL = new ThreadLocal<>();

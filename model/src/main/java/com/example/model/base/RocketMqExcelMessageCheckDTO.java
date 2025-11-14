@@ -16,13 +16,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RocketMqExcelMessageCheckDTO {
 
-    private String fileAddr;
+    private String msgTip;
 
-    private String taskId;
-
-    private String taskName;
-
-    private Integer sendType;
+    private String keys;
 
     private Integer delayTime;
 }

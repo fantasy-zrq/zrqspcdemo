@@ -30,11 +30,11 @@ public class RocketMqExcelProducer extends AbstractRocketMqMessageProducerTempla
     }
 
     @Override
-    protected Message<?> buildMessage(RocketMqExcelMessageCheckDTO rocketMqExcelMessageCheckDTO) {
+    protected Message<?> buildMessage(RocketMqExcelMessageCheckDTO rocketMqExcelMessageCheckDTO, ExcelReqDTO requestParam) {
         MessageWrapper<RocketMqExcelMessageCheckDTO> wrapper = new MessageWrapper<>();
         wrapper.setMsgId(UUID.randomUUID().toString());
         wrapper.setTag("mock-excel-producer-tag");
-        wrapper.setKey(rocketMqExcelMessageCheckDTO.getTaskId());
+        wrapper.setKey(requestParam.getTaskId());
         wrapper.setMsg(rocketMqExcelMessageCheckDTO);
         return MessageBuilder.withPayload(wrapper)
                 .setHeader(MessageConst.PROPERTY_KEYS, wrapper.getKey())

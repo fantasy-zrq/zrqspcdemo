@@ -7,9 +7,8 @@ import com.example.model.entity.CouponDO;
 import com.example.model.entity.TaskDO;
 import com.example.model.entity.mapper.CouponDistributionFailMapper;
 import com.example.model.entity.mapper.CouponMapper;
-import com.example.model.entity.mapper.ReceiveMapper;
-import com.example.model.entity.mapper.TaskMapper;
 import com.example.model.executor.TaskDistributionExcelListener;
+import com.example.model.mq.producer.RocketMqCouponBatchDistributionProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -18,12 +17,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import static com.example.model.common.constance.RedisConstanceKey.REDIS_COUPON_CREATE_KEY;
-import static com.example.model.common.constance.RedisConstanceKey.REDIS_COUPON_DISTRIBUTION_KEY;
 import static com.example.model.common.enums.CouponEnableStatusEnum.END;
 
 
@@ -39,11 +34,10 @@ import static com.example.model.common.enums.CouponEnableStatusEnum.END;
 public class RocketTaskConsumer implements RocketMQListener<TaskDO> {
 
     private final StringRedisTemplate stringRedisTemplate;
-    private final TaskMapper taskMapper;
-    private final ReceiveMapper receiveMapper;
     private final CouponMapper couponMapper;
     private final CouponDistributionFailMapper couponDistributionFailMapper;
-    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final RocketMqCouponBatchDistributionProducer rocketMqCouponBatchDistributionProducer;
+//    private final Executor executor = Executors.newSingleThreadExecutor();
 
     @Override
     public void onMessage(TaskDO message) {
@@ -53,24 +47,17 @@ public class RocketTaskConsumer implements RocketMQListener<TaskDO> {
         if (Objects.equals(stringRedisTemplate.hasKey(String.format(REDIS_COUPON_CREATE_KEY, message.getCouponId())), Boolean.FALSE)) {
             throw new ClientException("redis中对应coupon_id的记录----->" + message.getCouponId());
         }
-        if (!couponDO.getCouponStatus().equals(END.status)) {
+        if (couponDO.getCouponStatus().equals(END.status)) {
             log.error("优惠券--【{}】--已经终止", couponDO);
+            return;
         }
-        Integer taskDistributionRowKey = Integer.valueOf(String.valueOf(stringRedisTemplate.opsForHash()
-                .get(String.format(REDIS_COUPON_DISTRIBUTION_KEY, message.getTaskId(), couponDO.getCouponId()), "taskDistributionRowKey")));
-        //解析excel
-        Runnable task = () -> {
-            EasyExcel.read(
-                            message.getFileAddress(),
-                            CouponTaskExcelObject.class,
-                            new TaskDistributionExcelListener(
-                                    stringRedisTemplate, taskMapper, receiveMapper, couponMapper, couponDO, message, couponDistributionFailMapper,
-                                    Optional.ofNullable(taskDistributionRowKey).orElse(0)
-                            )
-                    )
-                    .sheet()
-                    .doRead();
-        };
-        executor.execute(task);
+        TaskDistributionExcelListener listener = new TaskDistributionExcelListener(
+                stringRedisTemplate,
+                couponDO,
+                message,
+                couponDistributionFailMapper,
+                rocketMqCouponBatchDistributionProducer
+        );
+        EasyExcel.read(message.getFileAddress(), CouponTaskExcelObject.class, listener).sheet().doRead();
     }
 }

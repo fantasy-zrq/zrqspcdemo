@@ -23,20 +23,21 @@ import java.util.Objects;
 public abstract class AbstractRocketMqMessageProducerTemplate<T> {
 
     private final RocketMQTemplate rocketMQTemplate;
-    private final String topic = "zrq-spc-mock-excel-topic";
+//    private final String topic1 = "zrq-spc-mock-excel-topic";
+    private final String TOPIC = "zrq-spc-task-excel-topic-batch-distribution";
 
     protected abstract RocketMqExcelMessageCheckDTO buildRocketMqExcelMessageCheckParam(T requestParam);
 
-    protected abstract Message<?> buildMessage(RocketMqExcelMessageCheckDTO rocketMqExcelMessageCheckDTO);
+    protected abstract Message<?> buildMessage(RocketMqExcelMessageCheckDTO rocketMqExcelMessageCheckDTO, T requestParam);
 
     public SendResult senMessage(T requestParam) {
         RocketMqExcelMessageCheckDTO checkDTO = buildRocketMqExcelMessageCheckParam(requestParam);
         //0立即发送
         SendResult sendResult;
-        if (Objects.equals(checkDTO.getSendType(), 0)) {
-            sendResult = rocketMQTemplate.syncSend(topic, buildMessage(checkDTO));
+        if (Objects.equals(checkDTO.getDelayTime(), 0)) {
+            sendResult = rocketMQTemplate.syncSend(TOPIC, buildMessage(checkDTO, requestParam));
         } else {
-            sendResult = rocketMQTemplate.syncSendDelayTimeSeconds(topic, buildMessage(checkDTO), Long.parseLong(String.valueOf(checkDTO.getDelayTime())));
+            sendResult = rocketMQTemplate.syncSendDelayTimeSeconds(TOPIC, buildMessage(checkDTO, requestParam), Long.parseLong(String.valueOf(checkDTO.getDelayTime())));
         }
         return sendResult;
     }
