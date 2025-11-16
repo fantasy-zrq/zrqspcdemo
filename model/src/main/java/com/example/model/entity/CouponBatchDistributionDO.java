@@ -14,6 +14,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class CouponBatchDistributionDO {
+
+    /**
+     * 优惠券分发任务id
+     */
+    private Long taskId;
+
     /**
      * 任务名称
      */
@@ -50,7 +56,27 @@ public class CouponBatchDistributionDO {
     private Date taskCompleteTime;
 
     /**
+     * 优惠券开始时间
+     */
+    private Date startTime;
+
+    /**
+     * 优惠券到期时间
+     */
+    private Date endTime;
+
+    /**
      * 用于判断是否是最后一批次
      */
     private Boolean lastBatch;
+
+    /**
+     * 有效期结束时间
+     */
+    private Date validEndTime;
+
+    /**
+     * 批量保存用户优惠券 Set 长度，默认满 5000 才会批量保存数据库
+     */
+    private Integer batchUserSetSize;
 }

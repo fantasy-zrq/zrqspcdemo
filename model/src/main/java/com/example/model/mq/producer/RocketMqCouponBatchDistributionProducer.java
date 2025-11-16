@@ -26,7 +26,7 @@ public class RocketMqCouponBatchDistributionProducer extends AbstractRocketMqMes
 
         return RocketMqExcelMessageCheckDTO.builder()
                 .msgTip("优惠券发送成功")
-                .delayTime(2000)
+                .delayTime(0)
                 .build();
     }
 

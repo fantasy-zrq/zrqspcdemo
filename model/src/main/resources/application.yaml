@@ -24,7 +24,7 @@ spring:
 rocketmq:
   name-server: common-rocketmq-dev.magestack.cn:9876
   producer:
-    group: zrq-spc-mock-excel-producer-group-rebuild
+    group: zrq-spc-mock-excel-producer-group-rebuild-A
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

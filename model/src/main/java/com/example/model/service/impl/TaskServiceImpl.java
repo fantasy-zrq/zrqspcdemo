@@ -48,10 +48,10 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, TaskDO> implements 
                 .build();
         if (taskDO.getSendType().equals(0)) {
             //立即发送
-            rocketMQTemplate.syncSend("zrq-spc-task-excel-topic", message);
+            rocketMQTemplate.syncSend("zrq-spc-task-excel-topic-rebuild-A", message);
         } else {
             //延迟发送
-            rocketMQTemplate.syncSendDelayTimeMills("zrq-spc-task-excel-topic", message, DateUtil.betweenMs(new Date(), taskDO.getSendTime()));
+            rocketMQTemplate.syncSendDelayTimeMills("zrq-spc-task-excel-topic-rebuild-A", message, DateUtil.betweenMs(new Date(), taskDO.getSendTime()));
         }
     }
 }
