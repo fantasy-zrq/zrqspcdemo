@@ -40,13 +40,14 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
     private final TaskDO taskDO;
     private final CouponDistributionFailMapper couponDistributionFailMapper;
     private final RocketMqCouponBatchDistributionProducer rocketMqCouponBatchDistributionProducer;
-    private final Integer batchSize = 120;
+    private final Integer batchSize = 5;
     private final String luaPath = "lua/coupon_batch_distribution_script.lua";
-    private Integer rowCount = 1;
+    //这个把rowCount定义为2，直接就是第一个用户所在行
+    private Integer rowCount = 2;
 
     @Override
     public void invoke(CouponTaskExcelObject couponTaskExcelObject, AnalysisContext analysisContext) {
-        log.info("rowCount--->{}",rowCount);
+        log.info("rowCount--->{}", rowCount);
         Long taskId = taskDO.getTaskId();
         String distributionProcessKey = String.format(REDIS_COUPON_DISTRIBUTION_PROCESS_KEY, taskId);
         String process = stringRedisTemplate.opsForValue().get(distributionProcessKey);
@@ -65,19 +66,19 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
             return redisScript;
         });
         String couponRedisKey = String.format(REDIS_COUPON_CREATE_KEY, couponDO.getCouponId());
-        String couponUserSetRedisKey = String.format(REDIS_COUPON_DISTRIBUTION_SET_KEY, couponDO.getCouponId());
+        //采用List作为数据结构LPUSH--RPOP
+        String couponUserListRedisKey = String.format(REDIS_COUPON_DISTRIBUTION_LIST_KEY, taskId, couponDO.getCouponId());
 
         //这里构建的map存放的是真实excel用户所在行数
         Map<Object, Object> insertRedisMap = MapBuilder.create()
                 .put("userId", couponTaskExcelObject.getUserId())
-                .put("rowCount", rowCount + 1)
+                .put("rowCount", rowCount)
                 .build();
-        Long redisExecuteRes = stringRedisTemplate.execute(script, List.of(couponRedisKey, couponUserSetRedisKey), JSON.toJSONString(insertRedisMap));
+        Long redisExecuteRes = stringRedisTemplate.execute(script, List.of(couponRedisKey, couponUserListRedisKey), JSON.toJSONString(insertRedisMap));
         boolean first = RedisResultParser.parseFirst(redisExecuteRes);
         //库存扣减失败
         if (!first) {
             stringRedisTemplate.opsForValue().set(distributionProcessKey, rowCount.toString());
-            rowCount++;
             Map<Object, Object> failMap = MapBuilder.create()
                     .put("userId", couponTaskExcelObject.getUserId())
                     .put("couponId", couponDO.getCouponId())
@@ -89,10 +90,11 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
                     .failJson(JSON.toJSONString(failMap))
                     .build();
             couponDistributionFailMapper.insert(failDO);
+            rowCount++;
             return;
         }
-        Long redisUserSetLength = RedisResultParser.parseSecond(redisExecuteRes);
-        if (redisUserSetLength < batchSize) {
+        Long redisUserListLength = RedisResultParser.parseSecond(redisExecuteRes);
+        if (redisUserListLength % batchSize != 0) {
             log.info("批量插入");
             stringRedisTemplate.opsForValue().set(distributionProcessKey, rowCount.toString());
             rowCount++;
@@ -100,13 +102,19 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
         }
 
         CouponBatchDistributionDO batchDistributionDO = CouponBatchDistributionDO.builder()
+                .taskId(taskDO.getTaskId())
                 .taskName(taskDO.getTaskName())
                 .couponId(couponDO.getCouponId())
-                .sendNum(batchSize)
+                .startTime(couponDO.getStartTime())
+                .endTime(couponDO.getEndTime())
                 .sendType(taskDO.getSendType())
                 .sendTime(taskDO.getSendTime())
-                .lastBatch(Boolean.FALSE)
+                .validEndTime(couponDO.getEndTime())
+                .batchUserSetSize(batchSize)
+                .taskStatus(1)
+                .lastBatch(false)
                 .build();
+        log.info("after-batch------------");
         rocketMqCouponBatchDistributionProducer.senMessage(batchDistributionDO);
         stringRedisTemplate.opsForValue().set(distributionProcessKey, rowCount.toString());
         rowCount++;
@@ -114,12 +122,24 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+        //这里直接再查一次缓存得出确切的batchUserListSize容量，来计算出最后一批次的个数
+        String couponUserListRedisKey = String.format(REDIS_COUPON_DISTRIBUTION_LIST_KEY, taskDO.getTaskId(), couponDO.getCouponId());
+        Long batchUserListSize = stringRedisTemplate.opsForList().size(couponUserListRedisKey);
+        if (batchUserListSize % batchSize == 0) {
+            return;
+        }
+        log.info("last-batch");
         CouponBatchDistributionDO batchDistributionDO = CouponBatchDistributionDO.builder()
+                .taskId(taskDO.getTaskId())
                 .taskName(taskDO.getTaskName())
                 .couponId(couponDO.getCouponId())
-                .sendNum(batchSize)
+                .startTime(couponDO.getStartTime())
+                .endTime(couponDO.getEndTime())
                 .sendType(taskDO.getSendType())
                 .sendTime(taskDO.getSendTime())
+                .validEndTime(couponDO.getEndTime())
+                .batchUserSetSize((int) (batchUserListSize % batchSize))
+                .taskStatus(1)
                 .lastBatch(Boolean.TRUE)
                 .build();
         rocketMqCouponBatchDistributionProducer.senMessage(batchDistributionDO);

@@ -17,6 +17,9 @@ public final class RedisConstanceKey {
     //优惠券分发进度key
     public final static String REDIS_COUPON_DISTRIBUTION_PROCESS_KEY = "zrq:spc:model:coupon:distribution:process:task_id:%s";
     //优惠券分发用户集合key--拼接couponId不行，这个Key是redis的ZSET的key，会去重，只能放用户ID
-    public final static String REDIS_COUPON_DISTRIBUTION_SET_KEY = "zrq:spc:model:coupon:distribution:process:user_set:%s";
+    public final static String REDIS_COUPON_DISTRIBUTION_LIST_KEY = "zrq:spc:model:coupon:distribution:process:task_id:%s:coupon_id:%s";
+
+    public final static String REDIS_COUPON_DISTRIBUTION_LIMIT_KEY = "zrq:spc:model:coupon:distribution:limit:user_id:";
+    public final static String REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY = "zrq:spc:model:coupon:distribution:received:user_id:%s";
 
 }

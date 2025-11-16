@@ -24,7 +24,7 @@ public abstract class AbstractRocketMqMessageProducerTemplate<T> {
 
     private final RocketMQTemplate rocketMQTemplate;
 //    private final String topic1 = "zrq-spc-mock-excel-topic";
-    private final String TOPIC = "zrq-spc-task-excel-topic-batch-distribution";
+    private final String TOPIC = "zrq-spc-task-excel-topic-batch-distribution-rebuild";
 
     protected abstract RocketMqExcelMessageCheckDTO buildRocketMqExcelMessageCheckParam(T requestParam);
 
