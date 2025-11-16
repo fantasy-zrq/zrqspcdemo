@@ -40,7 +40,7 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
     private final TaskDO taskDO;
     private final CouponDistributionFailMapper couponDistributionFailMapper;
     private final RocketMqCouponBatchDistributionProducer rocketMqCouponBatchDistributionProducer;
-    private final Integer batchSize = 5;
+    private final Integer batchSize = 2000;
     private final String luaPath = "lua/coupon_batch_distribution_script.lua";
 
     @Override
