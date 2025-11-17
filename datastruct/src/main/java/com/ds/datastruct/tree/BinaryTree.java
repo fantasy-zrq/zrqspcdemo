@@ -37,6 +37,65 @@ public class BinaryTree {
 //        inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
 //        TreeNode res = buildTree(new int[]{9, 3, 15, 20, 7}, new int[]{9, 15, 7, 20, 3});
 //        System.out.println("res = " + res);
+        TreeNode res = constructMaximumBinaryTree(new int[]{3, 2, 1, 6, 0, 5});
+        System.out.println(res);
+    }
+
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == val) {
+            return root;
+        }
+        TreeNode left = searchBST(root.left, val);
+        TreeNode right = searchBST(root.right, val);
+        return left != null ? left : right;
+    }
+
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if (root1 == null) {
+            return root2;
+        }
+        if (root2 == null) {
+            return root1;
+        }
+        root1.val += root2.val;
+        root1.left = mergeTrees(root1.left, root2.left);
+        root1.right = mergeTrees(root1.right, root2.right);
+        return root1;
+    }
+
+    public static TreeNode constructMaximumBinaryTree(int[] nums) {
+        if (nums.length == 1) {
+            return new TreeNode(nums[0]);
+        }
+
+        int index = 0;
+        int maxVal = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > maxVal) {
+                maxVal = nums[i];
+                index = i;
+            }
+        }
+
+        TreeNode root = new TreeNode(maxVal);
+
+        // 左子树
+        if (index > 0) {
+            int[] leftNums = Arrays.copyOf(nums, index);
+            root.left = constructMaximumBinaryTree(leftNums);
+        }
+
+        // 右子树
+        if (index + 1 < nums.length) {
+            int[] rightNums = Arrays.copyOfRange(nums, index + 1, nums.length);
+            root.right = constructMaximumBinaryTree(rightNums);
+        }
+
+        return root;
     }
 
     Map<Integer, Integer> map = new HashMap<>();
