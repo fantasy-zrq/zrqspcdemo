@@ -13,6 +13,7 @@ import com.example.model.entity.mapper.CouponDistributionFailMapper;
 import com.example.model.entity.mapper.CouponMapper;
 import com.example.model.entity.mapper.ReceiveMapper;
 import com.example.model.entity.mapper.TaskMapper;
+import com.example.starter.autoconfig.log.NoMQDuplicateConsume;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.BatchExecutorException;
@@ -56,6 +57,11 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
     private final CouponDistributionFailMapper couponDistributionFailMapper;
     private static final String LUA_PATH = "lua/coupon_batch_insert_script.lua";
 
+    @NoMQDuplicateConsume(
+            keyPrefix = "coupon_task_execute:idempotent:",
+            key = "#message.msg.taskId",
+            keyTimeout = 60 * 2
+    )
     @Override
     public void onMessage(MessageWrapper<CouponBatchDistributionDO> message) {
         CouponBatchDistributionDO distributionDO = message.getMsg();
