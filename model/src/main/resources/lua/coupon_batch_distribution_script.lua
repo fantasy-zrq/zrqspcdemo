@@ -9,19 +9,19 @@ local function combine(firstValue, secondValue)
 end
 
 local couponKey = KEYS[1];
-local userSetKey = KEYS[2];
+local userListKey = KEYS[2];
 local userInfo = ARGV[1];
 
 local stock = tonumber(redis.call("HGET", couponKey, "couponStock"));
 
 if stock == nil or stock <= 0 then
-    local userSetLength = redis.call("SCARD", userSetKey);
-    return combine(false, userSetLength);
+    local userListLength = redis.call("LLEN", userListKey);
+    return combine(false, userListLength);
 end
 
 redis.call("HINCRBY", couponKey, "couponStock", -1);
-redis.call("SADD", userSetKey, userInfo);
-local userSetLength = redis.call("SCARD", userSetKey);
+redis.call("LPUSH", userListKey, userInfo);
+local userListLength = redis.call("LLEN", userListKey);
 
-return combine(true, userSetLength);
+return combine(true, userListLength);
 

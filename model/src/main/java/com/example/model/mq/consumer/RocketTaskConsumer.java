@@ -30,7 +30,10 @@ import static com.example.model.common.enums.CouponEnableStatusEnum.END;
 @Component
 @RequiredArgsConstructor
 @Slf4j(topic = "RocketTaskConsumer")
-@RocketMQMessageListener(consumerGroup = "zrq-spc-task-excel-consumer-group", topic = "zrq-spc-task-excel-topic")
+@RocketMQMessageListener(
+        consumerGroup = "zrq-spc-task-excel-consumer-group-rebuild-A",
+        topic = "zrq-spc-task-excel-topic-rebuild-A"
+)
 public class RocketTaskConsumer implements RocketMQListener<TaskDO> {
 
     private final StringRedisTemplate stringRedisTemplate;

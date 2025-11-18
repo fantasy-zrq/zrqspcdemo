@@ -5,8 +5,7 @@
 <mapper namespace="com.example.model.entity.mapper.ReceiveMapper">
 
     <insert id="batchInsert" parameterType="list">
-        insert into t_receive(id, user_id, coupon_id, receive_number, receive_time, start_time, end_time, status,
-        use_time, create_time, update_time)
+        insert into t_receive(id, user_id, coupon_id, receive_number, receive_time, start_time, end_time, status,use_time, create_time, update_time)
         values
         <foreach collection="receiveCache" item="item" separator=",">
             (#{item.id},
@@ -17,7 +16,7 @@
             #{item.startTime},
             #{item.endTime},
             #{item.status},
-            #{item.useTime},
+            #{item.useTime,jdbcType=TIMESTAMP},
             NOW(),
             NOW())
         </foreach>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.model.entity.mapper.CouponDistributionFailMapper">
+
+    <insert id="batchInsert" parameterType="list">
+        insert into t_distribution_fail(id, task_id, fail_json)
+        VALUES
+        <foreach collection="failList" separator="," item="item">
+            (
+            #{item.id},
+            #{item.taskId},
+            #{item.failJson}
+            )
+        </foreach>
+    </insert>
+</mapper>

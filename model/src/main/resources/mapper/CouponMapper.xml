@@ -10,4 +10,24 @@
         where coupon_id = #{couponId}
           and coupon_stock > 0;
     </update>
+    <update id="decrementMySQLCouponStock">
+        update t_coupon
+        set coupon_stock = coupon_stock - #{batchSize}
+        where coupon_id = #{couponId}
+          and coupon_stock >= #{batchSize}
+          and del_flag = 0;
+    </update>
+    <update id="incrementCouponStock">
+        update t_coupon
+        set coupon_stock = coupon_stock + #{diff}
+        where coupon_id = #{couponId}
+          and del_flag = 0;
+    </update>
+
+    <update id="updateCouponStock">
+        update t_coupon
+        set coupon_stock = coupon_stock + #{back}
+        where coupon_id = #{couponId}
+          and del_flag = 0;
+    </update>
 </mapper>

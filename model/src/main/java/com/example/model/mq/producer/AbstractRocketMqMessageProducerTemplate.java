@@ -23,8 +23,8 @@ import java.util.Objects;
 public abstract class AbstractRocketMqMessageProducerTemplate<T> {
 
     private final RocketMQTemplate rocketMQTemplate;
-//    private final String topic1 = "zrq-spc-mock-excel-topic";
-    private final String TOPIC = "zrq-spc-task-excel-topic-batch-distribution";
+    //    private final String topic1 = "zrq-spc-mock-excel-topic";
+    private final String TOPIC = "zrq-spc-task-excel-topic-batch-distribution-rebuild-A";
 
     protected abstract RocketMqExcelMessageCheckDTO buildRocketMqExcelMessageCheckParam(T requestParam);
 
@@ -35,7 +35,11 @@ public abstract class AbstractRocketMqMessageProducerTemplate<T> {
         //0立即发送
         SendResult sendResult;
         if (Objects.equals(checkDTO.getDelayTime(), 0)) {
-            sendResult = rocketMQTemplate.syncSend(TOPIC, buildMessage(checkDTO, requestParam));
+            sendResult = rocketMQTemplate.syncSendDeliverTimeMills(
+                    TOPIC,
+                    buildMessage(checkDTO, requestParam),
+                    2000L
+            );
         } else {
             sendResult = rocketMQTemplate.syncSendDelayTimeSeconds(TOPIC, buildMessage(checkDTO, requestParam), Long.parseLong(String.valueOf(checkDTO.getDelayTime())));
         }

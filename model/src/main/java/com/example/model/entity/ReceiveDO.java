@@ -1,7 +1,5 @@
 package com.example.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.model.common.configs.MybatisPlusBaseMetaDO;
 import lombok.*;
@@ -23,7 +21,6 @@ public class ReceiveDO extends MybatisPlusBaseMetaDO {
     /**
      * 主键
      */
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -65,5 +62,10 @@ public class ReceiveDO extends MybatisPlusBaseMetaDO {
      * 用户使用时间
      */
     private Date useTime;
+
+    /**
+     * 在excel中的真实行数
+     */
+    private Integer rowCount;
 
 }
