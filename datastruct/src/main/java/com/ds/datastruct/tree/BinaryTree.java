@@ -37,8 +37,86 @@ public class BinaryTree {
 //        inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
 //        TreeNode res = buildTree(new int[]{9, 3, 15, 20, 7}, new int[]{9, 15, 7, 20, 3});
 //        System.out.println("res = " + res);
-        TreeNode res = constructMaximumBinaryTree(new int[]{3, 2, 1, 6, 0, 5});
-        System.out.println(res);
+//        TreeNode res = constructMaximumBinaryTree(new int[]{3, 2, 1, 6, 0, 5});
+//        boolean res = isValidBST(node2);
+//        System.out.println(res);
+    }
+
+    public TreeNode prev ;
+    public List<Integer> result;
+    public Integer maxVal;
+    public Integer count;
+
+    public int[] findMode(TreeNode root) {
+        prev = null;
+        result = new ArrayList<>();
+        maxVal = 0;
+        count = 0;
+        if (root == null) {
+            return new int[0];
+        }
+        m5(root);
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private void m5(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        m5(root.left);
+        if (prev == null || root.val != prev.val) {
+            count = 1;
+        } else {
+            count++;
+        }
+        if (count > maxVal) {
+            result.clear();
+            result.add(root.val);
+            maxVal = count;
+        } else if (count.equals(maxVal)) {
+            result.add(root.val);
+        }
+        prev = root;
+        m5(root.right);
+    }
+
+    public TreeNode pre = null;
+    public int res = Integer.MAX_VALUE;
+
+    public int getMinimumDifference(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        m4(root);
+        return res;
+    }
+
+    private void m4(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        m4(root.left);
+        if (pre != null) {
+            res = Integer.min(this.res, root.val - pre.val);
+        }
+        pre = root;
+        m4(root.right);
+    }
+
+    public long max = Long.MIN_VALUE;
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        boolean left = isValidBST(root.left);
+        if (root.val > maxVal) {
+            maxVal = root.val;
+        } else {
+            return false;
+        }
+        boolean right = isValidBST(root.right);
+        return left && right;
     }
 
     public TreeNode searchBST(TreeNode root, int val) {
@@ -141,40 +219,6 @@ public class BinaryTree {
             return hasPathSum(root.right, targetSum);
         }
         return false;
-    }
-
-    public int sumOfLeftLeaves(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int leftValue = sumOfLeftLeaves(root.left);
-        int rightValue = sumOfLeftLeaves(root.right);
-
-        int midValue = 0;
-        if (root.left != null && root.left.left == null && root.left.right == null) {
-            midValue = root.left.val;
-        }
-        return midValue + leftValue + rightValue;
-    }
-
-    List<String> list = new ArrayList<>();
-
-    public List<String> binaryTreePaths(TreeNode root) {
-        m2(root, "");
-        return list;
-    }
-
-    private void m2(TreeNode root, String s) {
-        if (root == null) {
-            return;
-        }
-        if (root.left == null && root.right == null) {
-            list.add(s + root.val);
-            return;
-        }
-        String s1 = s + root.val + "->";
-        m2(root.left, s1);
-        m2(root.right, s1);
     }
 
     public int sumOfLeftLeaves(TreeNode root) {
