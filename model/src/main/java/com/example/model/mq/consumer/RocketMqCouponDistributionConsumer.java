@@ -25,6 +25,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -63,6 +64,7 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
             keyTimeout = 60 * 2
     )
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void onMessage(MessageWrapper<CouponBatchDistributionDO> message) {
         CouponBatchDistributionDO distributionDO = message.getMsg();
         if (!distributionDO.getLastBatch()) {
@@ -103,7 +105,7 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
     /**
      * 扣减mysql、redis库存，增加失败名单、增加领取名单、redis增加已领取用户集合
      */
-    private void decrementCouponStock(CouponBatchDistributionDO distributionDO, Integer batchSize) {
+    public void decrementCouponStock(CouponBatchDistributionDO distributionDO, Integer batchSize) {
         //这里得到的decrementRes是扣减的MySQL库存数---这里传入的batchSize==5，但实际stock==3，那么这里只会扣减3
         Integer decrementMySQLRes = decrementMySQLCouponStock(distributionDO.getCouponId(), batchSize);
         if (decrementMySQLRes <= 0) {
@@ -158,7 +160,7 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
         stringRedisTemplate.execute(luaScript, keys, args.toArray());
     }
 
-    private void batchInsertCouponReceive(List<ReceiveDO> receiveList, Long taskId) {
+    public void batchInsertCouponReceive(List<ReceiveDO> receiveList, Long taskId) {
         try {
             receiveMapper.batchInsert(receiveList);
         } catch (RuntimeException e) {
@@ -187,8 +189,9 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
                             failList.add(failDO);
                             //这里加入这个removeList用于下面的删除
                             removeList.add(each);
+                        } else {
+                            throw ex;
                         }
-                        //这里是否需要抛出异常？
                     }
                 });
                 couponDistributionFailMapper.batchInsert(failList);
@@ -208,7 +211,8 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
         }
     }
 
-    private Integer decrementMySQLCouponStock(Long couponId, Integer batchSize) {
+
+    public Integer decrementMySQLCouponStock(Long couponId, Integer batchSize) {
         CouponDO couponDO = couponMapper.selectById(couponId);
         if (couponDO == null) {
             return 0;
