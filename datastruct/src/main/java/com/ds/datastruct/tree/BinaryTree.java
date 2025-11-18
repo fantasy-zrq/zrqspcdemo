@@ -18,6 +18,8 @@ public class BinaryTree {
         TreeNode node5 = new TreeNode(5);
         TreeNode node6 = new TreeNode(6);
         TreeNode node7 = new TreeNode(7);
+//        node2.left = head;
+//        node2.right = node3;
         head.left = node2;
         head.right = node3;
         node2.left = node4;
