@@ -38,6 +38,11 @@ public class CouponDO extends MybatisPlusBaseMetaDO {
     private Integer couponStock;
 
     /**
+     * 该张优惠券能被一个用户领取多少次
+     */
+    private Integer receiveNumber;
+
+    /**
      * 优惠券状态-0:启用-1:废弃
      */
     private Integer couponStatus;

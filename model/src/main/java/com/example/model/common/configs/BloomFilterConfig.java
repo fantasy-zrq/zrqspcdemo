@@ -19,4 +19,11 @@ public class BloomFilterConfig {
         bloomFilter.tryInit(100000000L, 0.001);
         return bloomFilter;
     }
+
+    @Bean
+    public RBloomFilter<String> couponIdBloomFilter(RedissonClient redissonClient) {
+        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter("couponIdBloomFilter");
+        bloomFilter.tryInit(100000000L, 0.001);
+        return bloomFilter;
+    }
 }

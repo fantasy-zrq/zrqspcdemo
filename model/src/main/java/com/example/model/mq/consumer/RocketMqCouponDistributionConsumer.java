@@ -26,6 +26,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -56,6 +57,7 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
     private final CouponMapper couponMapper;
     private final TaskMapper taskMapper;
     private final CouponDistributionFailMapper couponDistributionFailMapper;
+    private final TransactionTemplate transactionTemplate;
     private static final String LUA_PATH = "lua/coupon_batch_insert_script.lua";
 
     @NoMQDuplicateConsume(
