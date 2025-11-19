@@ -1,4 +1,4 @@
-package com.example.model.base;
+package com.example.model.dto.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,20 +7,18 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author zrq
- * @time 2025/9/5 10:13
+ * @time 2025/11/19 20:22
  * @description
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class RocketMqExcelMessageCheckDTO {
+public class CouponDelayCancelRocketMqDTO {
 
-    private String msgTip;
+    private Long couponId;
 
-    private String keys;
+    private Long userId;
 
     private Long delayTime;
-
-    private String topic;
 }

@@ -26,7 +26,6 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -47,7 +46,8 @@ import static com.example.model.common.constance.RedisConstanceKey.*;
 @Slf4j(topic = "RocketMqCouponDistributionConsumer")
 @RocketMQMessageListener(
         topic = "zrq-spc-task-excel-topic-batch-distribution-rebuild-A",
-        consumerGroup = "zrq-spc-task-excel-topic-batch-distribution-consumer-group-rebuild-A"
+        consumerGroup = "zrq-spc-task-excel-topic-batch-distribution-consumer-group-rebuild-A",
+        selectorExpression = "zrq-spc-task-excel-topic-batch-distribution-tag"
 )
 @RequiredArgsConstructor
 public class RocketMqCouponDistributionConsumer implements RocketMQListener<MessageWrapper<CouponBatchDistributionDO>> {
@@ -57,7 +57,6 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
     private final CouponMapper couponMapper;
     private final TaskMapper taskMapper;
     private final CouponDistributionFailMapper couponDistributionFailMapper;
-    private final TransactionTemplate transactionTemplate;
     private static final String LUA_PATH = "lua/coupon_batch_insert_script.lua";
 
     @NoMQDuplicateConsume(

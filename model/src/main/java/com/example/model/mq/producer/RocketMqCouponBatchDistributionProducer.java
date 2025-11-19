@@ -1,5 +1,6 @@
 package com.example.model.mq.producer;
 
+import cn.hutool.core.lang.UUID;
 import com.example.model.base.MessageWrapper;
 import com.example.model.base.RocketMqExcelMessageCheckDTO;
 import com.example.model.entity.CouponBatchDistributionDO;
@@ -23,10 +24,12 @@ public class RocketMqCouponBatchDistributionProducer extends AbstractRocketMqMes
 
     @Override
     protected RocketMqExcelMessageCheckDTO buildRocketMqExcelMessageCheckParam(CouponBatchDistributionDO requestParam) {
-
+        String TOPIC = "zrq-spc-task-excel-topic-batch-distribution-rebuild-A";
         return RocketMqExcelMessageCheckDTO.builder()
                 .msgTip("优惠券发送成功")
-                .delayTime(0)
+                .topic(TOPIC)
+                .keys(UUID.randomUUID().toString())
+                .delayTime(0L)
                 .build();
     }
 

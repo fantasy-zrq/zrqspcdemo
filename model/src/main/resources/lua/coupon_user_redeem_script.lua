@@ -3,3 +3,34 @@
 --- Created by zrq.
 --- DateTime: 2025/11/18 21:21
 --- 扣减coupon的stock-成功就将其加入领券队列
+local coupon_limit_key = KEYS[1];
+local coupon_create_key = KEYS[2];
+local expire_time = ARGV[1];
+local receive_number = ARGV[2];
+
+local number = tonumber(receive_number);
+local stock = tonumber(redis.call("HGET", coupon_create_key, "couponStock"));
+
+local function funcName(first, second)
+    return first * (2 ^ 13) + second;
+end
+
+if stock == nil or stock <= 0 then
+    return funcName(1, 0);
+end
+
+local count = tonumber(redis.call("GET", coupon_limit_key)) or 0;
+if count >= number then
+    return funcName(2, count);
+end
+
+if count == 0 then
+    --- 代表是从未领取过
+    count = 1;
+    redis.call("SET", coupon_limit_key, count);
+    redis.call('EXPIRE', coupon_limit_key, expire_time)
+else
+    redis.call("INCR", coupon_limit_key);
+end
+redis.call("HINCRBY", coupon_create_key, "couponStock", -1);
+return funcName(0, count + 1);

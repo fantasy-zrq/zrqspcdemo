@@ -1,8 +1,10 @@
 package com.example.model.dto.req;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString
 public class CouponTemplateQueryReqDTO {
 
     /**

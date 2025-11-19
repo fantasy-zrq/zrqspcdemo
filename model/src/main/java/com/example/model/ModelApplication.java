@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author zrq
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @MapperScan("com.example.model.entity.mapper")
 @EnableAspectJAutoProxy
+@EnableTransactionManagement
 @EnableLogRecord(tenant = "zrq-mock-test")
 public class ModelApplication {
     private final String addr = "D:\\IdeaCode\\zrqspc\\tmp\\zrqTest任务推送Excel.xlsx";

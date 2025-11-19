@@ -8,12 +8,12 @@ spring:
       discovery:
         server-addr: common-nacos-dev.magestack.cn:8848
   datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/zrq_spc
+    #    driver-class-name: org.postgresql.Driver
+    #    url: jdbc:postgresql://localhost:5432/zrq_spc
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/zrqspc?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
     username: root
-#    username: postgres
+    #    username: postgres
     password: zrq123
   data:
     redis:
@@ -38,3 +38,7 @@ xxl-job:
     ip: 127.0.0.1
     log-retention-days: 3
     port: 19999
+
+coupon:
+  consistency:
+    isCanal: NO
