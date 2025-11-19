@@ -44,7 +44,60 @@ public class BinaryTree {
 //        System.out.println(res);
     }
 
-    public TreeNode prev ;
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null) {
+            return new TreeNode(val);
+        }
+        if (root.val > val) {
+            root.left = insertIntoBST(root.left, val);
+        }
+        if (root.val < val) {
+            root.right = insertIntoBST(root.right, val);
+        }
+
+        return root;
+    }
+
+    public TreeNode binarySearchLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val > p.val && root.val > q.val) {
+            TreeNode left = binarySearchLowestCommonAncestor(root.left, p, q);
+            if (left != null) {
+                return left;
+            }
+        } else if (root.val < p.val && root.val < q.val) {
+            TreeNode right = binarySearchLowestCommonAncestor(root.right, p, q);
+            if (right != null) {
+                return right;
+            }
+        }
+        return root;
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        if (left == null && right == null) {
+            return null;
+        } else if (left == null) {
+            return right;
+        } else if (right == null) {
+            return left;
+        } else {
+            return root;
+        }
+    }
+
+    public TreeNode prev;
     public List<Integer> result;
     public Integer maxVal;
     public Integer count;
@@ -235,60 +288,6 @@ public class BinaryTree {
             midValue = root.left.val;
         }
         return midValue + leftValue + rightValue;
-    }
-
-    List<String> list = new ArrayList<>();
-
-    public List<String> binaryTreePaths(TreeNode root) {
-        m2(root, "");
-        return list;
-    }
-
-    private void m2(TreeNode root, String s) {
-        if (root == null) {
-            return;
-        }
-        if (root.left == null && root.right == null) {
-            list.add(s + root.val);
-            return;
-        }
-        String s1 = s + root.val + "->";
-        m2(root.left, s1);
-        m2(root.right, s1);
-    }
-
-    public int sumOfLeftLeaves(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int leftValue = sumOfLeftLeaves(root.left);
-        int rightValue = sumOfLeftLeaves(root.right);
-
-        int midValue = 0;
-        if (root.left != null && root.left.left == null && root.left.right == null) {
-            midValue = root.left.val;
-        }
-        return midValue + leftValue + rightValue;
-    }
-
-    List<String> list = new ArrayList<>();
-
-    public List<String> binaryTreePaths(TreeNode root) {
-        m2(root, "");
-        return list;
-    }
-
-    private void m2(TreeNode root, String s) {
-        if (root == null) {
-            return;
-        }
-        if (root.left == null && root.right == null) {
-            list.add(s + root.val);
-            return;
-        }
-        String s1 = s + root.val + "->";
-        m2(root.left, s1);
-        m2(root.right, s1);
     }
 
     public static boolean isBalanced(TreeNode root) {
