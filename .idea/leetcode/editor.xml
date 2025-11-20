@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditor">
+    <option name="projectConfig">
+      <map>
+        <entry key="$PROJECT_DIR$/../leetcodesrc/leetcode/editor/cn/[326]3 的幂.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../leetcodesrc/leetcode/editor/cn/doc/content/[326]3 的幂.md" />
+              <option name="frontendQuestionId" value="leetcode.cn326" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../leetcodesrc/leetcode/editor/cn/[326]3 的幂.java" />
+              <option name="titleSlug" value="power-of-three" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

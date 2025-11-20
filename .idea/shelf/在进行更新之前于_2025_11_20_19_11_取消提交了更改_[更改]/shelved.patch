@@ -1,0 +1,129 @@
+Index: model/src/main/java/com/example/model/dto/req/CanalBinlogEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/com/example/model/dto/req/CanalBinlogEvent.java b/model/src/main/java/com/example/model/dto/req/CanalBinlogEvent.java
+new file mode 100644
+--- /dev/null	(date 1763627863838)
++++ b/model/src/main/java/com/example/model/dto/req/CanalBinlogEvent.java	(date 1763627863838)
+@@ -0,0 +1,81 @@
++package com.example.model.dto.req;
++
++import lombok.Data;
++
++import java.util.List;
++import java.util.Map;
++
++/**
++ * @author zrq
++ * @time 2025/11/20 16:33
++ * @description 监控binlog的canal参数对象
++ */
++@Data
++public class CanalBinlogEvent {
++    /**
++     * 变更数据
++     */
++    private List<Map<String, Object>> data;
++
++    /**
++     * 数据库名称
++     */
++    private String database;
++
++    /**
++     * es 是指 Mysql Binlog 里原始的时间戳，也就是数据原始变更的时间
++     * Canal 的消费延迟 = ts - es
++     */
++    private Long es;
++
++    /**
++     * 递增 ID，从 1 开始
++     */
++    private Long id;
++
++    /**
++     * 当前变更是否是 DDL 语句
++     */
++    private Boolean isDdl;
++
++    /**
++     * 表结构字段类型
++     */
++    private Map<String, Object> mysqlType;
++
++    /**
++     * UPDATE 模式下旧数据
++     */
++    private List<Map<String, Object>> old;
++
++    /**
++     * 主键名称
++     */
++    private List<String> pkNames;
++
++    /**
++     * SQL 语句
++     */
++    private String sql;
++
++    /**
++     * SQL 类型
++     */
++    private Map<String, Object> sqlType;
++
++    /**
++     * 表名
++     */
++    private String table;
++
++    /**
++     * ts 是指 Canal 收到这个 Binlog，构造为自己协议对象的时间
++     * 应用消费的延迟 = now - ts
++     */
++    private Long ts;
++
++    /**
++     * INSERT（新增）、UPDATE（更新）、DELETE（删除）等等
++     */
++    private String type;
++}
+Index: model/src/main/java/com/example/model/mq/consumer/CanalBinlogSyncUserCouponConsumer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/com/example/model/mq/consumer/CanalBinlogSyncUserCouponConsumer.java b/model/src/main/java/com/example/model/mq/consumer/CanalBinlogSyncUserCouponConsumer.java
+new file mode 100644
+--- /dev/null	(date 1763628803843)
++++ b/model/src/main/java/com/example/model/mq/consumer/CanalBinlogSyncUserCouponConsumer.java	(date 1763628803843)
+@@ -0,0 +1,28 @@
++package com.example.model.mq.consumer;
++
++import com.example.model.dto.req.CanalBinlogEvent;
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
++import org.apache.rocketmq.spring.core.RocketMQListener;
++import org.springframework.stereotype.Component;
++
++/**
++ * @author zrq
++ * @time 2025/11/20 16:37
++ * @description
++ */
++@Component
++@RequiredArgsConstructor
++@Slf4j(topic = "CanalBinlogSyncUserCouponConsumer")
++@RocketMQMessageListener(
++        topic = "zrq-spc-chanal-listener-topic-rebuild-A",
++        consumerGroup = "zrq-spc-canal-listener-consumer-group-rebuild-A"
++)
++public class CanalBinlogSyncUserCouponConsumer implements RocketMQListener<CanalBinlogEvent> {
++
++    @Override
++    public void onMessage(CanalBinlogEvent message) {
++
++    }
++}

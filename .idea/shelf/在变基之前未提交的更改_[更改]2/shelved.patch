@@ -1,0 +1,634 @@
+Index: datastruct/src/main/java/com/ds/datastruct/tree/BinaryTree.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ds.datastruct.tree;\r\n\r\nimport lombok.ToString;\r\n\r\nimport java.util.*;\r\n\r\n/**\r\n * @author zrq\r\n * @time 2025/11/6 10:33\r\n * @description\r\n */\r\npublic class BinaryTree {\r\n    public static void main(String[] args) {\r\n        TreeNode head = new TreeNode(1);\r\n        TreeNode node2 = new TreeNode(2);\r\n        TreeNode node3 = new TreeNode(3);\r\n        TreeNode node4 = new TreeNode(4);\r\n        TreeNode node5 = new TreeNode(5);\r\n        TreeNode node6 = new TreeNode(6);\r\n        TreeNode node7 = new TreeNode(7);\r\n//        node2.left = head;\r\n//        node2.right = node3;\r\n        head.left = node2;\r\n        head.right = node3;\r\n        node2.left = node4;\r\n        node2.right = node5;\r\n        node3.left = node6;\r\n        node3.right = node7;\r\n//        List<Integer> res = rightSideView(head);\r\n//        res.forEach(System.out::println);\r\n//        int res = minDepth(head);\r\n//        System.out.println(\"res = \" + res);\r\n//        TreeNode res = invertTree(head);\r\n//        System.out.println(\"res = \" + res);\r\n\r\n//        boolean res = isBalanced(head);\r\n//        System.out.println(\"res = \" + res);\r\n        //              中左右                     左右中\r\n//        inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]\r\n//        TreeNode res = buildTree(new int[]{9, 3, 15, 20, 7}, new int[]{9, 15, 7, 20, 3});\r\n//        System.out.println(\"res = \" + res);\r\n//        TreeNode res = constructMaximumBinaryTree(new int[]{3, 2, 1, 6, 0, 5});\r\n//        boolean res = isValidBST(node2);\r\n//        System.out.println(res);\r\n    }\r\n\r\n    public TreeNode insertIntoBST(TreeNode root, int val) {\r\n        if (root == null) {\r\n            return new TreeNode(val);\r\n        }\r\n        if (root.val > val) {\r\n            root.left = insertIntoBST(root.left, val);\r\n        }\r\n        if (root.val < val) {\r\n            root.right = insertIntoBST(root.right, val);\r\n        }\r\n\r\n        return root;\r\n    }\r\n\r\n    public TreeNode binarySearchLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\r\n        if (root == null) {\r\n            return null;\r\n        }\r\n        if (root.val > p.val && root.val > q.val) {\r\n            TreeNode left = binarySearchLowestCommonAncestor(root.left, p, q);\r\n            if (left != null) {\r\n                return left;\r\n            }\r\n        } else if (root.val < p.val && root.val < q.val) {\r\n            TreeNode right = binarySearchLowestCommonAncestor(root.right, p, q);\r\n            if (right != null) {\r\n                return right;\r\n            }\r\n        }\r\n        return root;\r\n    }\r\n\r\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\r\n        if (root == null) {\r\n            return null;\r\n        }\r\n        if (root == p || root == q) {\r\n            return root;\r\n        }\r\n        TreeNode left = lowestCommonAncestor(root.left, p, q);\r\n        TreeNode right = lowestCommonAncestor(root.right, p, q);\r\n\r\n        if (left == null && right == null) {\r\n            return null;\r\n        } else if (left == null) {\r\n            return right;\r\n        } else if (right == null) {\r\n            return left;\r\n        } else {\r\n            return root;\r\n        }\r\n    }\r\n\r\n    public TreeNode prev;\r\n    public List<Integer> result;\r\n    public Integer maxVal;\r\n    public Integer count;\r\n\r\n    public int[] findMode(TreeNode root) {\r\n        prev = null;\r\n        result = new ArrayList<>();\r\n        maxVal = 0;\r\n        count = 0;\r\n        if (root == null) {\r\n            return new int[0];\r\n        }\r\n        m5(root);\r\n        return result.stream().mapToInt(Integer::intValue).toArray();\r\n    }\r\n\r\n    private void m5(TreeNode root) {\r\n        if (root == null) {\r\n            return;\r\n        }\r\n        m5(root.left);\r\n        if (prev == null || root.val != prev.val) {\r\n            count = 1;\r\n        } else {\r\n            count++;\r\n        }\r\n        if (count > maxVal) {\r\n            result.clear();\r\n            result.add(root.val);\r\n            maxVal = count;\r\n        } else if (count.equals(maxVal)) {\r\n            result.add(root.val);\r\n        }\r\n        prev = root;\r\n        m5(root.right);\r\n    }\r\n\r\n    public TreeNode pre = null;\r\n    public int res = Integer.MAX_VALUE;\r\n\r\n    public int getMinimumDifference(TreeNode root) {\r\n        if (root == null) {\r\n            return 0;\r\n        }\r\n        m4(root);\r\n        return res;\r\n    }\r\n\r\n    private void m4(TreeNode root) {\r\n        if (root == null) {\r\n            return;\r\n        }\r\n        m4(root.left);\r\n        if (pre != null) {\r\n            res = Integer.min(this.res, root.val - pre.val);\r\n        }\r\n        pre = root;\r\n        m4(root.right);\r\n    }\r\n\r\n    public long max = Long.MIN_VALUE;\r\n\r\n    public boolean isValidBST(TreeNode root) {\r\n        if (root == null) {\r\n            return true;\r\n        }\r\n        boolean left = isValidBST(root.left);\r\n        if (root.val > maxVal) {\r\n            maxVal = root.val;\r\n        } else {\r\n            return false;\r\n        }\r\n        boolean right = isValidBST(root.right);\r\n        return left && right;\r\n    }\r\n\r\n    public TreeNode searchBST(TreeNode root, int val) {\r\n        if (root == null) {\r\n            return null;\r\n        }\r\n        if (root.val == val) {\r\n            return root;\r\n        }\r\n        TreeNode left = searchBST(root.left, val);\r\n        TreeNode right = searchBST(root.right, val);\r\n        return left != null ? left : right;\r\n    }\r\n\r\n    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {\r\n        if (root1 == null) {\r\n            return root2;\r\n        }\r\n        if (root2 == null) {\r\n            return root1;\r\n        }\r\n        root1.val += root2.val;\r\n        root1.left = mergeTrees(root1.left, root2.left);\r\n        root1.right = mergeTrees(root1.right, root2.right);\r\n        return root1;\r\n    }\r\n\r\n    public static TreeNode constructMaximumBinaryTree(int[] nums) {\r\n        if (nums.length == 1) {\r\n            return new TreeNode(nums[0]);\r\n        }\r\n\r\n        int index = 0;\r\n        int maxVal = nums[0];\r\n\r\n        for (int i = 1; i < nums.length; i++) {\r\n            if (nums[i] > maxVal) {\r\n                maxVal = nums[i];\r\n                index = i;\r\n            }\r\n        }\r\n\r\n        TreeNode root = new TreeNode(maxVal);\r\n\r\n        // 左子树\r\n        if (index > 0) {\r\n            int[] leftNums = Arrays.copyOf(nums, index);\r\n            root.left = constructMaximumBinaryTree(leftNums);\r\n        }\r\n\r\n        // 右子树\r\n        if (index + 1 < nums.length) {\r\n            int[] rightNums = Arrays.copyOfRange(nums, index + 1, nums.length);\r\n            root.right = constructMaximumBinaryTree(rightNums);\r\n        }\r\n\r\n        return root;\r\n    }\r\n\r\n    Map<Integer, Integer> map = new HashMap<>();\r\n\r\n    public TreeNode buildTree(int[] inorder, int[] postorder) {\r\n        if (inorder.length == 0) {\r\n            return null;\r\n        }\r\n\r\n        for (int i = 0; i < inorder.length; i++) {\r\n            map.put(inorder[i], i);\r\n        }\r\n        return m3(postorder, 0, postorder.length, 0, inorder.length);\r\n    }\r\n\r\n    private TreeNode m3(int[] postorder, int postorderStart, int postorderEnd, int inorderStart, int inorderEnd) {\r\n        if (postorderStart >= postorderEnd || inorderStart >= inorderEnd) {\r\n            return null;\r\n        }\r\n        int midNodeVal = postorder[postorderEnd - 1];\r\n        TreeNode treeNode = new TreeNode(midNodeVal);\r\n        Integer midIndex = map.get(midNodeVal);\r\n        int leftCount = midIndex - inorderStart;\r\n        treeNode.left = m3(postorder, postorderStart, postorderStart + leftCount, inorderStart, midIndex);\r\n        treeNode.right = m3(postorder, postorderStart + leftCount, postorderEnd - 1, midIndex + 1, inorderEnd);\r\n        return treeNode;\r\n    }\r\n\r\n    public static boolean hasPathSum(TreeNode root, int targetSum) {\r\n        if (root == null) {\r\n            return true;\r\n        }\r\n        targetSum -= root.val;\r\n        if (root.left == null && root.right == null) {\r\n            return targetSum == 0;\r\n        }\r\n        if (root.left != null) {\r\n            if (hasPathSum(root.left, targetSum)) {\r\n                return true;\r\n            }\r\n        }\r\n        if (root.right != null) {\r\n            return hasPathSum(root.right, targetSum);\r\n        }\r\n        return false;\r\n    }\r\n\r\n    public int sumOfLeftLeaves(TreeNode root) {\r\n        if (root == null) {\r\n            return 0;\r\n        }\r\n        int leftValue = sumOfLeftLeaves(root.left);\r\n        int rightValue = sumOfLeftLeaves(root.right);\r\n\r\n        int midValue = 0;\r\n        if (root.left != null && root.left.left == null && root.left.right == null) {\r\n            midValue = root.left.val;\r\n        }\r\n        return midValue + leftValue + rightValue;\r\n    }\r\n\r\n    public static boolean isBalanced(TreeNode root) {\r\n        if (root == null) {\r\n            return true;\r\n        }\r\n        return m1(root) != -1;\r\n    }\r\n\r\n    private static int m1(TreeNode root) {\r\n        if (root == null) {\r\n            return 0;\r\n        }\r\n        int left = m1(root.left);\r\n        if (left == -1) {\r\n            return -1;\r\n        }\r\n        int right = m1(root.right);\r\n        if (right == -1) {\r\n            return -1;\r\n        }\r\n        return Math.abs(left - right) > 1 ? -1 : Math.max(left, right) + 1;\r\n    }\r\n\r\n    public static int countNodes(TreeNode root) {\r\n        if (root == null) {\r\n            return 0;\r\n        }\r\n        int left = countNodes(root.left);\r\n        int right = countNodes(root.right);\r\n        return left + right + 1;\r\n    }\r\n\r\n    public static int minDepth(TreeNode root) {\r\n        if (root == null) {\r\n            return 0;\r\n        }\r\n        int left = minDepth(root.left);\r\n        int right = minDepth(root.right);\r\n        if (root.left == null && root.right != null) {\r\n            return right + 1;\r\n        }\r\n        if (root.right == null && root.left != null) {\r\n            return left + 1;\r\n        }\r\n        return Math.min(left, right) + 1;\r\n    }\r\n\r\n    public static int maxDepth(TreeNode root) {\r\n        if (root == null) {\r\n            return 0;\r\n        }\r\n        int leftDepth = maxDepth(root.left);\r\n        int rightDepth = maxDepth(root.right);\r\n        return Math.max(leftDepth, rightDepth) + 1;\r\n    }\r\n\r\n    public boolean isSubtree(TreeNode root, TreeNode subRoot) {\r\n        if (root == null) {\r\n            return false;\r\n        } else if (compSubTree(root, subRoot)) {\r\n            return true;\r\n        }\r\n        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);\r\n    }\r\n\r\n    private boolean compSubTree(TreeNode root, TreeNode subRoot) {\r\n        if (root == null && subRoot == null) {\r\n            return true;\r\n        } else if (root == null || subRoot == null) {\r\n            return false;\r\n        } else if (root.val != subRoot.val) {\r\n            return false;\r\n        }\r\n        return compSubTree(root.left, subRoot.left) && compSubTree(root.right, subRoot.right);\r\n    }\r\n\r\n    public boolean isSameTree(TreeNode p, TreeNode q) {\r\n        return compSame(p, q);\r\n    }\r\n\r\n    private boolean compSame(TreeNode p, TreeNode q) {\r\n        if (p == null && q == null) {\r\n            return true;\r\n        } else if (p == null && q != null) {\r\n            return false;\r\n        } else if (p != null && q == null) {\r\n            return false;\r\n        } else if (p.val != q.val) {\r\n            return false;\r\n        }\r\n        boolean left = compSame(p.left, q.left);\r\n        boolean right = compSame(p.right, q.right);\r\n        return left && right;\r\n    }\r\n\r\n    public static boolean isSymmetric(TreeNode root) {\r\n        return comp(root.left, root.right);\r\n    }\r\n\r\n    private static boolean comp(TreeNode left, TreeNode right) {\r\n        if (left == null && right != null) {\r\n            return false;\r\n        }\r\n        if (left != null && right == null) {\r\n            return false;\r\n        }\r\n\r\n        if (left == null && right == null) {\r\n            return true;\r\n        }\r\n        if (left.val != right.val) {\r\n            return false;\r\n        }\r\n\r\n        boolean out = comp(left.left, right.right);\r\n        boolean in = comp(left.right, right.left);\r\n        return out && in;\r\n    }\r\n\r\n    //前序遍历\r\n    public static TreeNode invertTree(TreeNode root) {\r\n        if (root == null) {\r\n            return root;\r\n        }\r\n        TreeNode temp;\r\n        temp = root.left;\r\n        root.left = root.right;\r\n        root.right = temp;\r\n\r\n        invertTree(root.left);\r\n        invertTree(root.right);\r\n        return root;\r\n    }\r\n\r\n    public static void main2(String[] args) {\r\n        Node head = new Node(1);\r\n        Node node2 = new Node(2);\r\n        Node node3 = new Node(3);\r\n        Node node4 = new Node(4);\r\n        Node node5 = new Node(5);\r\n        Node node6 = new Node(6);\r\n        Node node7 = new Node(7);\r\n        Node node8 = new Node(8);\r\n        Node node9 = new Node(9);\r\n\r\n        head.left = node2;\r\n        head.right = node3;\r\n\r\n        node2.left = node4;\r\n        node2.right = node5;\r\n\r\n        node3.left = node6;\r\n        node3.right = node7;\r\n        Node res = connect(head);\r\n        System.out.println(\"res = \" + res);\r\n    }\r\n\r\n//    public static int minDepth(TreeNode root) {\r\n//        if (root == null) {\r\n//            return 0;\r\n//        }\r\n//        Queue<TreeNode> queue = new LinkedList<>();\r\n//        queue.offer(root);\r\n//\r\n//        int deep = 0;\r\n//        while (!queue.isEmpty()) {\r\n//            int size = queue.size();\r\n//            deep++;\r\n//            while (size-- > 0) {\r\n//                TreeNode cur = queue.poll();\r\n//                if (cur.left == null && cur.right == null) {\r\n//                    return deep;\r\n//                }\r\n//                if (cur.left != null) {\r\n//                    queue.offer(cur.left);\r\n//                }\r\n//                if (cur.right != null) {\r\n//                    queue.offer(cur.right);\r\n//                }\r\n//            }\r\n//        }\r\n//        return deep;\r\n//    }\r\n\r\n    public static Node connect(Node root) {\r\n        if (root == null) {\r\n            return new Node();\r\n        }\r\n        Queue<Node> queue = new LinkedList<>();\r\n        queue.offer(root);\r\n\r\n        while (!queue.isEmpty()) {\r\n            int size = queue.size();\r\n            Node cur = queue.poll();\r\n            if (cur.left != null) {\r\n                queue.offer(cur.left);\r\n            }\r\n            if (cur.right != null) {\r\n                queue.offer(cur.right);\r\n            }\r\n            while (size-- > 1) {\r\n                Node next = queue.poll();\r\n                if (next.left != null) {\r\n                    queue.offer(next.left);\r\n                }\r\n                if (next.right != null) {\r\n                    queue.offer(next.right);\r\n                }\r\n                cur.next = next;\r\n                cur = next;\r\n            }\r\n\r\n        }\r\n        return root;\r\n    }\r\n\r\n    public static List<Integer> rightSideView(TreeNode root) {\r\n        List<Integer> res = new ArrayList<>();\r\n\r\n        if (root == null) {\r\n            return res;\r\n        }\r\n        Queue<TreeNode> queue = new LinkedList<>();\r\n        queue.offer(root);\r\n\r\n        while (!queue.isEmpty()) {\r\n            int size = queue.size();\r\n            List<Integer> cur = new ArrayList<>();\r\n            while (size-- > 0) {\r\n                TreeNode node = queue.poll();\r\n                cur.add(node.val);\r\n                if (node.left != null) {\r\n                    queue.offer(node.left);\r\n                }\r\n                if (node.right != null) {\r\n                    queue.offer(node.right);\r\n                }\r\n            }\r\n//            res.add(cur.get(cur.size() - 1));\r\n        }\r\n//        Collections.reverse(res);\r\n        return res;\r\n    }\r\n\r\n    public static List<List<Integer>> levelOrder(TreeNode root) {\r\n        List<List<Integer>> res = new ArrayList<>();\r\n\r\n        if (root == null) {\r\n            return res;\r\n        }\r\n        Queue<TreeNode> queue = new LinkedList<>();\r\n        queue.offer(root);\r\n\r\n        while (!queue.isEmpty()) {\r\n            int size = queue.size();\r\n            List<Integer> cur = new ArrayList<>();\r\n            while (size-- > 0) {\r\n                TreeNode node = queue.poll();\r\n                cur.add(node.val);\r\n                if (node.left != null) {\r\n                    queue.offer(node.left);\r\n                }\r\n                if (node.right != null) {\r\n                    queue.offer(node.right);\r\n                }\r\n            }\r\n            res.add(cur);\r\n        }\r\n//        Collections.reverse(res);\r\n        return res;\r\n    }\r\n\r\n    public static List<Integer> iterativeMethod(TreeNode root) {\r\n        List<Integer> res = new ArrayList<>();\r\n        Stack<TreeNode> stack = new Stack<>();\r\n        if (root == null) {\r\n            return res;\r\n        }\r\n        TreeNode cur = root;\r\n        while (cur != null || !stack.isEmpty()) {\r\n            if (cur != null) {\r\n                stack.push(cur);\r\n                cur = cur.left;\r\n            } else {\r\n                cur = stack.pop();\r\n                res.add(cur.val);\r\n                cur = cur.right;\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n\r\n    public static List<Integer> preorderTraversal(TreeNode root) {\r\n        List<Integer> res = new ArrayList<>();\r\n        recursion(root, res);\r\n        return res;\r\n    }\r\n\r\n    private static void recursion(TreeNode root, List<Integer> res) {\r\n        if (root == null) {\r\n            return;\r\n        }\r\n        recursion(root.left, res);\r\n        recursion(root.right, res);\r\n        res.add(root.val);\r\n    }\r\n\r\n    @ToString\r\n    static class TreeNode {\r\n        public int val;\r\n        public TreeNode left;\r\n        public TreeNode right;\r\n\r\n        public TreeNode(int val) {\r\n            this.val = val;\r\n        }\r\n\r\n        public TreeNode(TreeNode left, int val, TreeNode right) {\r\n            this.left = left;\r\n            this.val = val;\r\n            this.right = right;\r\n        }\r\n    }\r\n\r\n    @ToString\r\n    static class Node {\r\n        public int val;\r\n        public Node left;\r\n        public Node right;\r\n        public Node next;\r\n\r\n        public Node() {\r\n        }\r\n\r\n        public Node(int _val) {\r\n            val = _val;\r\n        }\r\n\r\n        public Node(int _val, Node _left, Node _right, Node _next) {\r\n            val = _val;\r\n            left = _left;\r\n            right = _right;\r\n            next = _next;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/datastruct/src/main/java/com/ds/datastruct/tree/BinaryTree.java b/datastruct/src/main/java/com/ds/datastruct/tree/BinaryTree.java
+--- a/datastruct/src/main/java/com/ds/datastruct/tree/BinaryTree.java	(revision 133faf127901f59b98a5012310fc181cc47ca630)
++++ b/datastruct/src/main/java/com/ds/datastruct/tree/BinaryTree.java	(date 1763604001068)
+@@ -44,6 +44,10 @@
+ //        System.out.println(res);
+     }
+ 
++    public TreeNode deleteNode(TreeNode root, int key) {
++            
++    }
++
+     public TreeNode insertIntoBST(TreeNode root, int val) {
+         if (root == null) {
+             return new TreeNode(val);
+Index: designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java b/designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java
+new file mode 100644
+--- /dev/null	(date 1763602837583)
++++ b/designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java	(date 1763602837583)
+@@ -0,0 +1,13 @@
++package com.ds.designpatterns;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class DesignpatternsApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: rocketmqandkafka/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/src/main/resources/application.yaml b/rocketmqandkafka/src/main/resources/application.yaml
+new file mode 100644
+--- /dev/null	(date 1763602837600)
++++ b/rocketmqandkafka/src/main/resources/application.yaml	(date 1763602837600)
+@@ -0,0 +1,4 @@
++rocketmq:
++  name-server: common-rocketmq-dev.magestack.cn:9876
++  producer:
++    group: zrq-producer-group
+\ No newline at end of file
+Index: designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java b/designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java
+new file mode 100644
+--- /dev/null	(date 1763602837616)
++++ b/designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java	(date 1763602837616)
+@@ -0,0 +1,13 @@
++package com.ds.designpatterns;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class DesignpatternsApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(DesignpatternsApplication.class, args);
++    }
++
++}
+Index: summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt b/summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt
+new file mode 100644
+--- /dev/null	(date 1763602837556)
++++ b/summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt	(date 1763602837556)
+@@ -0,0 +1,10 @@
++
++A<->B   B<->A   都需要代理的情况
++
++1、创建对象时，先判断是否需要AOP，需要则放入三级缓存，不需要则放入二级缓存。
++2、此时A在三级缓存中，B也在三级缓存中，B要注入A对象，则在三级缓存中拿到并移除A，通过工厂创建A的代理对象，放入二级缓存。
++   再次判断当前B对象是否需要代理，需要就先从二级缓存中拿出B，放入一级缓存中，二级缓存中没有就去三级缓存移存中创建B的代理对象并且移除三级缓存移存中的B，直接放在一级缓存中。
++   此时二级缓存中有A的代理对象，一级缓存中有A的代理对象，三级缓存已经清空。此时创建B的流程走完，A继续赋值B，判断A需要代理对象，从二级缓存中拿到并且移除A，本身就是代理对象，
++   将A的代理对象放入一级缓存中，完成A和B的循环依赖代理的解决。
++
++detail：通过工厂创建的代理对象永远先放在二级缓存，在最后一步才将其放入一级缓存。
+\ No newline at end of file
+Index: designpatterns/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/.gitignore b/designpatterns/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602837570)
++++ b/designpatterns/.gitignore	(date 1763602837570)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java b/redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java
+new file mode 100644
+--- /dev/null	(date 1763602837543)
++++ b/redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java	(date 1763602837543)
+@@ -0,0 +1,13 @@
++package com.ds.redisdemo;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class RedisDemoApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: rocketmqandkafka/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/pom.xml b/rocketmqandkafka/pom.xml
+new file mode 100644
+--- /dev/null	(date 1763602837704)
++++ b/rocketmqandkafka/pom.xml	(date 1763602837704)
+@@ -0,0 +1,58 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++	<parent>
++		<groupId>org.springframework.boot</groupId>
++		<artifactId>spring-boot-starter-parent</artifactId>
++		<version>3.0.7</version>
++		<relativePath/> <!-- lookup parent from repository -->
++	</parent>
++
++	<groupId>com.example</groupId>
++	<artifactId>rocketmq-kafka</artifactId>
++
++	<properties>
++		<java.version>17</java.version>
++	</properties>
++
++	<dependencies>
++		<dependency>
++			<groupId>org.springframework.boot</groupId>
++			<artifactId>spring-boot-starter</artifactId>
++		</dependency>
++
++		<dependency>
++			<groupId>org.springframework.boot</groupId>
++			<artifactId>spring-boot-starter-test</artifactId>
++			<scope>test</scope>
++		</dependency>
++
++		<dependency>
++			<groupId>org.apache.rocketmq</groupId>
++			<artifactId>rocketmq-spring-boot-starter</artifactId>
++			<version>2.3.0</version>
++		</dependency>
++
++		<dependency>
++			<groupId>cn.hutool</groupId>
++			<artifactId>hutool-all</artifactId>
++			<version>5.8.27</version>
++		</dependency>
++
++		<dependency>
++			<groupId>org.projectlombok</groupId>
++			<artifactId>lombok</artifactId>
++		</dependency>
++	</dependencies>
++
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.springframework.boot</groupId>
++				<artifactId>spring-boot-maven-plugin</artifactId>
++			</plugin>
++		</plugins>
++	</build>
++
++</project>
+Index: springreview/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/springreview/src/main/resources/application.properties b/springreview/src/main/resources/application.properties
+new file mode 100644
+--- /dev/null	(date 1763602837500)
++++ b/springreview/src/main/resources/application.properties	(date 1763602837500)
+@@ -0,0 +1,1 @@
++spring.application.name=springreview
+Index: rocketmqandkafka/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/.gitignore b/rocketmqandkafka/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602837515)
++++ b/rocketmqandkafka/.gitignore	(date 1763602837515)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java b/springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java
+new file mode 100644
+--- /dev/null	(date 1763602837678)
++++ b/springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java	(date 1763602837678)
+@@ -0,0 +1,13 @@
++package com.ds.springreview;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class SpringreviewApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: springreview/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/pom.xml b/springreview/pom.xml
+new file mode 100644
+--- /dev/null	(date 1763602837528)
++++ b/springreview/pom.xml	(date 1763602837528)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>3.0.7</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.ds</groupId>
++    <artifactId>spring-review</artifactId>
++
++    <properties>
++        <java.version>17</java.version>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>org.projectlombok</groupId>
++            <artifactId>lombok</artifactId>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java b/springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java
+new file mode 100644
+--- /dev/null	(date 1763602837693)
++++ b/springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java	(date 1763602837693)
+@@ -0,0 +1,11 @@
++package com.ds.springreview;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class SpringreviewApplication {
++    public static void main(String[] args) {
++        SpringApplication.run(SpringreviewApplication.class, args);
++    }
++}
+Index: designpatterns/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/designpatterns/src/main/resources/application.properties b/designpatterns/src/main/resources/application.properties
+new file mode 100644
+--- /dev/null	(date 1763602837666)
++++ b/designpatterns/src/main/resources/application.properties	(date 1763602837666)
+@@ -0,0 +1,1 @@
++spring.application.name=designpatterns
+Index: designpatterns/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/pom.xml b/designpatterns/pom.xml
+new file mode 100644
+--- /dev/null	(date 1763602837467)
++++ b/designpatterns/pom.xml	(date 1763602837467)
+@@ -0,0 +1,46 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>3.0.7</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++
++    <groupId>com.ds</groupId>
++    <artifactId>designpatterns</artifactId>
++
++    <properties>
++        <java.version>17</java.version>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>org.projectlombok</groupId>
++            <artifactId>lombok</artifactId>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: redisdemo/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/redisdemo/.gitignore b/redisdemo/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602837482)
++++ b/redisdemo/.gitignore	(date 1763602837482)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: springreview/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/.gitignore b/springreview/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602837628)
++++ b/springreview/.gitignore	(date 1763602837628)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java b/rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java
+new file mode 100644
+--- /dev/null	(date 1763602837641)
++++ b/rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java	(date 1763602837641)
+@@ -0,0 +1,38 @@
++package com.example;
++
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.apache.rocketmq.spring.core.RocketMQTemplate;
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++/**
++ * @author zrq
++ */
++@SpringBootApplication
++@RequiredArgsConstructor
++@Slf4j(topic = "RocketmqAndKafkaApplication")
++public class RocketmqAndKafkaApplication {
++
++    private final RocketMQTemplate rocketMQTemplate;
++
++    public static void main(String[] args) {
++        SpringApplication.run(RocketmqAndKafkaApplication.class, args);
++        log.info("hello  --");
++    }
++
++//    @Bean
++//    public CommandLineRunner commandLineRunner() {
++//        return args -> {
++//            Map<String, ? extends Serializable> map = Map.of(
++//                    "name", "zrq1",
++//                    "age", 181
++//            );
++//            Message<? extends Map<String, ? extends Serializable>> message = MessageBuilder
++//                    .withPayload(map)
++//                    .setHeader("tag", "type1")
++//                    .build();
++//            rocketMQTemplate.syncSend("zrq-spc-rocketmq", message, 10L * 1000);
++//        };
++//    }
++}
+Index: zrq-spring-boot-starter/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/zrq-spring-boot-starter/.gitignore b/zrq-spring-boot-starter/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602837653)
++++ b/zrq-spring-boot-starter/.gitignore	(date 1763602837653)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/

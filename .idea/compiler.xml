@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="reactordemo" />
+        <module name="redisdemo" />
+        <module name="current" />
+        <module name="datastruct" />
+        <module name="model" />
+        <module name="gateway" />
+        <module name="nettydemo" />
+        <module name="summer" />
+        <module name="zrq-spring-boot-starter" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="designpatterns" target="17" />
+      <module name="rocketmq-kafka" target="17" />
+      <module name="spring-review" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="current" options="" />
+      <module name="datastruct" options="-parameters" />
+      <module name="designpatterns" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="model" options="-parameters" />
+      <module name="nettydemo" options="-parameters" />
+      <module name="reactordemo" options="-parameters" />
+      <module name="redisdemo" options="-parameters" />
+      <module name="rocketmq-kafka" options="-parameters" />
+      <module name="spring-review" options="-parameters" />
+      <module name="zrq-spring-boot-starter" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,88 @@
+<changelist name="在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]" date="1763602839336" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/shelved.patch" />
+  <option name="DESCRIPTION" value="在进行合并之前于 2025/11/20 09:40 取消提交了更改 [更改]" />
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/MyLog.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/MyLog.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Aspect.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Aspect.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Bean.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Bean.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/aop/ObjectFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/ObjectFactory.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beanfactory/SummerApplicationContext.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/SummerApplicationContext.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/bean/Food.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Food.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/test-classes/test/ReflectTest.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/ReflectTest.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/bean/User.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/User.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/aop/AopFactory$MyLogInterceptor.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/AopFactory$MyLogInterceptor.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/classloader/ResourceLoader.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/ResourceLoader.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beandef/BeanDefinition.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/BeanDefinition.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beanfactory/BeanFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/BeanFactory.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beanfactory/AbstractApplicationContext.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/AbstractApplicationContext.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/SummerApplication.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/SummerApplication.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Component.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Component.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/aop/AopFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/AopFactory.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Lazy.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Lazy.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Autowired.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Autowired.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Configuration.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Configuration.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/web/MyDispatcherServlet.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/MyDispatcherServlet.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/bean/Dog.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行合并之前于_2025_11_20_09_40_取消提交了更改_[更改]/Dog.class" />
+  </binary>
+</changelist>

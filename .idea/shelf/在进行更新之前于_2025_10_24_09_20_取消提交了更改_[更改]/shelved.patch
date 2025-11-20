@@ -1,0 +1,52 @@
+Index: datastruct/src/main/java/com/ds/datastruct/str/Strings.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ds.datastruct.str;\r\n\r\n/**\r\n * @author zrq\r\n * @time 2025/10/22 14:36\r\n * @description\r\n */\r\npublic class Strings {\r\n    public static void main(String[] args) {\r\n//        reverseString(new char[]{'z', 'r', 'q', 'h', 'h'});\r\n//        String res = reverseStr(\"abcdefg\", 2);\r\n//        System.out.println(\"res = \" + res);\r\n        String res = reverseWords(\"a good   example\");\r\n        System.out.println(\"res = \" + res);\r\n    }\r\n\r\n    public static String reverseWords(String s) {\r\n        String[] split = s.trim().split(\" \");\r\n\r\n        int num = 0;\r\n        for (String string : split) {\r\n            if (!string.isBlank()) {\r\n                num++;\r\n            }\r\n        }\r\n        String[] arr = new String[num];\r\n        int i = 0;\r\n        for (String string : split) {\r\n            if (!string.isBlank()) {\r\n                arr[i++] = string;\r\n            }\r\n        }\r\n        StringBuilder builder = new StringBuilder();\r\n        for (int j = arr.length - 1; j >= 0; j--) {\r\n            if (j == 0) {\r\n                builder.append(arr[j]);\r\n                break;\r\n            }\r\n            builder.append(arr[j]).append(\" \");\r\n        }\r\n        return builder.toString();\r\n    }\r\n\r\n    public static void reverseString(char[] s) {\r\n        int left = 0;\r\n        int right = s.length - 1;\r\n        while (left < right) {\r\n            char temp;\r\n            temp = s[left];\r\n            s[left] = s[right];\r\n            s[right] = temp;\r\n            left++;\r\n            right--;\r\n        }\r\n        for (char c : s) {\r\n            System.out.println(\"c = \" + c);\r\n        }\r\n    }\r\n\r\n    public static String reverseStr(String s, int k) {\r\n        char[] charArray = s.toCharArray();\r\n        for (int i = 0; i < charArray.length; i += 2 * k) {\r\n            if (charArray.length - i <= k) {\r\n                reverse(charArray, i, charArray.length - 1);\r\n            } else {\r\n                reverse(charArray, i, i + k - 1);\r\n            }\r\n        }\r\n        return new String(charArray);\r\n    }\r\n\r\n    private static void reverse(char[] charArray, int start, int end) {\r\n        while (start < end) {\r\n            char temp;\r\n            temp = charArray[start];\r\n            charArray[start] = charArray[end];\r\n            charArray[end] = temp;\r\n            start++;\r\n            end--;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/datastruct/src/main/java/com/ds/datastruct/str/Strings.java b/datastruct/src/main/java/com/ds/datastruct/str/Strings.java
+--- a/datastruct/src/main/java/com/ds/datastruct/str/Strings.java	(revision 17cea42d0b79661eab6a9c2b0120f4032b34feab)
++++ b/datastruct/src/main/java/com/ds/datastruct/str/Strings.java	(date 1761202267971)
+@@ -10,8 +10,39 @@
+ //        reverseString(new char[]{'z', 'r', 'q', 'h', 'h'});
+ //        String res = reverseStr("abcdefg", 2);
+ //        System.out.println("res = " + res);
+-        String res = reverseWords("a good   example");
+-        System.out.println("res = " + res);
++//        String res = reverseWords("a good   example");
++//        System.out.println("res = " + res);
++//        String res = replaceNumbers("a1b2c3");
++//        System.out.println("res = " + res);
++
++        int res = strStr("sadbutsad", "sad");
++    }
++
++    public static int strStr(String haystack, String needle) {
++        byte[] haystackBytes = haystack.getBytes();
++        byte[] needleBytes = needle.getBytes();
++        int p = 0;
++        int index = -1;
++        for (int i = 0; i < haystackBytes.length; i++) {
++            if (haystackBytes[i] == needleBytes[p] && p < needleBytes.length) {
++                index = p;
++            }
++            index = Integer.min(i, index);
++            p++;
++        }
++    }
++
++    private static String replaceNumbers(String str) {
++        byte[] bytes = str.getBytes();
++        StringBuilder builder = new StringBuilder();
++        for (byte aByte : bytes) {
++            if (aByte < 'a') {
++                builder.append("number");
++            } else {
++                builder.append((char) aByte);
++            }
++        }
++        return builder.toString();
+     }
+ 
+     public static String reverseWords(String s) {

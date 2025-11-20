@@ -1,0 +1,613 @@
+Index: designpatterns/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/pom.xml b/designpatterns/pom.xml
+new file mode 100644
+--- /dev/null	(date 1763602803509)
++++ b/designpatterns/pom.xml	(date 1763602803509)
+@@ -0,0 +1,46 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>3.0.7</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++
++    <groupId>com.ds</groupId>
++    <artifactId>designpatterns</artifactId>
++
++    <properties>
++        <java.version>17</java.version>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>org.projectlombok</groupId>
++            <artifactId>lombok</artifactId>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: redisdemo/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/redisdemo/.gitignore b/redisdemo/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602803516)
++++ b/redisdemo/.gitignore	(date 1763602803516)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: springreview/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/springreview/src/main/resources/application.properties b/springreview/src/main/resources/application.properties
+new file mode 100644
+--- /dev/null	(date 1763602803526)
++++ b/springreview/src/main/resources/application.properties	(date 1763602803526)
+@@ -0,0 +1,1 @@
++spring.application.name=springreview
+Index: rocketmqandkafka/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/.gitignore b/rocketmqandkafka/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602803520)
++++ b/rocketmqandkafka/.gitignore	(date 1763602803520)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: springreview/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/pom.xml b/springreview/pom.xml
+new file mode 100644
+--- /dev/null	(date 1763602803524)
++++ b/springreview/pom.xml	(date 1763602803524)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>3.0.7</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.ds</groupId>
++    <artifactId>spring-review</artifactId>
++
++    <properties>
++        <java.version>17</java.version>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>org.projectlombok</groupId>
++            <artifactId>lombok</artifactId>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java b/redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java
+new file mode 100644
+--- /dev/null	(date 1763602803519)
++++ b/redisdemo/src/test/java/com/ds/redisdemo/RedisDemoApplicationTests.java	(date 1763602803519)
+@@ -0,0 +1,13 @@
++package com.ds.redisdemo;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class RedisDemoApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt b/summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt
+new file mode 100644
+--- /dev/null	(date 1763602803542)
++++ b/summer/target/classes/com/example/aop/对于AOP循环依赖的说明.txt	(date 1763602803542)
+@@ -0,0 +1,10 @@
++
++A<->B   B<->A   都需要代理的情况
++
++1、创建对象时，先判断是否需要AOP，需要则放入三级缓存，不需要则放入二级缓存。
++2、此时A在三级缓存中，B也在三级缓存中，B要注入A对象，则在三级缓存中拿到并移除A，通过工厂创建A的代理对象，放入二级缓存。
++   再次判断当前B对象是否需要代理，需要就先从二级缓存中拿出B，放入一级缓存中，二级缓存中没有就去三级缓存移存中创建B的代理对象并且移除三级缓存移存中的B，直接放在一级缓存中。
++   此时二级缓存中有A的代理对象，一级缓存中有A的代理对象，三级缓存已经清空。此时创建B的流程走完，A继续赋值B，判断A需要代理对象，从二级缓存中拿到并且移除A，本身就是代理对象，
++   将A的代理对象放入一级缓存中，完成A和B的循环依赖代理的解决。
++
++detail：通过工厂创建的代理对象永远先放在二级缓存，在最后一步才将其放入一级缓存。
+\ No newline at end of file
+Index: designpatterns/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/.gitignore b/designpatterns/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602803508)
++++ b/designpatterns/.gitignore	(date 1763602803508)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java b/designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java
+new file mode 100644
+--- /dev/null	(date 1763602803515)
++++ b/designpatterns/src/test/java/com/ds/designpatterns/DesignpatternsApplicationTests.java	(date 1763602803515)
+@@ -0,0 +1,13 @@
++package com.ds.designpatterns;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class DesignpatternsApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: rocketmqandkafka/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/src/main/resources/application.yaml b/rocketmqandkafka/src/main/resources/application.yaml
+new file mode 100644
+--- /dev/null	(date 1763602803523)
++++ b/rocketmqandkafka/src/main/resources/application.yaml	(date 1763602803523)
+@@ -0,0 +1,4 @@
++rocketmq:
++  name-server: common-rocketmq-dev.magestack.cn:9876
++  producer:
++    group: zrq-producer-group
+\ No newline at end of file
+Index: designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java b/designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java
+new file mode 100644
+--- /dev/null	(date 1763602803510)
++++ b/designpatterns/src/main/java/com/ds/designpatterns/DesignpatternsApplication.java	(date 1763602803510)
+@@ -0,0 +1,13 @@
++package com.ds.designpatterns;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class DesignpatternsApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(DesignpatternsApplication.class, args);
++    }
++
++}
+Index: springreview/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/.gitignore b/springreview/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602803524)
++++ b/springreview/.gitignore	(date 1763602803524)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java b/rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java
+new file mode 100644
+--- /dev/null	(date 1763602803522)
++++ b/rocketmqandkafka/src/main/java/com/example/RocketmqAndKafkaApplication.java	(date 1763602803522)
+@@ -0,0 +1,38 @@
++package com.example;
++
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.apache.rocketmq.spring.core.RocketMQTemplate;
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++/**
++ * @author zrq
++ */
++@SpringBootApplication
++@RequiredArgsConstructor
++@Slf4j(topic = "RocketmqAndKafkaApplication")
++public class RocketmqAndKafkaApplication {
++
++    private final RocketMQTemplate rocketMQTemplate;
++
++    public static void main(String[] args) {
++        SpringApplication.run(RocketmqAndKafkaApplication.class, args);
++        log.info("hello  --");
++    }
++
++//    @Bean
++//    public CommandLineRunner commandLineRunner() {
++//        return args -> {
++//            Map<String, ? extends Serializable> map = Map.of(
++//                    "name", "zrq1",
++//                    "age", 181
++//            );
++//            Message<? extends Map<String, ? extends Serializable>> message = MessageBuilder
++//                    .withPayload(map)
++//                    .setHeader("tag", "type1")
++//                    .build();
++//            rocketMQTemplate.syncSend("zrq-spc-rocketmq", message, 10L * 1000);
++//        };
++//    }
++}
+Index: zrq-spring-boot-starter/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/zrq-spring-boot-starter/.gitignore b/zrq-spring-boot-starter/.gitignore
+new file mode 100644
+--- /dev/null	(date 1763602803555)
++++ b/zrq-spring-boot-starter/.gitignore	(date 1763602803555)
+@@ -0,0 +1,33 @@
++HELP.md
++target/
++.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### STS ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### IntelliJ IDEA ###
++.idea
++*.iws
++*.iml
++*.ipr
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
+Index: designpatterns/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/designpatterns/src/main/resources/application.properties b/designpatterns/src/main/resources/application.properties
+new file mode 100644
+--- /dev/null	(date 1763602803511)
++++ b/designpatterns/src/main/resources/application.properties	(date 1763602803511)
+@@ -0,0 +1,1 @@
++spring.application.name=designpatterns
+Index: springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java b/springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java
+new file mode 100644
+--- /dev/null	(date 1763602803529)
++++ b/springreview/src/test/java/com/ds/springreview/SpringreviewApplicationTests.java	(date 1763602803529)
+@@ -0,0 +1,13 @@
++package com.ds.springreview;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class SpringreviewApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java b/springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java
+new file mode 100644
+--- /dev/null	(date 1763602803525)
++++ b/springreview/src/main/java/com/ds/springreview/SpringreviewApplication.java	(date 1763602803525)
+@@ -0,0 +1,11 @@
++package com.ds.springreview;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class SpringreviewApplication {
++    public static void main(String[] args) {
++        SpringApplication.run(SpringreviewApplication.class, args);
++    }
++}
+Index: rocketmqandkafka/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rocketmqandkafka/pom.xml b/rocketmqandkafka/pom.xml
+new file mode 100644
+--- /dev/null	(date 1763602803521)
++++ b/rocketmqandkafka/pom.xml	(date 1763602803521)
+@@ -0,0 +1,58 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++	<parent>
++		<groupId>org.springframework.boot</groupId>
++		<artifactId>spring-boot-starter-parent</artifactId>
++		<version>3.0.7</version>
++		<relativePath/> <!-- lookup parent from repository -->
++	</parent>
++
++	<groupId>com.example</groupId>
++	<artifactId>rocketmq-kafka</artifactId>
++
++	<properties>
++		<java.version>17</java.version>
++	</properties>
++
++	<dependencies>
++		<dependency>
++			<groupId>org.springframework.boot</groupId>
++			<artifactId>spring-boot-starter</artifactId>
++		</dependency>
++
++		<dependency>
++			<groupId>org.springframework.boot</groupId>
++			<artifactId>spring-boot-starter-test</artifactId>
++			<scope>test</scope>
++		</dependency>
++
++		<dependency>
++			<groupId>org.apache.rocketmq</groupId>
++			<artifactId>rocketmq-spring-boot-starter</artifactId>
++			<version>2.3.0</version>
++		</dependency>
++
++		<dependency>
++			<groupId>cn.hutool</groupId>
++			<artifactId>hutool-all</artifactId>
++			<version>5.8.27</version>
++		</dependency>
++
++		<dependency>
++			<groupId>org.projectlombok</groupId>
++			<artifactId>lombok</artifactId>
++		</dependency>
++	</dependencies>
++
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.springframework.boot</groupId>
++				<artifactId>spring-boot-maven-plugin</artifactId>
++			</plugin>
++		</plugins>
++	</build>
++
++</project>

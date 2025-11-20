@@ -1,0 +1,88 @@
+<changelist name="在变基之前未提交的更改_[更改]2" date="1763604002130" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/shelved.patch" />
+  <option name="DESCRIPTION" value="在变基之前未提交的更改 [更改]" />
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/MyLog.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/MyLog.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Aspect.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Aspect.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Bean.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Bean.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/aop/ObjectFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/ObjectFactory.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beanfactory/SummerApplicationContext.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/SummerApplicationContext.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/bean/Food.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Food.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/test-classes/test/ReflectTest.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/ReflectTest.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/bean/User.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/User.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/aop/AopFactory$MyLogInterceptor.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/AopFactory$MyLogInterceptor.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/classloader/ResourceLoader.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/ResourceLoader.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beandef/BeanDefinition.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/BeanDefinition.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beanfactory/BeanFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/BeanFactory.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/beanfactory/AbstractApplicationContext.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/AbstractApplicationContext.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/SummerApplication.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/SummerApplication.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Component.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Component.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/aop/AopFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/AopFactory.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Lazy.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Lazy.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Autowired.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Autowired.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/annotation/Configuration.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Configuration.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/web/MyDispatcherServlet.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/MyDispatcherServlet.class" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="summer/target/classes/com/example/bean/Dog.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[更改]2/Dog.class" />
+  </binary>
+</changelist>

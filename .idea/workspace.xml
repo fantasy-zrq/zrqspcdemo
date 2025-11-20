@@ -4,11 +4,113 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f70c4d2d-1878-4fce-a120-5ec7b2ddb17e" name="更改" comment="" />
+    <list default="true" id="f70c4d2d-1878-4fce-a120-5ec7b2ddb17e" name="更改" comment="feature:用户优惠券兑换逻辑V1.1">
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/example/model/dto/req/CanalBinlogEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/example/model/mq/consumer/CanalBinlogSyncUserCouponConsumer.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Interface" />
+        <option value="mybatis的sql映射文件" />
+        <option value="AnnotationType" />
+        <option value="Enum" />
+        <option value="NewLua" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ds" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOPYePAc6m2Nft&quot;,
+        &quot;number&quot;: 1
+      },
+      &quot;lastSeen&quot;: 1757817887888
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOPYePAc6n9Vwd&quot;,
+        &quot;number&quot;: 2
+      },
+      &quot;lastSeen&quot;: 1757838193504
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOPYePAc6yd6K5&quot;,
+        &quot;number&quot;: 20
+      },
+      &quot;lastSeen&quot;: 1762830163903
+    }
+  ]
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/fantasy-zrq/zrqspcdemo.git&quot;,
+    &quot;accountId&quot;: &quot;5ad8d1ca-866f-418e-8e00-d8ce812111e1&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/datastruct/src/main/java/com/ds/datastruct/stackqueues/StacksAndQueues.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/datastruct/src/main/java/com/ds/datastruct/str/Strings.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/summer/src/main/java/com/example/beanfactory/AbstractApplicationContext.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/io/projectreactor/reactor-core/3.5.6/reactor-core-3.5.6-sources.jar!/reactor/core/publisher/Flux.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/redisson/redisson/3.27.2/redisson-3.27.2-sources.jar!/org/redisson/api/RedissonClient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/redisson/redisson/3.27.2/redisson-3.27.2-sources.jar!/org/redisson/spring/cache/RedissonCacheMeterBinderProvider.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/redisson/redisson/3.27.2/redisson-3.27.2-sources.jar!/org/redisson/spring/cache/RedissonCacheMetrics.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/redisson/redisson/3.27.2/redisson-3.27.2-sources.jar!/org/redisson/spring/cache/RedissonCacheStatisticsAutoConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/redisson/redisson/3.27.2/redisson-3.27.2.jar!/META-INF/spring.factories" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/boot/spring-boot-autoconfigure/3.0.7/spring-boot-autoconfigure-3.0.7-sources.jar!/org/springframework/boot/autoconfigure/AutoConfigurationImportSelector.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/boot/spring-boot-autoconfigure/3.0.7/spring-boot-autoconfigure-3.0.7-sources.jar!/org/springframework/boot/autoconfigure/AutoConfigurationPackage.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/boot/spring-boot-autoconfigure/3.0.7/spring-boot-autoconfigure-3.0.7-sources.jar!/org/springframework/boot/autoconfigure/AutoConfigurationPackages.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/boot/spring-boot-autoconfigure/3.0.7/spring-boot-autoconfigure-3.0.7-sources.jar!/org/springframework/boot/autoconfigure/EnableAutoConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/boot/spring-boot-autoconfigure/3.0.7/spring-boot-autoconfigure-3.0.7-sources.jar!/org/springframework/boot/autoconfigure/SpringBootApplication.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/boot/spring-boot-autoconfigure/3.0.7/spring-boot-autoconfigure-3.0.7-sources.jar!/org/springframework/boot/autoconfigure/data/redis/RedisAutoConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/data/spring-data-redis/3.0.6/spring-data-redis-3.0.6.jar!/META-INF/services/jakarta.enterprise.inject.spi.Extension" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/data/spring-data-redis/3.0.6/spring-data-redis-3.0.6.jar!/META-INF/spring.factories" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../javadevelop/Maven_repository_3.9.3/org/springframework/data/spring-data-redis/3.0.6/spring-data-redis-3.0.6.jar!/org/springframework/data/redis/repository/cdi/RedisRepositoryExtension.class" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -19,9 +121,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="30r2lzVxbzYJQA6W9VkzALnQexn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -30,17 +132,285 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.AutoWiredTest.test1.executor": "Run",
+    "JUnit.BeanTest.test1.executor": "Run",
+    "JUnit.DatastructApplicationTests.contextLoads.executor": "Run",
+    "JUnit.DatastructApplicationTests.executor": "Run",
+    "JUnit.DateTimeTest.test1.executor": "Run",
+    "JUnit.EasyExcelTest.testExcelGenerate.executor": "Run",
+    "JUnit.JWTTest.test1.executor": "Run",
+    "JUnit.JWTTest.test2.executor": "Run",
+    "JUnit.JsonTest.test1.executor": "Run",
+    "JUnit.ModelApplicationTests.test1.executor": "Run",
+    "JUnit.ModelApplicationTests.test10.executor": "Run",
+    "JUnit.ModelApplicationTests.test11.executor": "Run",
+    "JUnit.ModelApplicationTests.test2.executor": "Run",
+    "JUnit.ModelApplicationTests.test3.executor": "Run",
+    "JUnit.ModelApplicationTests.test4.executor": "Run",
+    "JUnit.ModelApplicationTests.test5.executor": "Run",
+    "JUnit.ModelApplicationTests.test6.executor": "Run",
+    "JUnit.ModelApplicationTests.test7.executor": "Run",
+    "JUnit.ModelApplicationTests.test8.executor": "Debug",
+    "JUnit.ModelApplicationTests.test9.executor": "Run",
+    "JUnit.RedisTest.testHyperLogLog.executor": "Run",
+    "JUnit.RocketMQTest.contextLoads.executor": "Run",
+    "JUnit.RocketmqAndKafkaApplicationTests.contextLoads.executor": "Run",
+    "JUnit.UniqueNameTest.executor": "Run",
+    "JUnit.UniqueNameTest.test1.executor": "Run",
+    "Maven.current [clean].executor": "Run",
+    "Maven.current [install].executor": "Run",
+    "Maven.gateway [clean].executor": "Run",
+    "Maven.gateway [install].executor": "Run",
+    "Maven.model [clean].executor": "Run",
+    "Maven.model [install].executor": "Run",
+    "Maven.rocketmq-kafka [clean].executor": "Run",
+    "Maven.rocketmq-kafka [install].executor": "Run",
+    "Maven.zrq-spring-boot-starter [clean].executor": "Run",
+    "Maven.zrq-spring-boot-starter [install].executor": "Run",
+    "Notification.DisplayName-DoNotAsk-Vcs Important Messages": "VCS 重要消息",
+    "Notification.DoNotAsk-Vcs Important Messages": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.Application.executor": "Run",
+    "Spring Boot.CurrentApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Debug",
+    "Spring Boot.ModelApplication.executor": "Debug",
+    "Spring Boot.NettyDemoApplication.executor": "Debug",
+    "Spring Boot.ReactordemoApplication.executor": "Run",
+    "Spring Boot.RedisDemoApplication.executor": "Debug",
+    "Spring Boot.RocketmqAndKafkaApplication.executor": "Debug",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "17",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/IdeaCode/xuecheng",
+    "last_opened_file_path": "D:/yunyangweishoushuqi/Perioperative_frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "问题",
-    "project.structure.proportion": "0.0",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15527344",
     "project.structure.side.proportion": "0.26510066",
-    "settings.editor.selected.configurable": "project.propCompiler",
-    "vue.rearranger.settings.migration": "true"
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true",
+    "应用程序.Arrays.executor": "Debug",
+    "应用程序.BinaryTree.executor": "Run",
+    "应用程序.BubbleSort.executor": "Debug",
+    "应用程序.ClientChanel.executor": "Debug",
+    "应用程序.CloseClient.executor": "Debug",
+    "应用程序.Counter.executor": "Run",
+    "应用程序.Demo (1).executor": "Debug",
+    "应用程序.Demo (2).executor": "Debug",
+    "应用程序.Demo.executor": "Run",
+    "应用程序.EchoClient.executor": "Debug",
+    "应用程序.EchoServer.executor": "Debug",
+    "应用程序.FlowDemo (1).executor": "Run",
+    "应用程序.FlowDemo (2).executor": "Run",
+    "应用程序.FlowDemo (3).executor": "Run",
+    "应用程序.FlowDemo.executor": "Run",
+    "应用程序.FluxDemo (1).executor": "Run",
+    "应用程序.FluxDemo (2).executor": "Run",
+    "应用程序.FluxDemo (3).executor": "Run",
+    "应用程序.FluxDemo (4).executor": "Run",
+    "应用程序.FluxDemo.executor": "Run",
+    "应用程序.HashS.executor": "Debug",
+    "应用程序.HttpProtocolTest (1).executor": "Debug",
+    "应用程序.HttpProtocolTest.executor": "Debug",
+    "应用程序.JWTUtil.executor": "Run",
+    "应用程序.LearnDemo (1).executor": "Debug",
+    "应用程序.LearnDemo.executor": "Run",
+    "应用程序.Link5_8.executor": "Run",
+    "应用程序.Links.executor": "Run",
+    "应用程序.MD5EncryptUtil.executor": "Run",
+    "应用程序.ModelApplicationTests.executor": "Run",
+    "应用程序.MyLinkedList.executor": "Debug",
+    "应用程序.NIODemo.executor": "Run",
+    "应用程序.NettyClient (1).executor": "Debug",
+    "应用程序.NettyClient (2).executor": "Debug",
+    "应用程序.NettyClient (3).executor": "Debug",
+    "应用程序.NettyClient.executor": "Debug",
+    "应用程序.NettyDemo.executor": "Run",
+    "应用程序.NettyServer (1).executor": "Debug",
+    "应用程序.NettyServer.executor": "Debug",
+    "应用程序.PoolTest.executor": "Run",
+    "应用程序.RPCClient (1).executor": "Debug",
+    "应用程序.RPCClient (2).executor": "Debug",
+    "应用程序.RPCClient (3).executor": "Debug",
+    "应用程序.RPCClient.executor": "Debug",
+    "应用程序.RPCServer (1).executor": "Debug",
+    "应用程序.RPCServer (2).executor": "Debug",
+    "应用程序.RPCServer (3).executor": "Debug",
+    "应用程序.RPCServer.executor": "Debug",
+    "应用程序.RedisResultParser.executor": "Run",
+    "应用程序.ReflectTest.executor": "Run",
+    "应用程序.ServerChanel.executor": "Debug",
+    "应用程序.Sort.executor": "Run",
+    "应用程序.SpELUtil.executor": "Debug",
+    "应用程序.StacksAndQueues.executor": "Run",
+    "应用程序.Strings.executor": "Debug",
+    "应用程序.SummerApplication.executor": "Run",
+    "应用程序.TestAbstractFactoryMethod.executor": "Run",
+    "应用程序.TestFactoryMethod.executor": "Run",
+    "应用程序.TestStrategy.executor": "Run",
+    "应用程序.TestThreadDemo.executor": "Run",
+    "应用程序.WalkFileTreeTest.executor": "Run",
+    "应用程序.WebFluxApplication.executor": "Run",
+    "应用程序.com.ds.designpatterns.factory.factorymethod.TestFactoryMethod.executor": "Run"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql",
+      "mysql_aurora",
+      "redis"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL 方言": [
+      "MySQL"
+    ]
   }
 }]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaCode\zrqspc\tmp" />
+      <recent name="D:\IdeaCode\zrqspc\model\src\main\java\com\example\model\common" />
+      <recent name="D:\IdeaCode\zrqspc\reactordemo\src\main\java\com\example\reactordemo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IdeaCode\zrqspc\summer" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.model.dto.req" />
+      <recent name="com.example.model.dto.resp" />
+      <recent name="com.ds.designpatterns.stragety" />
+      <recent name="com.example.model.controller" />
+      <recent name="com.example.model.service.impl" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.BeanTest.test1">
+    <configuration name="Link5_8" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ds.datastruct.link.Link5_8" />
+      <module name="datastruct" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ds.datastruct.link.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpELUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.starter.autoconfig.utils.SpELUtil" />
+      <module name="zrq-spring-boot-starter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.starter.autoconfig.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BeanTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="model" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.model" />
+      <option name="MAIN_CLASS_NAME" value="com.example.model.BeanTest" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RocketMQTest.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rocketmq-kafka" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example" />
+      <option name="MAIN_CLASS_NAME" value="com.example.RocketMQTest" />
+      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RocketmqAndKafkaApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rocketmq-kafka" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example" />
+      <option name="MAIN_CLASS_NAME" value="com.example.RocketmqAndKafkaApplicationTests" />
+      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="model" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.model.ModelApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.BeanTest.test1" />
+      <item itemvalue="JUnit.RocketMQTest.contextLoads" />
+      <item itemvalue="JUnit.RocketmqAndKafkaApplicationTests.contextLoads" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.ModelApplication" />
+      <item itemvalue="应用程序.SpELUtil" />
+      <item itemvalue="应用程序.Link5_8" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="应用程序.Link5_8" />
+        <item itemvalue="应用程序.SpELUtil" />
+        <item itemvalue="JUnit.RocketmqAndKafkaApplicationTests.contextLoads" />
+        <item itemvalue="JUnit.RocketMQTest.contextLoads" />
+        <item itemvalue="JUnit.BeanTest.test1" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -57,11 +427,559 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754371527747</updated>
-      <workItem from="1754371528662" duration="4000" />
+      <workItem from="1754371528662" duration="99979000" />
+      <workItem from="1754730230038" duration="29227000" />
+      <workItem from="1755049654113" duration="5381000" />
+      <workItem from="1755061390374" duration="6093000" />
+      <workItem from="1755086178675" duration="5374000" />
+      <workItem from="1755091602639" duration="227000" />
+      <workItem from="1755091843523" duration="17326000" />
+      <workItem from="1755258230518" duration="54000" />
+      <workItem from="1755830982433" duration="1311000" />
+      <workItem from="1755931417001" duration="71432000" />
+      <workItem from="1756292216080" duration="5647000" />
+      <workItem from="1756350131521" duration="11269000" />
+      <workItem from="1756370568490" duration="4562000" />
+      <workItem from="1756385354647" duration="55191000" />
+      <workItem from="1756708213272" duration="11816000" />
+      <workItem from="1756793105839" duration="67000" />
+      <workItem from="1756793201743" duration="1169000" />
+      <workItem from="1756863057078" duration="3547000" />
+      <workItem from="1756866621694" duration="1690000" />
+      <workItem from="1756886838151" duration="88000" />
+      <workItem from="1756887008249" duration="38481000" />
+      <workItem from="1757061549454" duration="639000" />
+      <workItem from="1757135904631" duration="3748000" />
+      <workItem from="1757213208923" duration="2481000" />
+      <workItem from="1757245286514" duration="3279000" />
+      <workItem from="1757485876671" duration="24221000" />
+      <workItem from="1757589325575" duration="3934000" />
+      <workItem from="1757642775875" duration="6257000" />
+      <workItem from="1757727950916" duration="22101000" />
+      <workItem from="1757812887659" duration="16902000" />
+      <workItem from="1757898008747" duration="4261000" />
+      <workItem from="1757926854576" duration="3360000" />
+      <workItem from="1758004615275" duration="3150000" />
+      <workItem from="1758070980351" duration="1804000" />
+      <workItem from="1758091003100" duration="9050000" />
+      <workItem from="1758203942856" duration="9000" />
+      <workItem from="1758958986978" duration="1242000" />
+      <workItem from="1758960812860" duration="4382000" />
+      <workItem from="1759022092074" duration="10197000" />
+      <workItem from="1759049900653" duration="2598000" />
+      <workItem from="1759108376257" duration="12783000" />
+      <workItem from="1759194847943" duration="15386000" />
+      <workItem from="1759469287722" duration="149000" />
+      <workItem from="1759474286908" duration="2487000" />
+      <workItem from="1759995186473" duration="16000" />
+      <workItem from="1760007019139" duration="10967000" />
+      <workItem from="1760018784635" duration="3383000" />
+      <workItem from="1760150625385" duration="27973000" />
+      <workItem from="1760239083655" duration="10857000" />
+      <workItem from="1760324533354" duration="378000" />
+      <workItem from="1760324922438" duration="18952000" />
+      <workItem from="1760424085442" duration="10828000" />
+      <workItem from="1760446614349" duration="461000" />
+      <workItem from="1760494955151" duration="11000" />
+      <workItem from="1760495160759" duration="71179000" />
+      <workItem from="1761010414002" duration="7438000" />
+      <workItem from="1761114941580" duration="9900000" />
+      <workItem from="1761183447297" duration="2059000" />
+      <workItem from="1761186498574" duration="18038000" />
+      <workItem from="1761305496758" duration="2570000" />
+      <workItem from="1761443901646" duration="8332000" />
+      <workItem from="1761554218711" duration="685000" />
+      <workItem from="1761614344772" duration="3825000" />
+      <workItem from="1761824251547" duration="13411000" />
+      <workItem from="1761877388910" duration="3754000" />
+      <workItem from="1761907822170" duration="10129000" />
+      <workItem from="1761977387868" duration="5354000" />
+      <workItem from="1762158358678" duration="12225000" />
+      <workItem from="1762254171995" duration="8460000" />
+      <workItem from="1762339149157" duration="36497000" />
+      <workItem from="1762740797955" duration="12122000" />
+      <workItem from="1762823994886" duration="175000" />
+      <workItem from="1762825248217" duration="10071000" />
+      <workItem from="1762849631838" duration="25000" />
+      <workItem from="1762849946150" duration="3747000" />
+      <workItem from="1762910452240" duration="1082000" />
+      <workItem from="1762925990647" duration="770000" />
+      <workItem from="1762947356162" duration="2436000" />
+      <workItem from="1762950702420" duration="2615000" />
+      <workItem from="1763040576931" duration="45878000" />
+      <workItem from="1763205511040" duration="2501000" />
+      <workItem from="1763208045496" duration="21000" />
+      <workItem from="1763208088564" duration="29928000" />
+      <workItem from="1763343996426" duration="83000" />
+      <workItem from="1763346646746" duration="56000" />
+      <workItem from="1763347775437" duration="20978000" />
+      <workItem from="1763432145689" duration="67489000" />
     </task>
+    <task id="LOCAL-00037" summary="feature: rocketmq的demo">
+      <option name="closed" value="true" />
+      <created>1756986756682</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1756986756682</updated>
+    </task>
+    <task id="LOCAL-00038" summary="feature: 使用redis的延迟队列以及自定义线程池来解决excel解析耗时问题">
+      <option name="closed" value="true" />
+      <created>1756986816824</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1756986816824</updated>
+    </task>
+    <task id="LOCAL-00039" summary="optimize: 使用rocketmq以及自定义线程池异步解决excel解析耗时问题">
+      <option name="closed" value="true" />
+      <created>1756987780576</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1756987780576</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Null:pr测试">
+      <option name="closed" value="true" />
+      <created>1756988370999</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1756988370999</updated>
+    </task>
+    <task id="LOCAL-00041" summary="feature: 模板方法模式构建不同消息体">
+      <option name="closed" value="true" />
+      <created>1757053954284</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1757053954284</updated>
+    </task>
+    <task id="LOCAL-00042" summary="feature: 优惠券创建">
+      <option name="closed" value="true" />
+      <created>1757573738367</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1757573738367</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feature: 优惠券任务以及分发">
+      <option name="closed" value="true" />
+      <created>1757573764050</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1757573764050</updated>
+    </task>
+    <task id="LOCAL-00044" summary="feature: 优惠券任务以及分发V2,新增批处理逻辑，以及增量跳过，防止超发">
+      <option name="closed" value="true" />
+      <created>1757838150276</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1757838150276</updated>
+    </task>
+    <task id="LOCAL-00045" summary="test:随便写写">
+      <option name="closed" value="true" />
+      <created>1758963658253</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1758963658253</updated>
+    </task>
+    <task id="LOCAL-00046" summary="test:随便写写">
+      <option name="closed" value="true" />
+      <created>1758963892081</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1758963892081</updated>
+    </task>
+    <task id="LOCAL-00047" summary="ds:代码随想录前三道">
+      <option name="closed" value="true" />
+      <created>1759222722848</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1759222722848</updated>
+    </task>
+    <task id="LOCAL-00048" summary="ds:代码随想录第五题">
+      <option name="closed" value="true" />
+      <created>1760018326932</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1760018326932</updated>
+    </task>
+    <task id="LOCAL-00049" summary="ds:代码随想录第6题以及同类题">
+      <option name="closed" value="true" />
+      <created>1760183282394</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1760183282394</updated>
+    </task>
+    <task id="LOCAL-00050" summary="ds:代码随想录数组部分">
+      <option name="closed" value="true" />
+      <created>1760322909054</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1760322909055</updated>
+    </task>
+    <task id="LOCAL-00051" summary="ds:代码随想录链表2、3题">
+      <option name="closed" value="true" />
+      <created>1760423057527</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1760423057527</updated>
+    </task>
+    <task id="LOCAL-00052" summary="ds:撤销">
+      <option name="closed" value="true" />
+      <created>1760423110587</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1760423110587</updated>
+    </task>
+    <task id="LOCAL-00053" summary="ds:代码随想录链表4题">
+      <option name="closed" value="true" />
+      <created>1760439967716</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1760439967716</updated>
+    </task>
+    <task id="LOCAL-00054" summary="ds:代码随想录链表5、6、7、8题">
+      <option name="closed" value="true" />
+      <created>1760599549441</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1760599549442</updated>
+    </task>
+    <task id="LOCAL-00055" summary="ds:代码随想录链表数组、链表复习">
+      <option name="closed" value="true" />
+      <created>1760703569712</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1760703569712</updated>
+    </task>
+    <task id="LOCAL-00056" summary="ds:代码随想录哈希表2、3、4">
+      <option name="closed" value="true" />
+      <created>1760776175352</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1760776175352</updated>
+    </task>
+    <task id="LOCAL-00057" summary="ds:代码随想录哈希表5、6、7">
+      <option name="closed" value="true" />
+      <created>1760843226671</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1760843226671</updated>
+    </task>
+    <task id="LOCAL-00058" summary="ds:代码随想录哈希表8、9">
+      <option name="closed" value="true" />
+      <created>1760940124794</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1760940124794</updated>
+    </task>
+    <task id="LOCAL-00059" summary="ds:代码随想录字符串1、2、4">
+      <option name="closed" value="true" />
+      <created>1761131221711</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1761131221711</updated>
+    </task>
+    <task id="LOCAL-00060" summary="ds:代码随想录字符串6、7">
+      <option name="closed" value="true" />
+      <created>1761297069672</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1761297069673</updated>
+    </task>
+    <task id="LOCAL-00061" summary="ds:代码随想录栈与队列2、3、4">
+      <option name="closed" value="true" />
+      <created>1761828312059</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1761828312060</updated>
+    </task>
+    <task id="LOCAL-00062" summary="feature:redis实现消息队列">
+      <option name="closed" value="true" />
+      <created>1761874780604</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1761874780604</updated>
+    </task>
+    <task id="LOCAL-00063" summary="ds:代码随想录-栈与队列7、8">
+      <option name="closed" value="true" />
+      <created>1762168408188</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1762168408189</updated>
+    </task>
+    <task id="LOCAL-00064" summary="ds:代码随想录-栈与队列-review">
+      <option name="closed" value="true" />
+      <created>1762256548941</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1762256548942</updated>
+    </task>
+    <task id="LOCAL-00065" summary="ds:代码随想录-二叉树2、3、4">
+      <option name="closed" value="true" />
+      <created>1762411376174</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1762411376175</updated>
+    </task>
+    <task id="LOCAL-00066" summary="ds:代码随想录-二叉树5">
+      <option name="closed" value="true" />
+      <created>1762590909974</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1762590909975</updated>
+    </task>
+    <task id="LOCAL-00067" summary="ds:代码随想录-二叉树6、7、8">
+      <option name="closed" value="true" />
+      <created>1762671482752</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1762671482753</updated>
+    </task>
+    <task id="LOCAL-00068" summary="ds:代码随想录-二叉树9、10、11、12">
+      <option name="closed" value="true" />
+      <created>1762751606661</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1762751606662</updated>
+    </task>
+    <task id="LOCAL-00069" summary="dp：工厂方法模式和抽象工厂模式">
+      <option name="closed" value="true" />
+      <created>1762763177463</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1762763177463</updated>
+    </task>
+    <task id="LOCAL-00070" summary="ds:代码随想录二叉树13、15、16">
+      <option name="closed" value="true" />
+      <created>1762830099434</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1762830099434</updated>
+    </task>
+    <task id="LOCAL-00071" summary="dp:策略模式">
+      <option name="closed" value="true" />
+      <created>1762842002425</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1762842002426</updated>
+    </task>
+    <task id="LOCAL-00072" summary="ds：代码随想录二叉树-17、18">
+      <option name="closed" value="true" />
+      <created>1763098338242</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1763098338243</updated>
+    </task>
+    <task id="LOCAL-00073" summary="optimize:优化优惠券分发的断点续传V2">
+      <option name="closed" value="true" />
+      <created>1763123292843</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1763123292843</updated>
+    </task>
+    <task id="LOCAL-00074" summary="optimize:优化优惠券分发的断点续传V3">
+      <option name="closed" value="true" />
+      <created>1763281452136</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1763281452136</updated>
+    </task>
+    <task id="LOCAL-00075" summary="optimize:优化优惠券分发的断点续传,以及重复领取的库存回滚错误记录V4">
+      <option name="closed" value="true" />
+      <created>1763301182964</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1763301182965</updated>
+    </task>
+    <task id="LOCAL-00076" summary="bugfix：修复优惠券库存扣减的边界条件V5.1">
+      <option name="closed" value="true" />
+      <created>1763302030414</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1763302030414</updated>
+    </task>
+    <task id="LOCAL-00077" summary="ds:代码随想录-二叉树19、21、22">
+      <option name="closed" value="true" />
+      <created>1763361173497</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1763361173497</updated>
+    </task>
+    <task id="LOCAL-00078" summary="feature:防止mq的重复消费幂等逻辑">
+      <option name="closed" value="true" />
+      <created>1763387265475</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1763387265476</updated>
+    </task>
+    <task id="LOCAL-00079" summary="ds:代码随想录二叉树23、24、25">
+      <option name="closed" value="true" />
+      <created>1763451560645</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1763451560646</updated>
+    </task>
+    <task id="LOCAL-00080" summary="optimize:修复优惠券库存扣减的事务回滚逻辑V5.2">
+      <option name="closed" value="true" />
+      <created>1763454301706</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1763454301706</updated>
+    </task>
+    <task id="LOCAL-00081" summary="feature：优惠券的领取逻辑V1">
+      <option name="closed" value="true" />
+      <created>1763516460298</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1763516460298</updated>
+    </task>
+    <task id="LOCAL-00082" summary="ds：代码随想录-二叉树26、28、29">
+      <option name="closed" value="true" />
+      <created>1763519048648</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1763519048648</updated>
+    </task>
+    <task id="LOCAL-00083" summary="feature:用户优惠券兑换逻辑V1">
+      <option name="closed" value="true" />
+      <created>1763562164308</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1763562164308</updated>
+    </task>
+    <task id="LOCAL-00084" summary="ds：代码随想录-二叉树完结30、31、32、33">
+      <option name="closed" value="true" />
+      <created>1763607580631</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1763607580631</updated>
+    </task>
+    <task id="LOCAL-00085" summary="feature:用户优惠券兑换逻辑V1.1">
+      <option name="closed" value="true" />
+      <created>1763620845752</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1763620845752</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="LONG_EDGES_VISIBLE" value="true" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ds:代码随想录栈与队列2、3、4" />
+    <MESSAGE value="feature:redis实现消息队列" />
+    <MESSAGE value="ds:代码随想录-栈与队列7、8" />
+    <MESSAGE value="ds:代码随想录-栈与队列-review" />
+    <MESSAGE value="ds:代码随想录-二叉树2、3、4" />
+    <MESSAGE value="ds:代码随想录-二叉树5" />
+    <MESSAGE value="ds:代码随想录-二叉树6、7、8" />
+    <MESSAGE value="ds:代码随想录-二叉树9、10、11、12" />
+    <MESSAGE value="dp：工厂方法模式和抽象工厂模式" />
+    <MESSAGE value="ds:代码随想录二叉树13、15、16" />
+    <MESSAGE value="dp:策略模式" />
+    <MESSAGE value="ds：代码随想录二叉树-17、18" />
+    <MESSAGE value="optimize:优化优惠券分发的断点续传V2" />
+    <MESSAGE value="optimize:优化优惠券分发的断点续传V3" />
+    <MESSAGE value="optimize:优化优惠券分发的断点续传,以及重复领取的库存回滚错误记录V4" />
+    <MESSAGE value="bugfix：修复优惠券库存扣减的边界条件V5.1" />
+    <MESSAGE value="ds:代码随想录-二叉树19、21、22" />
+    <MESSAGE value="feature:防止mq的重复消费幂等逻辑" />
+    <MESSAGE value="ds:代码随想录二叉树23、24、25" />
+    <MESSAGE value="optimize:修复优惠券库存扣减的事务回滚逻辑V5.2" />
+    <MESSAGE value="feature：优惠券的领取逻辑V1" />
+    <MESSAGE value="ds：代码随想录-二叉树26、28、29" />
+    <MESSAGE value="feature:用户优惠券兑换逻辑V1" />
+    <MESSAGE value="ds：代码随想录-二叉树完结30、31、32、33" />
+    <MESSAGE value="feature:用户优惠券兑换逻辑V1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature:用户优惠券兑换逻辑V1.1" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.ds.datastruct.link.MyLinkedList$ListNode" memberName="next" />
+        <PinnedItemInfo parentTag="org.springframework.jdbc.BadSqlGrammarException" memberName="cause" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/summer/src/main/java/com/example/beanfactory/AbstractApplicationContext.java" line="43">
+        <watch expression="bean" language="JAVA" />
+      </inline-watch>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

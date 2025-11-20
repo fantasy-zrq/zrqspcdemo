@@ -1,0 +1,12 @@
+com\example\starter\autoconfig\log\MyLog.class
+com\example\starter\autoconfig\log\NoMQDuplicateConsumeAspect.class
+com\example\starter\autoconfig\utils\Person.class
+com\example\starter\autoconfig\utils\SpELUtils.class
+com\example\starter\autoconfig\enums\IdempotentMQConsumeStatusEnum.class
+com\example\starter\autoconfig\config\NoDuplicateCommitAutoConfig.class
+com\example\starter\autoconfig\log\MyLogImpl.class
+com\example\starter\autoconfig\config\LogAutoConfiguration.class
+com\example\starter\autoconfig\log\NoMQDuplicateConsume.class
+com\example\starter\autoconfig\properties\MyLogProperties.class
+com\example\starter\autoconfig\log\NoDuplicateCommit.class
+com\example\starter\autoconfig\log\NoDuplicateCommitAspect.class

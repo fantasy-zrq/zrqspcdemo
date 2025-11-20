@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="lombok.RequiredArgsConstructor" />
+      <item index="1" class="java.lang.String" itemvalue="net.bytebuddy.implementation.bind.annotation.RuntimeType" />
+    </list>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/model/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/reactordemo/pom.xml" />
+        <option value="$PROJECT_DIR$/nettydemo/pom.xml" />
+        <option value="$PROJECT_DIR$/current/pom.xml" />
+        <option value="$PROJECT_DIR$/summer/pom.xml" />
+        <option value="$PROJECT_DIR$/zrq-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/rocketmqandkafka/pom.xml" />
+        <option value="$PROJECT_DIR$/datastruct/pom.xml" />
+        <option value="$PROJECT_DIR$/redisdemo/pom.xml" />
+        <option value="$PROJECT_DIR$/designpatterns/pom.xml" />
+        <option value="$PROJECT_DIR$/springreview/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

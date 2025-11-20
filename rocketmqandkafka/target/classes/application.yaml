@@ -1,0 +1,4 @@
+rocketmq:
+  name-server: common-rocketmq-dev.magestack.cn:9876
+  producer:
+    group: zrq-producer-group
