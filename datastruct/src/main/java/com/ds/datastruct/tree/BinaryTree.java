@@ -44,6 +44,81 @@ public class BinaryTree {
 //        System.out.println(res);
     }
 
+    int previous = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        m7(root);
+        return root;
+    }
+
+    private void m7(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        m7(root.right);
+        root.val += previous;
+        previous = root.val;
+        m7(root.left);
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return m6(nums, 0, nums.length - 1);
+    }
+
+    private TreeNode m6(int[] nums, int left, int right) {
+        if (left > right) {
+            return null;
+        }
+        int mid = (left + right) / 2;
+        TreeNode midNode = new TreeNode(nums[mid]);
+        midNode.left = m6(nums, left, mid - 1);
+        midNode.right = m6(nums, mid + 1, right);
+        return midNode;
+    }
+
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val < low) {
+            return trimBST(root.right, low, high);
+        }
+        if (root.val > high) {
+            return trimBST(root.left, low, high);
+        }
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+        return root;
+    }
+
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == key) {
+            if (root.left == null && root.right == null) {
+                return null;
+            } else if (root.left != null && root.right == null) {
+                return root.left;
+            } else if (root.right != null && root.left == null) {
+                return root.right;
+            } else {
+                TreeNode cur = root.right;
+                while (cur.left != null) {
+                    cur = cur.left;
+                }
+                cur.left = root.left;
+                return root.right;
+            }
+        }
+        if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            root.left = deleteNode(root.left, key);
+        }
+        return root;
+    }
+
     public TreeNode insertIntoBST(TreeNode root, int val) {
         if (root == null) {
             return new TreeNode(val);
