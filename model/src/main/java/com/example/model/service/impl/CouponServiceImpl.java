@@ -203,18 +203,19 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
         //增加到REDIS_COUPON_DISTRIBUTION_LIMIT_KEY、REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY
         transactionTemplate.executeWithoutResult(status -> {
             try {
-                couponMapper.incrementCouponStock(couponId, 1);
+                couponMapper.incrementCouponStock(couponId, -1);
                 ReceiveDO receiveDO = ReceiveDO.builder()
                         .id(IdUtil.getSnowflakeNextId())
                         .userId(userId)
                         .couponId(couponId)
-                        .receiveNumber(couponCount.intValue())
+                        .receiveNumber(1)
                         .receiveTime(new Date())
                         .startTime(couponTemplate.getStartTime())
                         .endTime(couponTemplate.getEndTime())
                         .status(0)
                         .build();
-                receiveMapper.insert(receiveDO);
+                //这里直接判断是否插入成功，插入失败就进行更新
+                receiveMapper.insertOrUpdate(receiveDO);
                 String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, userId);
                 stringRedisTemplate.opsForZSet().add(receiveKey, String.valueOf(couponId), Double.parseDouble(String.valueOf(System.currentTimeMillis())));
                 Double score;

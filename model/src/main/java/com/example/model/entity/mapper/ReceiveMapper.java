@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface ReceiveMapper extends BaseMapper<ReceiveDO> {
     void batchInsert(@Param("receiveCache") List<ReceiveDO> receiveCache);
+
+    void incrementReceiveNumber(@Param("userId") Long userId, @Param("couponId") Long couponId);
+
+    void insertOrUpdate(@Param("receiveDO") ReceiveDO receiveDO);
 }

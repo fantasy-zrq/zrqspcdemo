@@ -21,4 +21,29 @@
             NOW())
         </foreach>
     </insert>
+
+    <insert id="insertOrUpdate">
+        insert into t_receive (id, user_id, coupon_id, receive_number, receive_time, start_time, end_time, status,
+                               use_time, create_time, update_time)
+        values (#{receiveDO.id},
+                #{receiveDO.userId},
+                #{receiveDO.couponId},
+                #{receiveDO.receiveNumber},
+                #{receiveDO.receiveTime},
+                #{receiveDO.startTime},
+                #{receiveDO.endTime},
+                #{receiveDO.status},
+                #{receiveDO.useTime,jdbcType=TIMESTAMP},
+                NOW(),
+                NOW())
+        ON DUPLICATE KEY UPDATE
+            receive_number = receive_number + 1, use_time = COALESCE (VALUES (use_time), use_time), create_time = COALESCE (VALUES (create_time), create_time), update_time = NOW();
+    </insert>
+
+    <update id="incrementReceiveNumber">
+        update t_receive
+        set receive_number= receive_number + 1
+        where user_id = #{userId}
+          and coupon_id = #{couponId};
+    </update>
 </mapper>
