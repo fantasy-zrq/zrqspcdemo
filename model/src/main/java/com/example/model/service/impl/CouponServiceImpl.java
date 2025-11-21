@@ -25,6 +25,7 @@ import com.example.model.mq.producer.RocketMqCouponDelayCancelProducer;
 import com.example.model.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -55,8 +56,8 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
     private final RocketMqCouponDelayCancelProducer rocketMqCouponDelayCancelProducer;
     private final ReceiveMapper receiveMapper;
     private static final String LUA_PATH = "lua/coupon_user_redeem_script.lua";
-    @Value("${coupon.consistency.isCanal}")
-    private String strategy;
+    @Value("${coupon.consistency.canalStrategy}")
+    private String canalStrategy;
 
     @Override
     public void create(CouponCreateReqDTO requestParam) {
@@ -199,7 +200,6 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
             log.error("用户领取优惠券出错-->user_id===>{}==coupon_id===>{}", userId, couponId);
             throw new ClientException("用户领取优惠券出错..");
         }
-        Long couponCount = RedisResultParser.parseSecond(redisRes);
         //增加到REDIS_COUPON_DISTRIBUTION_LIMIT_KEY、REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY
         transactionTemplate.executeWithoutResult(status -> {
             try {
@@ -216,26 +216,32 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
                         .build();
                 //这里直接判断是否插入成功，插入失败就进行更新
                 receiveMapper.insertOrUpdate(receiveDO);
-                String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, userId);
-                stringRedisTemplate.opsForZSet().add(receiveKey, String.valueOf(couponId), Double.parseDouble(String.valueOf(System.currentTimeMillis())));
-                Double score;
-                try {
-                    score = stringRedisTemplate.opsForZSet().score(receiveKey, String.valueOf(couponId));
-                    //代表上一步redis新增失败了
-                    if (score == null) {
-                        stringRedisTemplate.opsForZSet().add(receiveKey, String.valueOf(couponId), Double.parseDouble(String.valueOf(System.currentTimeMillis())));
+                if (Objects.equals(canalStrategy, "direct")) {
+                    String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, userId);
+                    stringRedisTemplate.opsForZSet().add(receiveKey, String.valueOf(couponId), Double.parseDouble(String.valueOf(System.currentTimeMillis())));
+                    Double score;
+                    try {
+                        score = stringRedisTemplate.opsForZSet().score(receiveKey, String.valueOf(couponId));
+                        //代表上一步redis新增失败了
+                        if (score == null) {
+                            stringRedisTemplate.opsForZSet().add(receiveKey, String.valueOf(couponId), Double.parseDouble(String.valueOf(System.currentTimeMillis())));
+                        }
+                    } catch (Exception e) {
+                        log.error("redis--执行新增错误");
+                        //RocketMQ延迟队列来补偿ZSet
+                        throw new ClientException("redis--执行新增错误");
                     }
-                } catch (Exception e) {
-                    log.error("redis--执行新增错误");
-                    //RocketMQ延迟队列来补偿ZSet
-                    throw new ClientException("redis--执行新增错误");
+                    CouponDelayCancelRocketMqDTO cancelRocketMqDTO = CouponDelayCancelRocketMqDTO.builder()
+                            .couponId(couponId)
+                            .userId(userId)
+                            .delayTime(expireTime)
+                            .build();
+                    SendResult sendResult = rocketMqCouponDelayCancelProducer.senMessage(cancelRocketMqDTO);
+                    if (!Objects.equals(sendResult.getSendStatus().name(), "SEND_OK")) {
+                        log.error("延迟取消优惠券任务推送失败---sendRes-->[{}]", sendResult.getSendStatus().name());
+                        throw new ClientException("延迟取消优惠券任务推送失败---");
+                    }
                 }
-                CouponDelayCancelRocketMqDTO cancelRocketMqDTO = CouponDelayCancelRocketMqDTO.builder()
-                        .couponId(couponId)
-                        .userId(userId)
-                        .delayTime(expireTime)
-                        .build();
-                rocketMqCouponDelayCancelProducer.senMessage(cancelRocketMqDTO);
             } catch (Exception e) {
                 //这里不管什么异常都回滚
                 status.setRollbackOnly();

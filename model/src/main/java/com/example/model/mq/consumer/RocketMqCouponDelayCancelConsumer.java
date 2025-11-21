@@ -41,6 +41,7 @@ import static com.example.model.common.constance.RedisConstanceKey.REDIS_COUPON_
 @Slf4j(topic = "RocketMqCouponDelayCancelConsumer")
 public class RocketMqCouponDelayCancelConsumer implements RocketMQListener<MessageWrapper<CouponDelayCancelRocketMqDTO>> {
 
+    //RocketMqCouponDelayCancelConsumer不消费？
     private final StringRedisTemplate stringRedisTemplate;
     private final ReceiveMapper receiveMapper;
     private static final String LUA_SCRIPT = "lua/coupon_expire_cancel_script.lua";

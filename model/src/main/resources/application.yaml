@@ -41,4 +41,4 @@ xxl-job:
 
 coupon:
   consistency:
-    isCanal: NO
+    canalStrategy: canal
