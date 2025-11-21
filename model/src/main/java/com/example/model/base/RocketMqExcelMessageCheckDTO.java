@@ -20,6 +20,8 @@ public class RocketMqExcelMessageCheckDTO {
 
     private String keys;
 
+    private String tags;
+
     private Long delayTime;
 
     private String topic;

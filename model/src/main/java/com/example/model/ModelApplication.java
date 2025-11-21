@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableLogRecord(tenant = "zrq-mock-test")
 public class ModelApplication {
-    private final String addr = "D:\\IdeaCode\\zrqspc\\tmp\\zrqTest任务推送Excel.xlsx";
+    private final String addr = "D:\\IdeaCode\\zrqspcdemo\\tmp\\zrqTest任务推送Excel.xlsx";
 
     public static void main(String[] args) {
         SpringApplication.run(ModelApplication.class, args);

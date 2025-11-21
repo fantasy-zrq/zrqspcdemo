@@ -28,10 +28,10 @@ public class NoMQDuplicateConsumeAspect {
     private final StringRedisTemplate stringRedisTemplate;
 
     private static final String LUA_SCRIPT = """
-            local key = KEYS[1]
-            local value = ARGV[1]
-            local expire_time_ms = ARGV[2]
-            return redis.call('SET', key, value, 'NX', 'GET', 'PX', expire_time_ms)
+            local oldValue = redis.call('GET', KEYS[1])
+            if not oldValue then
+                redis.call('SET', KEYS[1], ARGV[1], 'PX', ARGV[2])
+            end
             """;
 
     @Around("@annotation(NoMQDuplicateConsume)")

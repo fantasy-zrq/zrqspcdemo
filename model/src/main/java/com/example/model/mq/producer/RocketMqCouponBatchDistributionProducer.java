@@ -28,6 +28,7 @@ public class RocketMqCouponBatchDistributionProducer extends AbstractRocketMqMes
         return RocketMqExcelMessageCheckDTO.builder()
                 .msgTip("优惠券发送成功")
                 .topic(TOPIC)
+                .tags("zrq-spc-task-excel-topic-batch-distribution-tag")
                 .keys(UUID.randomUUID().toString())
                 .delayTime(0L)
                 .build();

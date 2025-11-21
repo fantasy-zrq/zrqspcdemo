@@ -35,12 +35,13 @@ public abstract class AbstractRocketMqMessageProducerTemplate<T> {
 
         if (Objects.equals(checkDTO.getDelayTime(), 0L)) {
             sendResult = rocketMQTemplate.syncSendDeliverTimeMills(
-                    checkDTO.getTopic(),
+                    checkDTO.getTopic() + ":" + checkDTO.getTags(),
                     buildMessage(checkDTO, requestParam),
                     500L
             );
         } else {
-            sendResult = rocketMQTemplate.syncSendDelayTimeSeconds(checkDTO.getTopic(),
+            sendResult = rocketMQTemplate.syncSendDelayTimeSeconds(
+                    checkDTO.getTopic() + ":" + checkDTO.getTags(),
                     buildMessage(checkDTO, requestParam),
                     checkDTO.getDelayTime());
         }

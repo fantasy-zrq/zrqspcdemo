@@ -41,21 +41,21 @@ import static com.example.model.common.constance.RedisConstanceKey.REDIS_COUPON_
 @Slf4j(topic = "RocketMqCouponDelayCancelConsumer")
 public class RocketMqCouponDelayCancelConsumer implements RocketMQListener<MessageWrapper<CouponDelayCancelRocketMqDTO>> {
 
-    //RocketMqCouponDelayCancelConsumer不消费？
+
     private final StringRedisTemplate stringRedisTemplate;
     private final ReceiveMapper receiveMapper;
     private static final String LUA_SCRIPT = "lua/coupon_expire_cancel_script.lua";
 
     @NoMQDuplicateConsume(
             keyPrefix = "coupon_expire_cancel_execute:idempotent:",
-            key = "#message.msg.couponId",
+            key = "#arg0.msg.couponId",
             keyTimeout = 60 * 2L
     )
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void onMessage(MessageWrapper<CouponDelayCancelRocketMqDTO> message) {
-        log.info("RocketMqCouponDelayCancelConsumer进入消费逻辑---message-->[{}]", JSON.toJSONString(message));
-        CouponDelayCancelRocketMqDTO cancelRocketMqDTO = message.getMsg();
+    public void onMessage(MessageWrapper<CouponDelayCancelRocketMqDTO> messageWrapper) {
+        log.info("RocketMqCouponDelayCancelConsumer进入消费逻辑---message-->[{}]", JSON.toJSONString(messageWrapper));
+        CouponDelayCancelRocketMqDTO cancelRocketMqDTO = messageWrapper.getMsg();
         Long couponId = cancelRocketMqDTO.getCouponId();
         Long userId = cancelRocketMqDTO.getUserId();
         Long delayTime = cancelRocketMqDTO.getDelayTime();
@@ -76,7 +76,7 @@ public class RocketMqCouponDelayCancelConsumer implements RocketMQListener<Messa
                 .append("_")
                 .append(couponId).toString();
 
-        stringRedisTemplate.execute(script, List.of(receiveUserKey, limitKey), couponId);
+        stringRedisTemplate.execute(script, List.of(receiveUserKey, limitKey), couponId.toString());
         receiveMapper.update(null, Wrappers.lambdaUpdate(ReceiveDO.class)
                 .eq(ReceiveDO::getUserId, userId)
                 .eq(ReceiveDO::getCouponId, couponId)

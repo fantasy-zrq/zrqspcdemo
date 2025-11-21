@@ -29,6 +29,7 @@ public class RocketMqCouponDelayCancelProducer extends AbstractRocketMqMessagePr
                 .msgTip("延迟消息发送成功")
                 .keys(UUID.randomUUID().toString())
                 .topic(TOPIC)
+                .tags("zrq-spc-task-coupon-expire-delay-cancel-tag")
                 .delayTime(requestParam.getDelayTime())
                 .build();
     }
@@ -41,7 +42,8 @@ public class RocketMqCouponDelayCancelProducer extends AbstractRocketMqMessagePr
                 .msg(requestParam)
                 .tag("zrq-spc-task-coupon-expire-delay-cancel-tag")
                 .build();
-        return MessageBuilder.withPayload(msg)
+        return MessageBuilder
+                .withPayload(msg)
                 .setHeader(MessageConst.PROPERTY_TAGS, msg.getTag())
                 .setHeader(MessageConst.PROPERTY_KEYS, rocketMqExcelMessageCheckDTO.getKeys())
                 .build();

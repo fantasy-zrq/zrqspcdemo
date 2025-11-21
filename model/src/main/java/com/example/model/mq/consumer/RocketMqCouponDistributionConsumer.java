@@ -61,7 +61,7 @@ public class RocketMqCouponDistributionConsumer implements RocketMQListener<Mess
 
     @NoMQDuplicateConsume(
             keyPrefix = "coupon_task_execute:idempotent:",
-            key = "#message.msg.taskId",
+            key = "#arg0.msg.taskId",
             keyTimeout = 60 * 2
     )
     @Override

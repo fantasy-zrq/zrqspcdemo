@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author zrq
  * @time 2025/9/5 10:18
@@ -14,7 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MessageWrapper<T> {
+public class MessageWrapper<T> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String msgId;
 
     private String tag;
