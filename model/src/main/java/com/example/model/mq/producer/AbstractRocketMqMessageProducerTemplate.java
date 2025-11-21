@@ -28,7 +28,7 @@ public abstract class AbstractRocketMqMessageProducerTemplate<T> {
 
     protected abstract Message<?> buildMessage(RocketMqExcelMessageCheckDTO rocketMqExcelMessageCheckDTO, T requestParam);
 
-    public SendResult senMessage(T requestParam) {
+    public SendResult sendMessage(T requestParam) {
         RocketMqExcelMessageCheckDTO checkDTO = buildRocketMqExcelMessageCheckParam(requestParam);
         //0立即发送
         SendResult sendResult;

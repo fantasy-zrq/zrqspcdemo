@@ -5,6 +5,7 @@ import com.example.model.common.result.Results;
 import com.example.model.dto.req.CouponCreateReqDTO;
 import com.example.model.dto.req.CouponTemplateQueryReqDTO;
 import com.example.model.dto.req.CouponTemplateRedeemReqDTO;
+import com.example.model.dto.req.CouponTemplateRemindCreateReqDTO;
 import com.example.model.dto.resp.CouponTemplateQueryRespDTO;
 import com.example.model.service.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,12 @@ public class CouponController {
     @PostMapping("/api/spc/model/coupon/redeem")
     public Result<Void> redeemUserCoupon(@RequestBody CouponTemplateRedeemReqDTO requestParam) {
         couponService.redeemUserCoupon(requestParam);
+        return Results.success();
+    }
+
+    @PostMapping("/api/spc/model/coupon/remind")
+    public Result<Void> remindUserCoupon(@RequestBody CouponTemplateRemindCreateReqDTO requestParam) {
+        couponService.createCouponRemind(requestParam);
         return Results.success();
     }
 }

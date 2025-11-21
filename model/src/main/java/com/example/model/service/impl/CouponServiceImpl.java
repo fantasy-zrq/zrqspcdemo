@@ -11,17 +11,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.model.common.constance.RedisConstanceKey;
 import com.example.model.common.enums.CouponEnableStatusEnum;
 import com.example.model.common.exception.ClientException;
+import com.example.model.common.utils.CouponTemplateRemindUtil;
 import com.example.model.common.utils.RedisResultParser;
-import com.example.model.dto.req.CouponCreateReqDTO;
-import com.example.model.dto.req.CouponDelayCancelRocketMqDTO;
-import com.example.model.dto.req.CouponTemplateQueryReqDTO;
-import com.example.model.dto.req.CouponTemplateRedeemReqDTO;
+import com.example.model.dto.req.*;
 import com.example.model.dto.resp.CouponTemplateQueryRespDTO;
 import com.example.model.entity.CouponDO;
 import com.example.model.entity.ReceiveDO;
+import com.example.model.entity.RemindDO;
 import com.example.model.entity.mapper.CouponMapper;
 import com.example.model.entity.mapper.ReceiveMapper;
+import com.example.model.entity.mapper.RemindMapper;
 import com.example.model.mq.producer.RocketMqCouponDelayCancelProducer;
+import com.example.model.mq.producer.RocketMqCouponRemindProducer;
 import com.example.model.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,9 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
     private final RedissonClient redissonClient;
     private final RBloomFilter<String> couponIdBloomFilter;
     private final TransactionTemplate transactionTemplate;
+    private final RemindMapper remindMapper;
     private final RocketMqCouponDelayCancelProducer rocketMqCouponDelayCancelProducer;
+    private final RocketMqCouponRemindProducer rocketMqCouponRemindProducer;
     private final ReceiveMapper receiveMapper;
     private static final String LUA_PATH = "lua/coupon_user_redeem_script.lua";
     @Value("${coupon.consistency.canalStrategy}")
@@ -236,7 +239,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
                             .userId(userId)
                             .delayTime(expireTime)
                             .build();
-                    SendResult sendResult = rocketMqCouponDelayCancelProducer.senMessage(cancelRocketMqDTO);
+                    SendResult sendResult = rocketMqCouponDelayCancelProducer.sendMessage(cancelRocketMqDTO);
                     if (!Objects.equals(sendResult.getSendStatus().name(), "SEND_OK")) {
                         log.error("延迟取消优惠券任务推送失败---sendRes-->[{}]", sendResult.getSendStatus().name());
                         throw new ClientException("延迟取消优惠券任务推送失败---");
@@ -248,5 +251,60 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    @Override
+    public void createCouponRemind(CouponTemplateRemindCreateReqDTO requestParam) {
+        CouponTemplateQueryRespDTO couponTemplate = findCouponTemplate(BeanUtil.toBean(requestParam, CouponTemplateQueryReqDTO.class));
+        RemindDO remindDO = remindMapper.selectOne(Wrappers.lambdaQuery(RemindDO.class)
+                .eq(RemindDO::getUserId, requestParam.getUserId())
+                .eq(RemindDO::getCouponId, couponTemplate.getCouponId()));
+        //代表没有创建过领取提醒
+        if (Objects.isNull(remindDO)) {
+            remindDO = BeanUtil.toBean(requestParam, RemindDO.class);
+            remindDO.setInformation(CouponTemplateRemindUtil.combineTypeAndRemindTime(requestParam.getRemindTime(), requestParam.getType()));
+            remindDO.setStartTime(couponTemplate.getStartTime());
+            remindMapper.insert(remindDO);
+        } else {
+            Long requestCombined = CouponTemplateRemindUtil.combineTypeAndRemindTime(requestParam.getRemindTime(), requestParam.getType());
+            if (Objects.equals(requestCombined, remindDO.getInformation())) {
+                throw new ClientException("你已经创建过相同的提醒");
+            } else {
+                //假如不为null比如在type=0，remind=10，的时候创建了一次提醒，0010==4
+                //现在新增type=0，remind=15 0100 ^ 0010 == 0110
+                long resRemind = requestCombined ^ remindDO.getInformation();
+                remindDO.setInformation(resRemind);
+                remindMapper.update(null, Wrappers.lambdaUpdate(RemindDO.class)
+                        .eq(RemindDO::getUserId, requestParam.getUserId())
+                        .eq(RemindDO::getCouponId, couponTemplate.getCouponId())
+                        .set(RemindDO::getInformation, remindDO.getInformation()));
+            }
+        }
+
+        //获取需要提醒的绝对时间单位ms
+        long remindTimestamp = DateUtil.offsetMinute(
+                remindDO.getStartTime(),
+                -requestParam.getRemindTime()
+        ).getTime();
+
+        //转换成这个延迟消息距离当前需要多久发送，秒为单位
+        long delaySeconds = (remindTimestamp - System.currentTimeMillis()) / 1000;
+
+        if (delaySeconds < 0) {
+            delaySeconds = 0; // 已经过了提醒点，立即发送
+        }
+
+        CouponRemindDelayEvent remindDelayEvent = CouponRemindDelayEvent.builder()
+                .userId(requestParam.getUserId())
+                .couponId(requestParam.getCouponId())
+                .type(requestParam.getType())
+                .startTime(remindDO.getStartTime())
+                .remindTime(requestParam.getRemindTime())
+                .delayTime(delaySeconds)
+                .build();
+        SendResult sendResult = rocketMqCouponRemindProducer.sendMessage(remindDelayEvent);
+        if (sendResult.getSendStatus().name().equals("SEND_OK")) {
+            log.info("提醒消息发送成功");
+        }
     }
 }

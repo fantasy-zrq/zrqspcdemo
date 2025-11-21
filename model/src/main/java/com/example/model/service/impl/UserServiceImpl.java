@@ -131,7 +131,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
 //        rocketMQTemplate.syncSendDelayTimeSeconds("zrq-spc-mock-excel-topic", requestParam, 20L);
 
-        rocketMqExcelProducer.senMessage(requestParam);
+        rocketMqExcelProducer.sendMessage(requestParam);
     }
 
 

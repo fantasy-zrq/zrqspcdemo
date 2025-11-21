@@ -26,4 +26,6 @@ public final class RedisConstanceKey {
     public final static String REDIS_COUPON_FIND_CACHE_ZERO_KEY = "zrq:spc:model:coupon:find:zero:coupon_id:%s";
     public final static String REDIS_COUPON_FIND_LOCK_KEY = "zrq:spc:model:coupon:find:lock:coupon_id:%s";
 
+
+    public final static String REDIS_COUPON_REMIND_CACHE_KEY = "zrq:spc:model:coupon:remind:lock:user_id:%s:coupon_id:%s:type:%s:remind_time:%s";
 }

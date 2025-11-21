@@ -78,7 +78,7 @@ public class CanalBinlogSyncUserCouponConsumer implements RocketMQListener<Canal
                     .userId(Long.valueOf(userId))
                     .delayTime(delay_time)
                     .build();
-            SendResult sendResult = rocketMqCouponDelayCancelProducer.senMessage(cancelRocketMqDTO);
+            SendResult sendResult = rocketMqCouponDelayCancelProducer.sendMessage(cancelRocketMqDTO);
             if (!Objects.equals(sendResult.getSendStatus().name(), "SEND_OK")) {
                 log.error("延迟取消优惠券任务推送失败---sendRes-->[{}]", sendResult.getSendStatus().name());
                 throw new ClientException("延迟取消优惠券任务推送失败---");

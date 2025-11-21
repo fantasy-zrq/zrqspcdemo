@@ -113,7 +113,7 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
                 .build();
         log.info("after-batch------------");
         stringRedisTemplate.opsForValue().set(distributionProcessKey, String.valueOf(currentRowIndex));
-        rocketMqCouponBatchDistributionProducer.senMessage(batchDistributionDO);
+        rocketMqCouponBatchDistributionProducer.sendMessage(batchDistributionDO);
     }
 
     @Override
@@ -138,6 +138,6 @@ public class TaskDistributionExcelListener extends AnalysisEventListener<CouponT
                 .taskStatus(1)
                 .lastBatch(Boolean.TRUE)
                 .build();
-        rocketMqCouponBatchDistributionProducer.senMessage(batchDistributionDO);
+        rocketMqCouponBatchDistributionProducer.sendMessage(batchDistributionDO);
     }
 }
