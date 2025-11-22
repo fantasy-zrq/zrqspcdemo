@@ -16,5 +16,6 @@ public class MailUserRemind implements CouponRemindDefine {
     @Override
     public void remindUser(CouponRemindDTO remindDTO) {
         log.info("采用邮件的方式进行用户提醒====");
+//        throw new ClientException("模拟处理时出异常");
     }
 }

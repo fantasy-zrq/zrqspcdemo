@@ -53,7 +53,7 @@ public class CouponRemindAsyncExecutor {
 
             String remindCacheKey = String.format(REDIS_COUPON_REMIND_CACHE_KEY, requestParam.getUserId(), requestParam.getCouponId(), requestParam.getType(), requestParam.getRemindTime());
             stringRedisTemplate.opsForValue().set(remindCacheKey, JSON.toJSONString(requestParam));
-            delayedQueue.offer(requestParam, 10, TimeUnit.SECONDS);
+            delayedQueue.offer(remindCacheKey, 15, TimeUnit.SECONDS);
 
             switch (Objects.requireNonNull(CouponRemindTypeEnum.getByType(type))) {
                 case popUpWindow -> popUpWindowUserRemind.remindUser(requestParam);

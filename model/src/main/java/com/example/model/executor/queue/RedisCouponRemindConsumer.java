@@ -44,12 +44,16 @@ public class RedisCouponRemindConsumer implements CommandLineRunner {
                         try {
                             // 获取延迟队列待消费 Key
                             String key = blockingDeque.take();
+                            log.info("获取到延时队列消费失败的key---->[{}]", key);
                             if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(key))) {
                                 log.info("检查用户发送的通知消息Key：{} 未消费完成，开启重新投递", key);
 
                                 // Redis 中还存在该 Key，说明任务没被消费完，则可能是消费机器宕机了，重新投递消息
-                                CouponRemindDTO couponTemplateRemindDelayEvent = JSONUtil.toBean(stringRedisTemplate.opsForValue().get(key), CouponRemindDTO.class);
-                                rocketMqCouponRemindProducer.sendMessage(BeanUtil.toBean(couponTemplateRemindDelayEvent, CouponRemindDelayEvent.class));
+                                CouponRemindDTO remindDTO = JSONUtil.toBean(stringRedisTemplate.opsForValue().get(key), CouponRemindDTO.class);
+
+                                CouponRemindDelayEvent event = BeanUtil.toBean(remindDTO, CouponRemindDelayEvent.class);
+                                event.setDelayTime(1L);
+                                rocketMqCouponRemindProducer.sendMessage(event);
 
                                 // 提醒用户后删除 Key
                                 stringRedisTemplate.delete(key);
