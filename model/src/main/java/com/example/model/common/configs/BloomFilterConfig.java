@@ -26,4 +26,11 @@ public class BloomFilterConfig {
         bloomFilter.tryInit(100000000L, 0.001);
         return bloomFilter;
     }
+
+    @Bean
+    public RBloomFilter<String> couponRemindCancelBloomFilter(RedissonClient redissonClient) {
+        RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter("couponRemindCancelBloomFilter");
+        bloomFilter.tryInit(100000000L, 0.001);
+        return bloomFilter;
+    }
 }

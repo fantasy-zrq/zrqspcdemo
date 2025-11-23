@@ -2,10 +2,8 @@ package com.example.model.controller;
 
 import com.example.model.common.result.Result;
 import com.example.model.common.result.Results;
-import com.example.model.dto.req.CouponCreateReqDTO;
-import com.example.model.dto.req.CouponTemplateQueryReqDTO;
-import com.example.model.dto.req.CouponTemplateRedeemReqDTO;
-import com.example.model.dto.req.CouponTemplateRemindCreateReqDTO;
+import com.example.model.dto.req.*;
+import com.example.model.dto.resp.CouponRemindQueryRespDTO;
 import com.example.model.dto.resp.CouponTemplateQueryRespDTO;
 import com.example.model.service.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author zrq
@@ -46,5 +46,16 @@ public class CouponController {
     public Result<Void> remindUserCoupon(@RequestBody CouponTemplateRemindCreateReqDTO requestParam) {
         couponService.createCouponRemind(requestParam);
         return Results.success();
+    }
+
+    @PostMapping("/api/spc/model/coupon/cancel-remind")
+    public Result<Void> remindCancelUserCoupon(@RequestBody CouponTemplateRemindCreateReqDTO requestParam) {
+        couponService.cancelCouponRemind(requestParam);
+        return Results.success();
+    }
+
+    @PostMapping("/api/spc/model/coupon/query-remind")
+    public Result<List<CouponRemindQueryRespDTO>> queryCancelUserCoupon(@RequestBody CouponTemplateQueryRemindReqDTO requestParam) {
+        return Results.success(couponService.queryCouponRemind(requestParam));
     }
 }

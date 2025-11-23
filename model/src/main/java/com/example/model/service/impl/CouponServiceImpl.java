@@ -6,6 +6,8 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.model.common.constance.RedisConstanceKey;
@@ -14,6 +16,7 @@ import com.example.model.common.exception.ClientException;
 import com.example.model.common.utils.CouponTemplateRemindUtil;
 import com.example.model.common.utils.RedisResultParser;
 import com.example.model.dto.req.*;
+import com.example.model.dto.resp.CouponRemindQueryRespDTO;
 import com.example.model.dto.resp.CouponTemplateQueryRespDTO;
 import com.example.model.entity.CouponDO;
 import com.example.model.entity.ReceiveDO;
@@ -53,6 +56,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
     private final StringRedisTemplate stringRedisTemplate;
     private final RedissonClient redissonClient;
     private final RBloomFilter<String> couponIdBloomFilter;
+    private final RBloomFilter<String> couponRemindCancelBloomFilter;
     private final TransactionTemplate transactionTemplate;
     private final RemindMapper remindMapper;
     private final RocketMqCouponDelayCancelProducer rocketMqCouponDelayCancelProducer;
@@ -306,5 +310,51 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
         if (sendResult.getSendStatus().name().equals("SEND_OK")) {
             log.info("提醒消息发送成功");
         }
+    }
+
+    @Override
+    public void cancelCouponRemind(CouponTemplateRemindCreateReqDTO requestParam) {
+        boolean contains = couponRemindCancelBloomFilter.contains(JSON.toJSONString(requestParam));
+        if (!contains) {
+            throw new ClientException("不存在该优惠券提醒类型");
+        }
+        LambdaQueryWrapper<RemindDO> queryWrapper = Wrappers.lambdaQuery(RemindDO.class)
+                .eq(RemindDO::getUserId, requestParam.getUserId())
+                .eq(RemindDO::getCouponId, requestParam.getCouponId());
+        RemindDO remindDO = remindMapper.selectOne(queryWrapper);
+        if (Objects.isNull(remindDO)) {
+            throw new ClientException("无该优惠券的预约提醒");
+        }
+        if (remindDO.getStartTime().before(new Date())) {
+            throw new ClientException("优惠券领取活动已经开始，无法取消");
+        }
+        Long requestRemindResult = CouponTemplateRemindUtil.combineTypeAndRemindTime(requestParam.getRemindTime(), requestParam.getType());
+        if (Objects.equals(0L, requestRemindResult & remindDO.getInformation())) {
+            throw new ClientException("无该种type该种remindTime的提醒方式");
+        }
+        //这两相与结果不为0，代表有该种type该种remindTime的提醒方式
+        long updatedInfo = requestRemindResult ^ remindDO.getInformation();
+        if (Objects.equals(0L, updatedInfo)) {
+            remindMapper.delete(queryWrapper);
+        } else {
+            remindMapper.update(null, Wrappers.lambdaUpdate(RemindDO.class)
+                    .eq(RemindDO::getUserId, requestParam.getUserId())
+                    .eq(RemindDO::getCouponId, requestParam.getCouponId())
+                    .set(RemindDO::getInformation, updatedInfo));
+        }
+        couponRemindCancelBloomFilter.add(JSON.toJSONString(requestParam));
+    }
+
+    @Override
+    public List<CouponRemindQueryRespDTO> queryCouponRemind(CouponTemplateQueryRemindReqDTO requestParam) {
+        LambdaQueryWrapper<RemindDO> queryWrapper = Wrappers.lambdaQuery(RemindDO.class)
+                .eq(RemindDO::getUserId, requestParam.getUserId())
+                .eq(RemindDO::getCouponId, requestParam.getCouponId());
+        RemindDO remindDO = remindMapper.selectOne(queryWrapper);
+        if (Objects.isNull(remindDO)) {
+            throw new ClientException("无该优惠券提醒");
+        }
+        log.info("这里的解析不写了,时间复杂度过高,解析效率太低");
+        return List.of();
     }
 }

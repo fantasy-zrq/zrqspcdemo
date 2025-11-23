@@ -4,16 +4,12 @@ import lombok.Data;
 
 /**
  * @author zrq
- * @time 2025/11/21 17:08
+ * @time 2025/11/23 14:18
  * @description
  */
 @Data
-public class CouponTemplateRemindCreateReqDTO {
+public class CouponTemplateRemindCancelReqDTO {
 
-    /**
-     * 预约人的用户ID
-     */
-    private Long userId;
     /**
      * 优惠券模板id
      */
@@ -28,4 +24,9 @@ public class CouponTemplateRemindCreateReqDTO {
      * 提醒时间，比如五分钟，十分钟，十五分钟
      */
     private Integer remindTime;
+
+    /**
+     * 预约人的用户ID
+     */
+    private Long userId;
 }

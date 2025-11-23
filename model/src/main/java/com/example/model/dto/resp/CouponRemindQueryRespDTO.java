@@ -1,19 +1,20 @@
-package com.example.model.dto.req;
+package com.example.model.dto.resp;
 
 import lombok.Data;
 
 /**
  * @author zrq
- * @time 2025/11/21 17:08
+ * @time 2025/11/23 15:07
  * @description
  */
 @Data
-public class CouponTemplateRemindCreateReqDTO {
+public class CouponRemindQueryRespDTO {
 
     /**
      * 预约人的用户ID
      */
     private Long userId;
+
     /**
      * 优惠券模板id
      */
