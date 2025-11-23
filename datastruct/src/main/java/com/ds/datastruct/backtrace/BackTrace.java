@@ -14,10 +14,90 @@ public class BackTrace {
     public static void main(String[] args) {
     }
 
+    List<String> restoreIpAddressesResult = new ArrayList<>();
+    StringBuilder sb;
+
+    public List<String> restoreIpAddresses(String s) {
+        if (s.isEmpty() || s.isBlank()) {
+            return restoreIpAddressesResult;
+        }
+        sb = new StringBuilder(s);
+        m5(s, 0, 0);
+        return restoreIpAddressesResult;
+    }
+
+    private void m5(String s, int startIndex, int dotCount) {
+        if (dotCount == 3) {
+            if (isValidIp(startIndex, sb.length() - 1)) {
+                restoreIpAddressesResult.add(sb.toString());
+            }
+        }
+        for (int i = startIndex; i < s.length(); i++) {
+            if (isValidIp(startIndex, i)) {
+                sb.insert(i + 1, ".");
+                m5(s, i + 2, dotCount + 1);
+                sb.deleteCharAt(i + 1);
+            } else {
+                break;
+            }
+        }
+    }
+
+    private boolean isValidIp(int startIndex, int endIndex) {
+        if (startIndex > endIndex) {
+            return false;
+        }
+        if (sb.charAt(startIndex) == '0' && startIndex != endIndex) {
+            return false;
+        }
+        int num = 0;
+        for (int i = startIndex; i <= endIndex; i++) {
+            int digit = sb.charAt(i) - '0';
+            num = num * 10 + digit;
+            if (num > 255)
+                return false;
+        }
+        return true;
+    }
+
+    List<List<String>> partitionResult = new ArrayList<>();
+    LinkedList<String> partitionList = new LinkedList<>();
+
+    public List<List<String>> partition(String s) {
+        if (s.isEmpty() || s.isBlank()) {
+            return partitionResult;
+        }
+        m4(s, 0);
+        return partitionResult;
+    }
+
+    private void m4(String s, int index) {
+        if (index == s.length()) {
+            partitionResult.add(new ArrayList<>(partitionList));
+            return;
+        }
+        for (int i = index; i < s.length(); i++) {
+            if (isPalindrome(s, index, i)) {
+                partitionList.add(s.substring(index, i + 1)); // 使用 substring
+                m4(s, i + 1);
+                partitionList.removeLast();
+            }
+        }
+    }
+
+    private boolean isPalindrome(String s, int index, int end) {
+        while (index < end) {
+            if (s.charAt(index) != s.charAt(end)) return false;
+            index++;
+            end--;
+        }
+        return true;
+    }
+
     List<List<Integer>> combinationSum2List = new ArrayList<>();
     LinkedList<Integer> tempSum2 = new LinkedList<>();
     Boolean[] used;
-    Integer Sum2 = 0;
+    Integer sum2 = 0;
 
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         if (candidates == null) {
@@ -31,22 +111,22 @@ public class BackTrace {
     }
 
     private void m3(int[] candidates, int target, int index) {
-        if (Sum2 == target) {
+        if (sum2 == target) {
             combinationSum2List.add(new ArrayList<>(tempSum2));
         }
         for (int i = index; i < candidates.length; i++) {
-            if (Sum2 + candidates[i] > target) {
+            if (sum2 + candidates[i] > target) {
                 break;
             }
-            if (i > 0 && candidates[i] == candidates[i - 1] && !used[i-1]) {
+            if (i > 0 && candidates[i] == candidates[i - 1] && !used[i - 1]) {
                 continue;
             }
             tempSum2.add(candidates[i]);
-            Sum2 += candidates[i];
+            sum2 += candidates[i];
             used[i] = true;
             m3(candidates, target, i + 1);
             used[i] = false;
-            Sum2 -= candidates[i];
+            sum2 -= candidates[i];
             tempSum2.removeLast();
         }
     }
