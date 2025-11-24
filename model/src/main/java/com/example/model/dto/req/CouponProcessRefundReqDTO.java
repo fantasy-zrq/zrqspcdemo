@@ -13,4 +13,14 @@ public class CouponProcessRefundReqDTO {
      * 优惠券ID
      */
     private Long couponId;
+
+    /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
+     * 订单ID
+     */
+    private Long orderId;
 }

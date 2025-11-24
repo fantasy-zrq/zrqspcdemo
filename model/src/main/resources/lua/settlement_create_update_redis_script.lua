@@ -5,8 +5,8 @@
 ---
 local limitKey = KEYS[1];
 local receiveKey = KEYS[2];
-local userId = tonumber(ARGV[1]);
-local couponId = tonumber(ARGV[2]);
+local userId = ARGV[1];
+local couponId = ARGV[2];
 
 local receive_number = tonumber(redis.call("GET", limitKey));
 if receive_number >= 1 then
@@ -22,9 +22,12 @@ end
 
 local score = tonumber(redis.call("ZSCORE", receiveKey, couponId));
 if score == nil then
+    --redis.log(redis.LOG_NOTICE, "score == " .. score)
     return -2;
 else
     if receive_number == 0 then
+        redis.log(redis.LOG_NOTICE, "userId=" .. ARGV[1] .. " couponId=" .. ARGV[2])
         redis.call("ZREM", receiveKey, couponId);
+        return 1;
     end
 end

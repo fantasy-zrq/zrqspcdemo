@@ -42,7 +42,7 @@
 
     <update id="incrementReceiveNumber">
         update t_receive
-        set receive_number= receive_number + 1
+        set receive_number = receive_number + 1
         where user_id = #{userId}
           and coupon_id = #{couponId};
     </update>
@@ -51,10 +51,17 @@
         update t_receive
         set receive_number = receive_number - 1,
             status         = case
-                                 when receive_number - 1 = 0
+                                 when receive_number  = 0
                                      then 1
-                                 else status
+                                 else 0
                 end
+        where user_id = #{userId}
+          and coupon_id = #{couponId};
+    </update>
+    <update id="updateReceiveNumberAndStatus">
+        update t_receive
+        set receive_number = receive_number + 1
+            and status = 0
         where user_id = #{userId}
           and coupon_id = #{couponId};
     </update>

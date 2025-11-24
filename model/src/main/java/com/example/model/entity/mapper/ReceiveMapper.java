@@ -14,4 +14,6 @@ public interface ReceiveMapper extends BaseMapper<ReceiveDO> {
     void insertOrUpdate(@Param("receiveDO") ReceiveDO receiveDO);
 
     void decrementReceiveNumber(@Param("userId") Long userId, @Param("couponId") Long couponId);
+
+    void updateReceiveNumberAndStatus(@Param("userId") Long userId, @Param("couponId") Long couponId);
 }

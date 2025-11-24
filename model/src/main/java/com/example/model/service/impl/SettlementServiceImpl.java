@@ -54,7 +54,11 @@ public class SettlementServiceImpl extends ServiceImpl<SettlementMapper, Settlem
     private final TransactionTemplate transactionTemplate;
     private final SettlementMapper settlementMapper;
     private static final String LUA_PATH = "lua/settlement_create_update_redis_script.lua";
+    private static final String LUA_PATH_REFUND = "lua/settlement_refund_update_redis_script.lua";
 
+    /**
+     * 只用于锁定优惠券
+     */
     @Override
     public void createPaymentRecord(CouponCreatePaymentReqDTO requestParam) {
         String lockKey = String.format(LOCK_COUPON_SETTLEMENT_KEY, requestParam.getUserId(), requestParam.getCouponId());
@@ -66,6 +70,7 @@ public class SettlementServiceImpl extends ServiceImpl<SettlementMapper, Settlem
             SettlementDO settlementDO = settlementMapper.selectOne(Wrappers.lambdaQuery(SettlementDO.class)
                     .eq(SettlementDO::getCouponId, requestParam.getCouponId())
                     .eq(SettlementDO::getUserId, requestParam.getUserId())
+                    .eq(SettlementDO::getOrderId, requestParam.getOrderId())
                     .in(SettlementDO::getStatus, 0, 2));
             if (Objects.nonNull(settlementDO)) {
                 throw new ClientException("优惠券已经使用");
@@ -172,20 +177,14 @@ public class SettlementServiceImpl extends ServiceImpl<SettlementMapper, Settlem
                             .status(0)
                             .build();
                     settlementMapper.insert(build);
-                    receiveMapper.decrementReceiveNumber(requestParam.getUserId(), requestParam.getCouponId());
-
-                    String limitKeyTemplate = REDIS_COUPON_DISTRIBUTION_LIMIT_KEY + "%s" + "_" + "%s";
-                    String limitKey = String.format(limitKeyTemplate, requestParam.getUserId(), requestParam.getCouponId());
-                    String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, requestParam.getUserId());
-                    DefaultRedisScript<Void> luaScript = Singleton.get(LUA_PATH, () -> {
-                        DefaultRedisScript<Void> redisScript = new DefaultRedisScript<>();
-                        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource(LUA_PATH)));
-                        redisScript.setResultType(Void.class);
-                        return redisScript;
-                    });
-                    stringRedisTemplate.execute(luaScript, List.of(limitKey, receiveKey), String.valueOf(requestParam.getUserId()), String.valueOf(requestParam.getCouponId()));
+                    //这里不做扣减，这里只做锁库存
+                    //receiveMapper.decrementReceiveNumber(requestParam.getUserId(), requestParam.getCouponId());
+                    receiveMapper.update(null, Wrappers.lambdaUpdate(ReceiveDO.class)
+                            .eq(ReceiveDO::getUserId, requestParam.getUserId())
+                            .eq(ReceiveDO::getCouponId, requestParam.getCouponId())
+                            .set(ReceiveDO::getStatus, 3));
                 } catch (Exception e) {
-                    log.info("优惠券核验出错..");
+                    log.error("创建优惠券结算单失败", e);
                     status.setRollbackOnly();
                     throw new RuntimeException(e);
                 }
@@ -197,11 +196,88 @@ public class SettlementServiceImpl extends ServiceImpl<SettlementMapper, Settlem
 
     @Override
     public void processPayment(CouponProcessPaymentReqDTO requestParam) {
-
+        String lockKey = String.format(LOCK_COUPON_SETTLEMENT_KEY, requestParam.getUserId(), requestParam.getCouponId());
+        RLock lock = redissonClient.getLock(lockKey);
+        if (!lock.tryLock()) {
+            throw new ClientException("正在解除优惠券锁定");
+        }
+        try {
+            transactionTemplate.executeWithoutResult(status -> {
+                //设置status为0或者1
+                try {
+                    receiveMapper.decrementReceiveNumber(requestParam.getUserId(), requestParam.getCouponId());
+                    String limitKeyTemplate = REDIS_COUPON_DISTRIBUTION_LIMIT_KEY + "%s" + "_" + "%s";
+                    String limitKey = String.format(limitKeyTemplate, requestParam.getUserId(), requestParam.getCouponId());
+                    String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, requestParam.getUserId());
+                    DefaultRedisScript<Long> luaScript = Singleton.get(LUA_PATH, () -> {
+                        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+                        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource(LUA_PATH)));
+                        redisScript.setResultType(Long.class);
+                        return redisScript;
+                    });
+                    Long res = stringRedisTemplate.execute(luaScript, List.of(limitKey, receiveKey), String.valueOf(requestParam.getUserId()), String.valueOf(requestParam.getCouponId()));
+                    log.info("res====>{}", res);
+                    //将锁定的settlement改为2
+                    settlementMapper.update(null, Wrappers.lambdaUpdate(SettlementDO.class)
+                            .eq(SettlementDO::getCouponId, requestParam.getCouponId())
+                            .eq(SettlementDO::getUserId, requestParam.getUserId())
+                            .eq(SettlementDO::getOrderId, requestParam.getOrderId())
+                            .set(SettlementDO::getStatus, 2));
+                } catch (Exception e) {
+                    log.error("优惠券解锁锁定失败。。");
+                    status.setRollbackOnly();
+                    throw new RuntimeException(e);
+                }
+            });
+        } finally {
+            lock.unlock();
+        }
     }
 
+    /**
+     * 仅仅会在优惠券已经核销，并且用户退款时被调用
+     */
     @Override
     public void processRefund(CouponProcessRefundReqDTO requestParam) {
+        //t_settlement设置status=3，t_receive的receive_number+1，将redis两个队列给恢复
+        //这里有个问题，无法得知用户使用了哪些优惠券使用了几张
+        String lockKey = String.format(LOCK_COUPON_SETTLEMENT_KEY, requestParam.getUserId(), requestParam.getCouponId());
+        RLock lock = redissonClient.getLock(lockKey);
+        if (!lock.tryLock()) {
+            throw new ClientException("正在处理退款流程");
+        }
+        try {
+            transactionTemplate.executeWithoutResult(status -> {
+                try {
+                    settlementMapper.update(null, Wrappers.lambdaUpdate(SettlementDO.class)
+                            .eq(SettlementDO::getCouponId, requestParam.getCouponId())
+                            .eq(SettlementDO::getUserId, requestParam.getUserId())
+                            .eq(SettlementDO::getOrderId, requestParam.getOrderId())
+                            .set(SettlementDO::getStatus, 3));
+                    receiveMapper.updateReceiveNumberAndStatus(requestParam.getUserId(), requestParam.getCouponId());
 
+                    String limitKeyTemplate = REDIS_COUPON_DISTRIBUTION_LIMIT_KEY + "%s" + "_" + "%s";
+                    String limitKey = String.format(limitKeyTemplate, requestParam.getUserId(), requestParam.getCouponId());
+                    String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, requestParam.getUserId());
+                    DefaultRedisScript<Long> luaScript = Singleton.get(LUA_PATH_REFUND, () -> {
+                        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+                        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource(LUA_PATH_REFUND)));
+                        redisScript.setResultType(Long.class);
+                        return redisScript;
+                    });
+                    stringRedisTemplate.execute(luaScript,
+                            List.of(limitKey, receiveKey),
+                            String.valueOf(requestParam.getUserId()),
+                            String.valueOf(requestParam.getCouponId()),
+                            String.valueOf(new Date().getTime()));
+                } catch (Exception e) {
+                    log.error("退款流程出错");
+                    status.setRollbackOnly();
+                    throw new RuntimeException(e);
+                }
+            });
+        } finally {
+            lock.unlock();
+        }
     }
 }
