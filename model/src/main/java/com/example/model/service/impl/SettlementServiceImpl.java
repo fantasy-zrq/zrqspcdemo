@@ -173,22 +173,23 @@ public class SettlementServiceImpl extends ServiceImpl<SettlementMapper, Settlem
                             .build();
                     settlementMapper.insert(build);
                     receiveMapper.decrementReceiveNumber(requestParam.getUserId(), requestParam.getCouponId());
+
+                    String limitKeyTemplate = REDIS_COUPON_DISTRIBUTION_LIMIT_KEY + "%s" + "_" + "%s";
+                    String limitKey = String.format(limitKeyTemplate, requestParam.getUserId(), requestParam.getCouponId());
+                    String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, requestParam.getUserId());
+                    DefaultRedisScript<Void> luaScript = Singleton.get(LUA_PATH, () -> {
+                        DefaultRedisScript<Void> redisScript = new DefaultRedisScript<>();
+                        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource(LUA_PATH)));
+                        redisScript.setResultType(Void.class);
+                        return redisScript;
+                    });
+                    stringRedisTemplate.execute(luaScript, List.of(limitKey, receiveKey), String.valueOf(requestParam.getUserId()), String.valueOf(requestParam.getCouponId()));
                 } catch (Exception e) {
                     log.info("优惠券核验出错..");
                     status.setRollbackOnly();
                     throw new RuntimeException(e);
                 }
             });
-            String limitKeyTemplate = REDIS_COUPON_DISTRIBUTION_LIMIT_KEY + "%s" + "_" + "%s";
-            String limitKey = String.format(limitKeyTemplate, requestParam.getUserId(), requestParam.getCouponId());
-            String receiveKey = String.format(REDIS_COUPON_DISTRIBUTION_RECEIVED_KEY, requestParam.getUserId());
-            DefaultRedisScript<Void> luaScript = Singleton.get(LUA_PATH, () -> {
-                DefaultRedisScript<Void> redisScript = new DefaultRedisScript<>();
-                redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource(LUA_PATH)));
-                redisScript.setResultType(Void.class);
-                return redisScript;
-            });
-            stringRedisTemplate.execute(luaScript, List.of(limitKey, receiveKey), new Object[]{requestParam.getUserId(), requestParam.getCouponId()});
         } finally {
             lock.unlock();
         }
