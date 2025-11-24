@@ -137,6 +137,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, CouponDO> imple
             //查数据库
             couponDO = couponMapper.selectById(Wrappers.lambdaQuery(CouponDO.class)
                     .eq(CouponDO::getCouponId, requestParam.getCouponId())
+                    .eq(CouponDO::getShopNumber, requestParam.getShopNumber())
                     .eq(CouponDO::getDelFlag, 0)
                     .eq(CouponDO::getCouponStatus, 0));
             if (Objects.isNull(couponDO)) {

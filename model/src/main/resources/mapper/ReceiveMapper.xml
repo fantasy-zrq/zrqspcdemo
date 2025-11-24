@@ -46,4 +46,16 @@
         where user_id = #{userId}
           and coupon_id = #{couponId};
     </update>
+
+    <update id="decrementReceiveNumber">
+        update t_receive
+        set receive_number = receive_number - 1,
+            status         = case
+                                 when receive_number - 1 = 0
+                                     then 1
+                                 else status
+                end
+        where user_id = #{userId}
+          and coupon_id = #{couponId};
+    </update>
 </mapper>

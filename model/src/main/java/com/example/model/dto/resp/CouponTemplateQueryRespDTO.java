@@ -25,6 +25,31 @@ public class CouponTemplateQueryRespDTO {
     private Integer receiveNumber;
 
     /**
+     * 店铺编号
+     */
+    private Long shopNumber;
+
+    /**
+     * 优惠券来源 0：店铺券 1：平台券
+     */
+    private Integer source;
+
+    /**
+     * 优惠对象 0：商品专属 1：全店通用
+     */
+    private Integer target;
+
+    /**
+     * 适用于的商品Id
+     */
+    private String goods;
+
+    /**
+     * 消耗规则 json存储
+     */
+    private String consumeRule;
+
+    /**
      * 有效期开始时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
