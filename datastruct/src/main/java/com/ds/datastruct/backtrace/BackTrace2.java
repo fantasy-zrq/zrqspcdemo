@@ -12,6 +12,86 @@ public class BackTrace2 {
 
     }
 
+    List<List<String>> res6 = new ArrayList<>();
+
+    public List<List<String>> solveNQueens(int n) {
+        char[][] chessboard = new char[n][n];
+        for (char[] chars : chessboard) {
+            Arrays.fill(chars, '.');
+        }
+        backtrace6(chessboard, 0, n);
+        return res6;
+    }
+
+    private void backtrace6(char[][] chessboard, int row, int n) {
+        if (row == n) {
+            List<String> list = new ArrayList<>();
+            for (char[] c : chessboard) {
+                list.add(String.copyValueOf(c));
+            }
+            res6.add(list);
+            return;
+        }
+        for (int clo = 0; clo < n; clo++) {
+            if (isValid(row, clo, chessboard, n)) {
+                chessboard[row][clo] = 'Q';
+                backtrace6(chessboard, row + 1, n);
+                chessboard[row][clo] = '.';
+            }
+        }
+    }
+
+    private boolean isValid(int row, int clo, char[][] chessboard, int n) {
+        for (int i = 0; i < row; i++) {
+            if (chessboard[i][clo] == 'Q') {
+                return false;
+            }
+        }
+        for (int i = row - 1, j = clo - 1; i >= 0 && j >= 0; i--, j--) {
+            if (chessboard[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        for (int i = row - 1, j = clo + 1; i >= 0 && j <= n - 1; i--, j++) {
+            if (chessboard[i][j] == 'Q') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    List<List<Integer>> res5 = new ArrayList<>();
+    LinkedList<Integer> path5 = new LinkedList<>();
+    Boolean[] used5 = null;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        if (nums == null) {
+            return res5;
+        }
+        backtrace5(nums);
+        return res5;
+    }
+
+    private void backtrace5(int[] nums) {
+        if (path5.size() == nums.length) {
+            res5.add(new ArrayList<>(path5));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1] && !used5[i - 1]) {
+                continue;
+            }
+            if (!used5[i]) {
+                path5.add(nums[i]);
+                used5[i] = true;
+                backtrace5(nums);
+                used5[i] = false;
+                path5.removeLast();
+            }
+        }
+    }
+
     List<List<Integer>> res4 = new ArrayList<>();
     LinkedList<Integer> path4 = new LinkedList<>();
     Boolean[] used4 = null;
