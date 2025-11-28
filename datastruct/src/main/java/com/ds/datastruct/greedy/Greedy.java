@@ -9,15 +9,32 @@ import java.util.Arrays;
  */
 public class Greedy {
     public static void main(String[] args) {
-    
+
     }
+
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        nums = Arrays.stream(nums).boxed().sorted((n1, n2) -> Math.abs(n2) - Math.abs(n1)).mapToInt(Integer::intValue).toArray();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < 0 && k > 0) {
+                nums[i] = -nums[i];
+            }
+        }
+        if (k % 2 == 1) {
+            nums[nums.length - 1] = -nums[nums.length - 1];
+        }
+        return Arrays.stream(nums).sum();
+    }
+
     public int findContentChildren(int[] g, int[] s) {
         int res = 0;
-        int index = s.length-1;
+        int index = s.length - 1;
         Arrays.sort(g);
         Arrays.sort(s);
-        for(int i = g.length -1;i>=0;i--){
-            while(index >= 0 && s[index] >= g[i]){
+        for (int i = g.length - 1; i >= 0; i--) {
+            while (index >= 0 && s[index] >= g[i]) {
                 res++;
                 index--;
             }
