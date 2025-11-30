@@ -9,9 +9,25 @@ import java.util.Arrays;
  */
 public class Greedy {
     public static void main(String[] args) {
-
+        int[][] arr = {
+                {1, 2},
+                {1, 4},
+                {5, 6},
+                {7, 8},
+                {9, 10},
+                {11, 12}
+        };
+        Arrays.sort(arr, (ar1, ar2) -> {
+            if (ar1[0] == ar2[0]) {
+                return ar1[1] - ar2[1];
+            }else{
+                return ar1[0] - ar2[0];
+            }
+        });
+        for (int[] ints : arr) {
+            System.out.println("ints = " + Arrays.toString(ints));
+        }
     }
-
 
 
     public int largestSumAfterKNegations(int[] nums, int k) {
