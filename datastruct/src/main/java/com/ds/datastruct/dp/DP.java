@@ -13,5 +13,7 @@ public class DP {
         int length1 = obstacleGrid.length;
         System.out.println("length1 = " + length1);
 
+
+
     }
 }
