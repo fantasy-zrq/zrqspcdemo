@@ -8,5 +8,7 @@ package com.ds.datastruct.monotonicstack;
 public class MonotonicStack {
     public static void main(String[] args) {
 
+
+
     }
 }
